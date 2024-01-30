@@ -60,14 +60,18 @@ char *ft_getpath(char *cmd, char **env)
         free(splited[j++]);
     return NULL;
 }
+
+void signals_handle(char *cmd)
+{
+    // handle signals and parsing here (i guess)
+    if (ft_strncmp(cmd, "exit", 4) == 0)
+        exit(0);
+}
 void cmd_exe(mini_t *mini, char **env)
 {
     write(1, "→ ", 4);
     mini->cmd = readline("");
-    if (ft_strncmp(mini->cmd, "exit", 4) == 0)
-    {
-        exit(0);
-    }
+    signals_handle(mini->cmd);
     int pid = fork();
     if (pid == 0)
     {
