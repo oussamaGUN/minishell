@@ -53,27 +53,28 @@ char *ft_getpath(char *cmd, char **env)
         free(splited[j++]);
     return NULL;
 }
+void cmd_exe(mini_t *mini, char **env)
+{
+    write(1, "$ ", 2);
+    mini->cmd = readline("");
+    int pid = fork();
+    if (pid == 0)
+    {
+        mini->args = ft_split(mini->cmd , ' ');
+        mini->path = ft_getpath(mini->args[0], env);
+        if (execve(mini->path, mini->args, env) == -1)
+        {
+            printf("command not found\n");
+            free(mini->path);
+        }
+    }
+    wait(NULL);
+}
 void execution(mini_t *mini, char **env)
 {
-    char **args;
-    char *path;
-
     while (1)
     {
-        write(1, "$ ", 2);
-        mini->cmd = readline("");
-        int pid = fork();
-        if (pid == 0)
-        {
-            args = ft_split(mini->cmd , ' ');
-            path = ft_getpath(args[0], env);
-            if (execve(path, args, env) == -1)
-            {
-                printf("command not found\n");
-                free(path);
-            }
-        }
-        wait(NULL);
+        cmd_exe(mini, env);
     }
 }
 int main(int ac , char *av[], char *env[])

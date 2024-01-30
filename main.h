@@ -17,6 +17,8 @@
 typedef struct mini_s
 {
     char *cmd;
+    char **args;
+    char *path;
 }mini_t;
 
 #endif
