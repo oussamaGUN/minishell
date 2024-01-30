@@ -37,6 +37,13 @@ char *ft_path(char **env)
 }
 char *ft_getpath(char *cmd, char **env)
 {
+    if (cmd[0] == '/')
+    {
+        if (access(cmd, X_OK) == 0)
+            return cmd;
+        else
+            return NULL;
+    }
     char *str = ft_path(env);
     char **splited = ft_split(str, ':');
     char *path;
@@ -57,6 +64,7 @@ void cmd_exe(mini_t *mini, char **env)
 {
     write(1, "$ ", 2);
     mini->cmd = readline("");
+    
     int pid = fork();
     if (pid == 0)
     {
