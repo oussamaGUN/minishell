@@ -62,9 +62,12 @@ char *ft_getpath(char *cmd, char **env)
 }
 void cmd_exe(mini_t *mini, char **env)
 {
-    write(1, "$ ", 2);
+    write(1, "→ ", 4);
     mini->cmd = readline("");
-    
+    if (ft_strncmp(mini->cmd, "exit", 4) == 0)
+    {
+        exit(0);
+    }
     int pid = fork();
     if (pid == 0)
     {
