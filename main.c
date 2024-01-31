@@ -89,6 +89,7 @@ void ft_output_execution(mini_t *mini, char **env, char *cmd)
         mini->path = ft_getpath(mini->args[0], env);
         dup2(mini->fd[0], STDIN_FILENO);
         dup2(STDOUT_FILENO, mini->fd[1]);
+        close(mini->fd[1]);
         if (execve(mini->path, mini->args, env) == -1)
         {
             printf("command not found\n");
@@ -132,28 +133,24 @@ void exec_first_cmd(mini_t *mini, char *cmd,char **env)
 void multiple_cmds(mini_t *mini, char **env)
 {
     char **piped_command = ft_split(mini->cmd, '|');
-    int i = 0;
+    int i = 1;
     int j = 0;
+    
     if (pipe(mini->fd) == -1)
         exit(1);
     exec_first_cmd(mini, piped_command[0], env);
-    i++;
     while (piped_command[i])
     {
         if (piped_command[i + 1] == NULL)
-        {
             ft_output_execution(mini, env, piped_command[i]);
-            break;
-        }
         else
             ft_input_execution(mini, env, piped_command[i]);
-        i++;
         // close(mini->fd[1]);
         wait(NULL);
         if (pipe(mini->fd) == -1)
             exit(1);
+        i++;
     }
-
 }
 char *ft_pipe_check(char *cmd)
 {
