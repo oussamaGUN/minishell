@@ -55,9 +55,6 @@ char *ft_getpath(char *cmd, char **env)
             return path;
         i++;
     }
-    int j = 0;
-    while (splited[j])
-        free(splited[j++]);
     return NULL;
 }
 
@@ -67,13 +64,8 @@ void signals_handle(char *cmd)
     if (ft_strncmp(cmd, "exit", 4) == 0)
         exit(0);
 }
-void cmd_exe(mini_t *mini, char **env)
+void normal_cmd(mini_t *mini, char **env)
 {
-    mini->cmd = readline("→ ");
-    int i = 0;
-    while (mini->cmd[i] != ' ' && mini->cmd[i])
-        i++;
-    add_history(mini->cmd);
     signals_handle(mini->cmd);
     int pid = fork();
     if (pid == 0)
@@ -83,9 +75,36 @@ void cmd_exe(mini_t *mini, char **env)
         if (execve(mini->path, mini->args, env) == -1)
         {
             printf("command not found\n");
-            free(mini->path);
         }
     }
+}
+void multiple_cmds(char *cmd)
+{
+    printf("multiple cmds\n");
+}
+char *ft_pipe_check(char *cmd)
+{
+    int i = 0;
+    while (cmd[i])
+    {
+        if (cmd[i] == '|')
+            return cmd;
+        i++;
+    }
+    return NULL;
+}
+void cmd_exe(mini_t *mini, char **env)
+{
+    mini->cmd = readline(ANSI_COLOR_GREEN  "→" ANSI_COLOR_RESET " ");
+    int i = 0;
+    while (mini->cmd[i] != ' ' && mini->cmd[i])
+        i++;
+    add_history(mini->cmd);
+    if (ft_pipe_check(mini->cmd))
+        multiple_cmds(mini->cmd);
+    else
+        normal_cmd(mini, env);
+
     wait(NULL);
 
 }

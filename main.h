@@ -14,6 +14,10 @@
 # include "libft/libft.h"
 # include "string.h"
 
+// ANSI color escape codes
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
 typedef struct mini_s
 {
     char *cmd;
