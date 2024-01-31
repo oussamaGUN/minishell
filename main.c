@@ -78,9 +78,82 @@ void normal_cmd(mini_t *mini, char **env)
         }
     }
 }
-void multiple_cmds(char *cmd)
+void ft_output_execution(mini_t *mini, char **env, char *cmd)
 {
-    printf("multiple cmds\n");
+    int pid = fork();
+    if (pid == -1)
+        exit(1);
+    if (pid == 0)
+    {
+        mini->args = ft_split(cmd , ' ');
+        mini->path = ft_getpath(mini->args[0], env);
+        dup2(mini->fd[0], STDIN_FILENO);
+        dup2(STDOUT_FILENO, mini->fd[1]);
+        if (execve(mini->path, mini->args, env) == -1)
+        {
+            printf("command not found\n");
+        }
+    }
+}
+void ft_input_execution(mini_t *mini, char **env, char *cmd)
+{
+    int pid = fork();
+    if (pid == -1)
+        exit(1);
+    if (pid == 0)
+    {
+        mini->args = ft_split(cmd , ' ');
+        mini->path = ft_getpath(mini->args[0], env);
+        dup2(mini->fd[1], STDOUT_FILENO);
+        dup2(mini->fd[0], STDIN_FILENO);
+        if (execve(mini->path, mini->args, env) == -1)
+        {
+            printf("command not found\n");
+        }
+    }
+}
+
+void exec_first_cmd(mini_t *mini, char *cmd,char **env)
+{
+    int pid = fork();
+    if (pid == -1)
+        exit(1);
+    if (pid == 0)
+    {
+        mini->args = ft_split(cmd , ' ');
+        mini->path = ft_getpath(mini->args[0], env);
+        dup2(mini->fd[1], STDOUT_FILENO);
+        if (execve(mini->path, mini->args, env) == -1)
+        {
+            printf("command not found\n");
+        }
+    }
+}
+void multiple_cmds(mini_t *mini, char **env)
+{
+    char **piped_command = ft_split(mini->cmd, '|');
+    int i = 0;
+    int j = 0;
+    if (pipe(mini->fd) == -1)
+        exit(1);
+    exec_first_cmd(mini, piped_command[0], env);
+    i++;
+    while (piped_command[i])
+    {
+        if (piped_command[i + 1] == NULL)
+        {
+            ft_output_execution(mini, env, piped_command[i]);
+            break;
+        }
+        else
+            ft_input_execution(mini, env, piped_command[i]);
+        i++;
+        // close(mini->fd[1]);
+        wait(NULL);
+        if (pipe(mini->fd) == -1)
+            exit(1);
+    }
+
 }
 char *ft_pipe_check(char *cmd)
 {
@@ -101,7 +174,9 @@ void cmd_exe(mini_t *mini, char **env)
         i++;
     add_history(mini->cmd);
     if (ft_pipe_check(mini->cmd))
-        multiple_cmds(mini->cmd);
+    {
+        multiple_cmds(mini, env);
+    }
     else
         normal_cmd(mini, env);
 

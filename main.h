@@ -23,6 +23,8 @@ typedef struct mini_s
     char *cmd;
     char **args;
     char *path;
+    int input;
+    int fd[2];
 }mini_t;
 
 #endif
