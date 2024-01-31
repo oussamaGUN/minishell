@@ -69,8 +69,11 @@ void signals_handle(char *cmd)
 }
 void cmd_exe(mini_t *mini, char **env)
 {
-    write(1, "→ ", 4);
-    mini->cmd = readline("");
+    mini->cmd = readline("→ ");
+    int i = 0;
+    while (mini->cmd[i] != ' ' && mini->cmd[i])
+        i++;
+    add_history(mini->cmd);
     signals_handle(mini->cmd);
     int pid = fork();
     if (pid == 0)
@@ -84,6 +87,7 @@ void cmd_exe(mini_t *mini, char **env)
         }
     }
     wait(NULL);
+
 }
 void execution(mini_t *mini, char **env)
 {
@@ -91,9 +95,11 @@ void execution(mini_t *mini, char **env)
     {
         cmd_exe(mini, env);
     }
+    rl_clear_history();
 }
 int main(int ac , char *av[], char *env[])
 {
     mini_t mini;
+    
     execution(&mini, env);
 }
