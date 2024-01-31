@@ -105,7 +105,6 @@ void ft_input_execution(mini_t *mini, char **env, char *cmd)
     {
         mini->args = ft_split(cmd , ' ');
         mini->path = ft_getpath(mini->args[0], env);
-        dup2(mini->fd[1], STDOUT_FILENO);
         dup2(mini->fd[0], STDIN_FILENO);
         if (execve(mini->path, mini->args, env) == -1)
         {
@@ -142,13 +141,16 @@ void multiple_cmds(mini_t *mini, char **env)
     while (piped_command[i])
     {
         if (piped_command[i + 1] == NULL)
+        {
             ft_output_execution(mini, env, piped_command[i]);
+            break;
+        }
         else
             ft_input_execution(mini, env, piped_command[i]);
         // close(mini->fd[1]);
         wait(NULL);
-        if (pipe(mini->fd) == -1)
-            exit(1);
+        // if (pipe(mini->fd) == -1)
+        //     exit(1);
         i++;
     }
 }
