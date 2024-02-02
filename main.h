@@ -9,6 +9,7 @@
 # include <sys/wait.h>
 # include <dirent.h>
 # include <sys/ioctl.h>
+# include <fcntl.h>
 # include <termios.h>
 # include <dirent.h>
 # include "libft/libft.h"
@@ -25,6 +26,8 @@ typedef struct mini_s
     char *path;
     int input;
     int fd[2];
+    int flag_for_file;
+    int file_mulipipes;
 }mini_t;
 
 #endif
