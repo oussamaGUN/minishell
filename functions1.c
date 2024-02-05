@@ -122,8 +122,7 @@ void ft_inputfilefor_multipipes(mini_t *mini, char **env)
 }
 
 void ft_redirect_file_append(mini_t *mini, char **env)
-{
-    char **piped_command = ft_split(mini->cmd, '|');
+{    char **piped_command = ft_split(mini->cmd, '|');
     int i = 0;
     mini->j = 0;
     while (piped_command[i])
@@ -134,7 +133,7 @@ void ft_redirect_file_append(mini_t *mini, char **env)
             char *file_name = ft_strtrim(redirect[1], " ");
             if (ft_strchr(file_name, ' '))
                 exit(1);
-            mini->file_mulipipes = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+            mini->file_mulipipes = open(file_name, O_CREAT | O_RDWR | O_APPEND, 0644);
             if (mini->file_mulipipes == -1)
                 exit(1);
             mini->j++;
