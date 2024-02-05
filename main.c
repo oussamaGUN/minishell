@@ -135,16 +135,16 @@ void exec_first_cmd(mini_t *mini, char *cmd,char **env)
 }
 void ft_handle_redirection_multipipes(mini_t *mini, char **env)
 {
-    // if (strstr(mini->cmd, ">>"))
-    //     ft_redirect_file_append(mini, env);
-    // else if (ft_strchr(mini->cmd, '<'))
-    //     ft_inputfilefor_multipipes(mini, env);
+    if (strstr(mini->cmd, ">>"))
+        ft_redirect_file_append(mini, env);
+    else if (ft_strchr(mini->cmd, '<'))
+        ft_inputfilefor_multipipes(mini, env);
     if (ft_strchr(mini->cmd, '>'))
         ft_redirect_file(mini, env);
 }
 void multiple_cmds(mini_t *mini, char **env)
 {
-    if (ft_strchr(mini->cmd, '>') /*|| ft_strchr(mini->cmd, '<') */|| ft_strnstr(mini->cmd, ">>", 2))
+    if (ft_strchr(mini->cmd, '>') /*|| ft_strchr(mini->cmd, '<') */)
     {
         ft_handle_redirection_multipipes(mini, env);
     }
