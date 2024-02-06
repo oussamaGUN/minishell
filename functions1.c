@@ -86,20 +86,27 @@ void ft_inputfilefor_multipipes_output(mini_t *mini, char **env, char *cmd)
 }
 void ft_inputfilefor_multipipes(mini_t *mini, char **env)
 {
-    char **split = ft_split(mini->cmd, '<');
-    char **piped_command = ft_split(split[0], '|');
-    int j = 0;
-    char *file_name = ft_strtrim(split[1], " ");
-    if (ft_strchr(file_name, ' '))
-        exit(1);
-    mini->file_mulipipes = open(file_name,  O_RDWR , 0644);
-    if (mini->file_mulipipes == -1)
-        exit(1);
-    if (pipe(mini->fd) == -1)
-        exit(1);
+    char **piped_command = ft_split(mini->cmd, '|');
+    int i = 0;
+    mini->j = 0;
+    while (piped_command[i])
+    {
+        if (ft_strchr(piped_command[i], '<'))
+        {
+            char **redirect = ft_split(piped_command[i], '<');
+            char *file_name = ft_strtrim(redirect[1], " ");
+            if (ft_strchr(file_name, ' '))
+                exit(1);
+            mini->file_mulipipes = open(file_name,  O_RDWR);
+            if (mini->file_mulipipes == -1)
+                exit(1);
+            mini->j++;
+        }
+        i++;
+    }
     exec_first_cmd(mini, piped_command[0], env);
     close(mini->fd[1]);
-    int i = 1;
+     i = 1;
     while (piped_command[i])
     {
         wait(NULL);

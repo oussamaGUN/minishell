@@ -20,21 +20,6 @@ char	*ft_strcat(char *dest, char *src)
 	return (dest);
 }
 
-char *ft_path(char **env)
-{
-    int i = 0;
-    char **args;
-    while (env[i])
-    {
-        args = ft_split(env[i], '=');
-        if (strcmp(args[0], "PATH") == 0)
-            return args[1];
-        free(args[0]);
-        free(args[1]);
-        i++;
-    }
-    return NULL;
-}
 char *ft_getpath(char *cmd, char **env)
 {
     if (cmd[0] == '/')
@@ -151,7 +136,7 @@ void ft_handle_redirection_multipipes(mini_t *mini, char **env)
 }
 void multiple_cmds(mini_t *mini, char **env)
 {
-    if (ft_strchr(mini->cmd, '>') /*|| ft_strchr(mini->cmd, '<') */)
+    if (ft_strchr(mini->cmd, '>') || ft_strchr(mini->cmd, '<'))
     {
         ft_handle_redirection_multipipes(mini, env);
     }
