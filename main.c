@@ -44,17 +44,24 @@ char *ft_getpath(char *cmd, char **env)
         else
             return NULL;
     }
-    char *str = ft_path(env);
-    char **splited = ft_split(str, ':');
-    char *path;
     int i = 0;
-    while (splited[i])
+    int j;
+    while (env[i])
     {
-        path = ft_strjoin(ft_strcat(splited[i], "/"), cmd);
-        if (access(path, X_OK) == 0)
-            return path;
+        char **str = ft_split(env[i], '=');
+        char **splited = ft_split(str[1], ':');
+        char *path;
+        j = 0;
+        while (splited[j])
+        {
+            path = ft_strjoin(ft_strcat(splited[j], "/"), cmd);
+            if (access(path, X_OK) == 0)
+                return path;
+            j++;
+        }
         i++;
     }
+    // char *str = ft_path(env);
     return NULL;
 }
 
