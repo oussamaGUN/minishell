@@ -25,7 +25,7 @@ void ft_handle_redirection(mini_t *mini, char **env)
     {
         args = ft_split(mini->cmd, '<');
         file_name = ft_strtrim(args[1], " ");
-        file = open(file_name, O_RDWR | O_APPEND);
+        file = open(file_name, O_RDONLY);
         if (file == -1)
         {
             printf("no hehe\n");

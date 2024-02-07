@@ -66,14 +66,12 @@ void ft_output_execution(mini_t *mini, char **env, char *cmd)
     {
         mini->args = ft_split(cmd , ' ');
         mini->path = ft_getpath(mini->args[0], env);
+
         dup2(mini->input, STDIN_FILENO);
         if (mini->flag_for_file_output == 1)
             dup2(mini->file_mulipipes ,STDOUT_FILENO);
         else if (mini->flag_for_file_output == 2)
-        {
             dup2(mini->file_mulipipes ,STDIN_FILENO);
-
-        }
         else
         {
             dup2(STDOUT_FILENO, mini->fd[1]);
@@ -96,7 +94,10 @@ void ft_input_execution(mini_t *mini, char **env, char *cmd)
     {
         mini->args = ft_split(cmd , ' ');
         mini->path = ft_getpath(mini->args[0], env);
-        dup2(mini->input, STDIN_FILENO);
+        if (mini->flag_for_file_input == 1)
+            dup2(mini->file_mulipipes, STDIN_FILENO);
+        else
+            dup2(mini->input, STDIN_FILENO);
         dup2(mini->fd[1], STDOUT_FILENO);
         close(mini->fd[0]);
         if (execve(mini->path, mini->args, env) == -1)

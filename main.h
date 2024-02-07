@@ -29,6 +29,7 @@ typedef struct mini_s
     int flag_for_file_output;
     int flag_for_file_input;
     int file_mulipipes;
+    int file_input;
     int j;
 }mini_t;
 
