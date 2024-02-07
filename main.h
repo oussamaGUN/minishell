@@ -31,6 +31,7 @@ typedef struct mini_s
     int file_mulipipes;
     int file_input;
     int j;
+    int apah;
 }mini_t;
 
 void ft_handle_redirection(mini_t *mini, char **env);

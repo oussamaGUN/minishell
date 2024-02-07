@@ -54,7 +54,8 @@ void ft_redirect_file(mini_t *mini, char **env)
     }
 }
 void ft_redirect_file_append(mini_t *mini, char **env)
-{    char **piped_command = ft_split(mini->cmd, '|');
+{    
+    char **piped_command = ft_split(mini->cmd, '|');
     int i = 0;
     mini->j = 0;
     while (piped_command[i])
@@ -120,7 +121,32 @@ void ft_inputfilefor_multipipes_output(mini_t *mini, char **env, char *cmd)
         }
     }
 }
-
+void ft_open_files_for_redirection(mini_t *mini)
+{
+    char **piped_command = ft_split(mini->cmd, '|');
+    int i = 0;
+    mini->j = 0;
+    while (piped_command[i])
+    {
+        if (ft_strchr(piped_command[i], '>'))
+        {
+            char **redirect = ft_split(piped_command[i], '>');
+            char *file_name = ft_strtrim(redirect[1], " ");
+            if (ft_strchr(file_name, ' '))
+                exit(1);
+            mini->file_mulipipes = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+            if (mini->file_mulipipes == -1)
+                exit(1);
+            mini->j++;
+        }
+        i++;
+    }
+    if (mini->j > 1)
+    {
+        printf("invalid redirections\n");
+        return ;
+    }
+}
 void ft_inputfilefor_multipipes(mini_t *mini, char **env)
 {
     char **piped_command = ft_split(mini->cmd, '|');
@@ -148,6 +174,7 @@ void ft_inputfilefor_multipipes(mini_t *mini, char **env)
         }
         i++;
     }
+    ft_open_files_for_redirection(mini);
     i = 0;
     while (piped_command[i])
     {
@@ -178,8 +205,16 @@ void ft_inputfilefor_multipipes(mini_t *mini, char **env)
             mini->flag_for_file_input = 2;
             ft_inputfilefor_multipipes_output(mini, env, re[0]);
         }
+        else if (ft_strchr(piped_command[i], '>') && !piped_command[i + 1])
+        {
+            re = ft_split(piped_command[i], '>');
+            mini->flag_for_file_output = 1;
+            ft_output_execution(mini, env, re[0]);
+        }
         else if (piped_command[i + 1] == NULL)
+        {
             ft_output_execution(mini, env, piped_command[i]);
+        }
         else
             ft_input_execution(mini, env, piped_command[i]);
         wait(NULL);
