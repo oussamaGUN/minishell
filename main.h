@@ -33,14 +33,10 @@ typedef struct mini_s
     int pid;
 }mini_t;
 
-void ft_handle_redirection(mini_t *mini, char **env);
 void normal_cmd(mini_t *mini, char **env);
 char *ft_getpath(char *cmd, char **env);
-void signals_handle(char *cmd);
-void ft_redirect_file(mini_t *mini, char **env);
 void exec_first_cmd(mini_t *mini, char *cmd,char **env);
 void ft_input_execution(mini_t *mini, char **env, char *cmd);
 void ft_output_execution(mini_t *mini, char **env, char *cmd);
-void ft_inputfilefor_multipipes(mini_t *mini, char **env);
-void ft_redirect_file_append(mini_t *mini, char **env);
+void	signals_handle(void);
 #endif

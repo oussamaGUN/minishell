@@ -55,10 +55,7 @@ char	*ft_getpath(char *cmd, char **env)
 	return (NULL);
 }
 
-void	signals_handle(char *cmd)
-{
-    
-}
+
 
 void	ft_output_execution(mini_t *mini, char **env, char *cmd)
 {
@@ -173,23 +170,29 @@ char	*ft_pipe_check(char *cmd)
 	}
 	return (NULL);
 }
+
 void	cmd_exe(mini_t *mini, char **env)
 {
 	mini->cmd = readline(ANSI_COLOR_YELLOW "→" ANSI_COLOR_RESET " ");
-    signals_handle(mini->cmd);
-	add_history(mini->cmd);
+	if (!mini->cmd)
+    {
+        printf("by\n");
+        exit(0);
+    }
+    add_history(mini->cmd);
 	if (ft_pipe_check(mini->cmd))
 		multiple_cmds(mini, env);
 	else
 		normal_cmd(mini, env);
-	wait(NULL);
 	free(mini->cmd);
 }
 void	execution(mini_t *mini, char **env)
 {
+    signals_handle();
 	while (1)
 	{
 		cmd_exe(mini, env);
+	    wait(NULL);
 	}
 	rl_clear_history();
 }

@@ -3,7 +3,6 @@
 
 void normal_cmd(mini_t *mini, char **env)
 {
-    signals_handle(mini->cmd);
     int pid = fork();
     if (pid == 0)
     {
