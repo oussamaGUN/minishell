@@ -128,47 +128,33 @@ void exec_first_cmd(mini_t *mini, char *cmd,char **env)
         }
     }
 }
-void ft_handle_redirection_multipipes(mini_t *mini, char **env)
-{
-    if (ft_strchr(mini->cmd, '<'))
-        ft_inputfilefor_multipipes(mini, env);
-    else if (strstr(mini->cmd, ">>"))
-        ft_redirect_file_append(mini, env);
-    else if (ft_strchr(mini->cmd, '>'))
-        ft_redirect_file(mini, env);
-}
+
 void multiple_cmds(mini_t *mini, char **env)
 {
-    if (ft_strchr(mini->cmd, '>') || ft_strchr(mini->cmd, '<'))
+
+    char **piped_command = ft_split(mini->cmd, '|');
+    int j = 0;
+
+    if (pipe(mini->fd) == -1)
+           exit(1);
+    exec_first_cmd(mini, piped_command[0], env);
+    close(mini->fd[1]);
+    int i = 1;
+    while (piped_command[i])
     {
-        ft_handle_redirection_multipipes(mini, env);
-    }
-    else
-    {
-        char **piped_command = ft_split(mini->cmd, '|');
-        int j = 0;
-    
+        wait(NULL);
+        mini->input = mini->fd[0];
         if (pipe(mini->fd) == -1)
             exit(1);
-        exec_first_cmd(mini, piped_command[0], env);
-        close(mini->fd[1]);
-        int i = 1;
-        while (piped_command[i])
+        if (piped_command[i + 1] == NULL)
         {
-            wait(NULL);
-            mini->input = mini->fd[0];
-            if (pipe(mini->fd) == -1)
-                exit(1);
-            if (piped_command[i + 1] == NULL)
-            {
-                mini->flag_for_file_output = 0;
-                ft_output_execution(mini, env, piped_command[i]);
-            }
-            else
-                ft_input_execution(mini, env, piped_command[i]);
-            close(mini->fd[1]);
-            i++;
+            mini->flag_for_file_output = 0;
+            ft_output_execution(mini, env, piped_command[i]);
         }
+        else
+            ft_input_execution(mini, env, piped_command[i]);
+        close(mini->fd[1]);
+        i++;
     }
 }
 char *ft_pipe_check(char *cmd)

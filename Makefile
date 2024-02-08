@@ -1,4 +1,4 @@
-SRC = main.c functions.c functions1.c
+SRC = main.c functions.c 
 
 LIBFT = libft/libft.a
 
