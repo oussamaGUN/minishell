@@ -28,7 +28,7 @@ void ft_handle_redirection(mini_t *mini, char **env)
         while (args[i])
         {
             file_name = ft_strtrim(args[i], " ");
-            file = open(file_name, O_CREAT | O_RDWR | O_APPEND, 0644);
+            file = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
             if (file == -1)
             {
                printf("%s: file not found\n", file_name);

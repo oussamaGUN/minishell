@@ -72,6 +72,8 @@ void ft_output_execution(mini_t *mini, char **env, char *cmd)
             dup2(mini->file_mulipipes ,STDOUT_FILENO);
         else if (mini->flag_for_file_output == 2)
             dup2(mini->file_mulipipes ,STDIN_FILENO);
+        else if (mini->flag_for_file_output == 3)
+            dup2(mini->fd[1] ,STDOUT_FILENO);
         else
         {
             dup2(STDOUT_FILENO, mini->fd[1]);
@@ -128,10 +130,10 @@ void exec_first_cmd(mini_t *mini, char *cmd,char **env)
 }
 void ft_handle_redirection_multipipes(mini_t *mini, char **env)
 {
-    if (strstr(mini->cmd, ">>"))
-        ft_redirect_file_append(mini, env);
-    else if (ft_strchr(mini->cmd, '<'))
+    if (ft_strchr(mini->cmd, '<'))
         ft_inputfilefor_multipipes(mini, env);
+    else if (strstr(mini->cmd, ">>"))
+        ft_redirect_file_append(mini, env);
     else if (ft_strchr(mini->cmd, '>'))
         ft_redirect_file(mini, env);
 }
@@ -190,9 +192,8 @@ void cmd_exe(mini_t *mini, char **env)
     }
     else
         normal_cmd(mini, env);
-
     wait(NULL);
-
+    free(mini->cmd);
 }
 void execution(mini_t *mini, char **env)
 {
