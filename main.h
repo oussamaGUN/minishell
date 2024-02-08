@@ -16,7 +16,7 @@
 # include <string.h>
 
 // ANSI color escape codes
-#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 typedef struct mini_s
@@ -29,9 +29,8 @@ typedef struct mini_s
     int flag_for_file_output;
     int flag_for_file_input;
     int file_mulipipes;
-    int file_input;
-    int j;
-    int apah;
+    char **piped_command;
+    int pid;
 }mini_t;
 
 void ft_handle_redirection(mini_t *mini, char **env);
