@@ -21,7 +21,7 @@ void ft_redirect_file(mini_t *mini, char **env)
                 exit(1);
             mini->file_mulipipes = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
             if (mini->file_mulipipes == -1)
-                exit(1);
+                return ;
             mini->j++;
         }
         i++;
@@ -52,6 +52,7 @@ void ft_redirect_file(mini_t *mini, char **env)
         mini->flag_for_file_output = 0;
         i++;
     }
+    close(mini->file_mulipipes);
 }
 void ft_redirect_file_append(mini_t *mini, char **env)
 {    
@@ -164,14 +165,6 @@ void ft_inputfilefor_multipipes(mini_t *mini, char **env)
             if (mini->file_mulipipes == -1)
                 exit(1);
         }
-        else if (ft_strchr(piped_command[i], '>'))
-        {
-            char **redirect = ft_split(piped_command[i], '>');
-            char *file_name = ft_strtrim(redirect[1], " ");
-            mini->file_mulipipes = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
-            if (mini->file_mulipipes == -1)
-                exit(1);   
-        }
         i++;
     }
     ft_open_files_for_redirection(mini);
@@ -183,12 +176,6 @@ void ft_inputfilefor_multipipes(mini_t *mini, char **env)
         i++;
     }
     char **re;
-    if (pipe(mini->fd) == -1)
-        exit(1);
-    // char **re = ft_split(piped_command[i], '<');
-    // exec_first_cmd(mini, piped_command[i], env);
-    // close(mini->fd[1]);
-    // i = 1;
     while (piped_command[i])
     {
         if (pipe(mini->fd) == -1)
