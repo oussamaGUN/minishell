@@ -176,7 +176,6 @@ void	cmd_exe(mini_t *mini, char **env)
 	mini->cmd = readline(ANSI_COLOR_YELLOW "→" ANSI_COLOR_RESET " ");
 	if (!mini->cmd)
     {
-        printf("by\n");
         exit(0);
     }
     add_history(mini->cmd);
