@@ -45,9 +45,9 @@ char	*ft_getpath(char *cmd, char **env)
 		while (splited[j])
 		{
 			path = ft_strjoin(ft_strjoin(splited[j], "/"), cmd);
-			if (access(path, X_OK) == 0)           
+			if (access(path, X_OK) == 0)
 				return (path);
-            free(path);
+			free(path);
 			j++;
 		}
 		i++;
@@ -57,6 +57,8 @@ char	*ft_getpath(char *cmd, char **env)
 
 void	ft_output_execution(mini_t *mini, char **env, char *cmd)
 {
+	int	i;
+
 	mini->pid = fork();
 	if (mini->pid == -1)
 		exit(1);
@@ -69,11 +71,11 @@ void	ft_output_execution(mini_t *mini, char **env, char *cmd)
 		close(mini->fd[0]);
 		if (execve(mini->path, mini->args, env) == -1)
 		{
-            free(mini->path);
-           int i = 0;
-            while (mini->args[i])
-                free(mini->args[i++]);
-            free(mini->args);
+			free(mini->path);
+			i = 0;
+			while (mini->args[i])
+				free(mini->args[i++]);
+			free(mini->args);
 			printf("command not found\n");
 			exit(1);
 		}
@@ -81,6 +83,8 @@ void	ft_output_execution(mini_t *mini, char **env, char *cmd)
 }
 void	ft_input_execution(mini_t *mini, char **env, char *cmd)
 {
+	int	i;
+
 	mini->pid = fork();
 	if (mini->pid == -1)
 		exit(1);
@@ -93,11 +97,11 @@ void	ft_input_execution(mini_t *mini, char **env, char *cmd)
 		close(mini->fd[0]);
 		if (execve(mini->path, mini->args, env) == -1)
 		{
-            free(mini->path);
-            int i = 0;
-            while (mini->args[i])
-                free(mini->args[i++]);
-            free(mini->args);
+			free(mini->path);
+			i = 0;
+			while (mini->args[i])
+				free(mini->args[i++]);
+			free(mini->args);
 			printf("command not found\n");
 			exit(1);
 		}
@@ -106,6 +110,8 @@ void	ft_input_execution(mini_t *mini, char **env, char *cmd)
 
 void	exec_first_cmd(mini_t *mini, char *cmd, char **env)
 {
+	int	i;
+
 	mini->pid = fork();
 	if (mini->pid == -1)
 		exit(1);
@@ -117,11 +123,11 @@ void	exec_first_cmd(mini_t *mini, char *cmd, char **env)
 		close(mini->fd[0]);
 		if (execve(mini->path, mini->args, env) == -1)
 		{
-            free(mini->path);
-            int i = 0;
-            while (mini->args[i])
-                free(mini->args[i++]);
-            free(mini->args);
+			free(mini->path);
+			i = 0;
+			while (mini->args[i])
+				free(mini->args[i++]);
+			free(mini->args);
 			printf("command not found\n");
 			exit(1);
 		}
@@ -176,7 +182,10 @@ void	cmd_exe(mini_t *mini, char **env)
 {
 	mini->cmd = readline(ANSI_COLOR_YELLOW "→" ANSI_COLOR_RESET " ");
 	if (!mini->cmd)
+	{
+		printf("exit\n");
 		exit(0);
+	}
 	add_history(mini->cmd);
 	if (ft_strnstr(mini->cmd, "cd", 2))
 		check_builtin(mini, env);

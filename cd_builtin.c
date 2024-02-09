@@ -1,7 +1,16 @@
 #include "main.h"
 
-void ft_cd(mini_t *mini, char **env)
+void	ft_cd(mini_t *mini, char **env)
 {
-    char buf[100];
-    printf("%s\n", getcwd(buf, 130));
+	if (!mini->piped_command[1])
+		mini->piped_command[1] = ft_strdup("/home/oussama");
+	if (chdir(mini->piped_command[1]) == -1)
+	{
+		printf("cd: no such file or directory: %s\n", mini->piped_command[1]);
+		int i = 0;
+		while (mini->piped_command[i])
+			free(mini->piped_command[i++]);
+		free(mini->piped_command);
+		return ;
+	}
 }
