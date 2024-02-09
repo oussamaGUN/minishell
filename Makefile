@@ -1,4 +1,4 @@
-SRC = main.c normal_cmd.c handle_signal.c check_builtins.c cd_builtin.c
+SRC = main.c normal_cmd.c handle_signal.c check_builtins.c builtin.c
 
 LIBFT = libft/libft.a
 
