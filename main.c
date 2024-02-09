@@ -44,18 +44,16 @@ char	*ft_getpath(char *cmd, char **env)
 		j = 0;
 		while (splited[j])
 		{
-			path = ft_strjoin(ft_strcat(splited[j], "/"), cmd);
-			if (access(path, X_OK) == 0)
+			path = ft_strjoin(ft_strjoin(splited[j], "/"), cmd);
+			if (access(path, X_OK) == 0)           
 				return (path);
+            free(path);
 			j++;
 		}
 		i++;
 	}
-	// char *str = ft_path(env);
 	return (NULL);
 }
-
-
 
 void	ft_output_execution(mini_t *mini, char **env, char *cmd)
 {
@@ -67,20 +65,15 @@ void	ft_output_execution(mini_t *mini, char **env, char *cmd)
 		mini->args = ft_split(cmd, ' ');
 		mini->path = ft_getpath(mini->args[0], env);
 		dup2(mini->input, STDIN_FILENO);
-		if (mini->flag_for_file_output == 1)
-			dup2(mini->file_mulipipes, STDOUT_FILENO);
-		else if (mini->flag_for_file_output == 2)
-			dup2(mini->file_mulipipes, STDIN_FILENO);
-		else if (mini->flag_for_file_output == 3)
-			dup2(mini->fd[1], STDOUT_FILENO);
-		else
-		{
-			dup2(STDOUT_FILENO, mini->fd[1]);
-		}
 		close(mini->fd[1]);
 		close(mini->fd[0]);
 		if (execve(mini->path, mini->args, env) == -1)
 		{
+            free(mini->path);
+           int i = 0;
+            while (mini->args[i])
+                free(mini->args[i++]);
+            free(mini->args);
 			printf("command not found\n");
 			exit(1);
 		}
@@ -95,14 +88,16 @@ void	ft_input_execution(mini_t *mini, char **env, char *cmd)
 	{
 		mini->args = ft_split(cmd, ' ');
 		mini->path = ft_getpath(mini->args[0], env);
-		if (mini->flag_for_file_input == 1)
-			dup2(mini->file_mulipipes, STDIN_FILENO);
-		else
-			dup2(mini->input, STDIN_FILENO);
+		dup2(mini->input, STDIN_FILENO);
 		dup2(mini->fd[1], STDOUT_FILENO);
 		close(mini->fd[0]);
 		if (execve(mini->path, mini->args, env) == -1)
 		{
+            free(mini->path);
+            int i = 0;
+            while (mini->args[i])
+                free(mini->args[i++]);
+            free(mini->args);
 			printf("command not found\n");
 			exit(1);
 		}
@@ -122,6 +117,11 @@ void	exec_first_cmd(mini_t *mini, char *cmd, char **env)
 		close(mini->fd[0]);
 		if (execve(mini->path, mini->args, env) == -1)
 		{
+            free(mini->path);
+            int i = 0;
+            while (mini->args[i])
+                free(mini->args[i++]);
+            free(mini->args);
 			printf("command not found\n");
 			exit(1);
 		}
@@ -147,15 +147,16 @@ void	multiple_cmds(mini_t *mini, char **env)
 		if (pipe(mini->fd) == -1)
 			exit(1);
 		if (mini->piped_command[i + 1] == NULL)
-		{
-			mini->flag_for_file_output = 0;
 			ft_output_execution(mini, env, mini->piped_command[i]);
-		}
 		else
 			ft_input_execution(mini, env, mini->piped_command[i]);
 		close(mini->fd[1]);
 		i++;
 	}
+	i = 0;
+	while (mini->piped_command[i])
+		free(mini->piped_command[i++]);
+	free(mini->piped_command);
 }
 char	*ft_pipe_check(char *cmd)
 {
@@ -175,11 +176,11 @@ void	cmd_exe(mini_t *mini, char **env)
 {
 	mini->cmd = readline(ANSI_COLOR_YELLOW "→" ANSI_COLOR_RESET " ");
 	if (!mini->cmd)
-    {
-        exit(0);
-    }
-    add_history(mini->cmd);
-	if (ft_pipe_check(mini->cmd))
+		exit(0);
+	add_history(mini->cmd);
+	if (ft_strnstr(mini->cmd, "cd", 2))
+		check_builtin(mini, env);
+	else if (ft_pipe_check(mini->cmd))
 		multiple_cmds(mini, env);
 	else
 		normal_cmd(mini, env);
@@ -187,11 +188,11 @@ void	cmd_exe(mini_t *mini, char **env)
 }
 void	execution(mini_t *mini, char **env)
 {
-    signals_handle();
+	signals_handle();
 	while (1)
 	{
 		cmd_exe(mini, env);
-	    wait(NULL);
+		wait(NULL);
 	}
 	rl_clear_history();
 }

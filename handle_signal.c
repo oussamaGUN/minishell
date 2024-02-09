@@ -12,8 +12,9 @@ void	signals_handle(void)
 		perror("signal");
 		return ;
 	}
-    if (signal(SIGQUIT, SIG_IGN) == SIG_ERR) {
-        perror("signal");
-        exit(EXIT_FAILURE);
-    }
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+	{
+		perror("signal");
+		exit(EXIT_FAILURE);
+	}
 }
