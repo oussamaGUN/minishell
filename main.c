@@ -1,6 +1,6 @@
 #include "main.h"
 
-
+int		exit_status = EXIT_SUCCESS;
 char	*ft_strcat(char *dest, char *src)
 {
 	int	i;

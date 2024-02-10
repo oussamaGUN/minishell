@@ -21,11 +21,18 @@ void ft_echo(mini_t *mini, char **env, int exit_status)
 	pid = fork();
 	if (pid == 0)
 	{
-		mini->path = ft_getpath(mini->args[0], env);
 		mini->args = ft_split(mini->cmd, ' ');
+		mini->path = ft_getpath(mini->args[0], env);
+		int i = -1;
+		while (mini->args[++i])
+		{
+			if (cmp(mini->args[i], "$?", 2) == 0)
+				mini->args[i] = "0";
+		}
 		if (execve(mini->path, mini->args, env) == -1)
 		{
 			printf("command not found\n");
+			exit_status = EXIT_FAILURE;
 			exit(EXIT_FAILURE);
 		}
 	}
