@@ -198,7 +198,6 @@ void	normal_cmd(mini_t *mini, char **env)
 		if (execve(mini->path, mini->args, env) == -1)
 		{
 			printf("command not found\n");
-			exit_status = EXIT_FAILURE;
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -228,9 +227,9 @@ void	cmd_exe(mini_t *mini, char **env)
 		exit(0);
 	}
 	add_history(mini->cmd);
-	if (ft_strnstr(mini->cmd, "cd", 2) || cmp(mini->cmd, "exit", 4) == 0
-		|| ft_strnstr(mini->cmd, "echo", 4))
+	if (ft_strnstr(mini->cmd, "cd", 2) || cmp(mini->cmd, "exit", 4) == 0)
 		check_builtin(mini, env, exit_status);
+		// || ft_strnstr(mini->cmd, "echo", 4))
 	else if (ft_pipe_check(mini->cmd))
 		multiple_cmds(mini, env);
 	else
