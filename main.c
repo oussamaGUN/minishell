@@ -1,6 +1,6 @@
 #include "main.h"
 
-int		exit_status = EXIT_SUCCESS;
+
 char	*ft_strcat(char *dest, char *src)
 {
 	int	i;
@@ -178,6 +178,7 @@ void	multiple_cmds(mini_t *mini, char **env)
 		close(mini->fd[1]);
 		i++;
 	}
+	close(mini->fd[0]);
 	i = 0;
 	while (mini->piped_command[i])
 		free(mini->piped_command[i++]);
@@ -227,9 +228,10 @@ void	cmd_exe(mini_t *mini, char **env)
 		exit(0);
 	}
 	add_history(mini->cmd);
-	if (ft_strnstr(mini->cmd, "cd", 2) || cmp(mini->cmd, "exit", 4) == 0)
+	getcwd(mini->current_path, sizeof(mini->current_path));
+	if (ft_strnstr(mini->cmd, "cd", 2) || cmp(mini->cmd, "exit", 4) == 0
+		|| cmp(mini->cmd, "pwd", 3) == 0 || ft_strnstr(mini->cmd, "echo", 4))
 		check_builtin(mini, env, exit_status);
-		// || ft_strnstr(mini->cmd, "echo", 4))
 	else if (ft_pipe_check(mini->cmd))
 		multiple_cmds(mini, env);
 	else

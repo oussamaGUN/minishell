@@ -7,6 +7,8 @@ void	check_builtin(mini_t *mini, char **env, int exit_status)
 		return ;
 	if (cmp(mini->piped_command[0], "cd", 2) == 0)
         ft_cd(mini, env);
+	else if (cmp(mini->piped_command[0], "pwd", 3) == 0)
+        ft_pwd(mini, env);
     else if (cmp(mini->piped_command[0], "exit", 4) == 0)
     {
         if (mini->piped_command[1])

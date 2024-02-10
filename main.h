@@ -26,6 +26,7 @@ typedef struct mini_s
 	int		fd[2];
 	char	**piped_command;
 	int		pid;
+	char	current_path[1024];
 }			mini_t;
 
 void		normal_cmd(mini_t *mini, char **env);
@@ -40,4 +41,5 @@ void		ft_echo(mini_t *mini, char **env, int exit_status);
 void		handler(int signal_num);
 void		ft_quit(int sig);
 void		handle_process(int signal_num);
+void		ft_pwd(mini_t *mini, char **env);
 #endif
