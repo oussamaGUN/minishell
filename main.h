@@ -37,4 +37,7 @@ void		signals_handle(void);
 void		check_builtin(mini_t *mini, char **env, int exit_status);
 void		ft_cd(mini_t *mini, char **env);
 void		ft_echo(mini_t *mini, char **env, int exit_status);
+void		handler(int signal_num);
+void		ft_quit(int sig);
+void		handle_process(int signal_num);
 #endif

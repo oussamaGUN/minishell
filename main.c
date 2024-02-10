@@ -1,5 +1,6 @@
 #include "main.h"
-int exit_status = EXIT_SUCCESS;
+
+int		exit_status = EXIT_SUCCESS;
 char	*ft_strcat(char *dest, char *src)
 {
 	int	i;
@@ -182,11 +183,14 @@ void	multiple_cmds(mini_t *mini, char **env)
 		free(mini->piped_command[i++]);
 	free(mini->piped_command);
 }
+
 void	normal_cmd(mini_t *mini, char **env)
 {
 	int	pid;
 
 	pid = fork();
+	signal(SIGQUIT, ft_quit);
+	signal(SIGINT, handle_process);
 	if (pid == 0)
 	{
 		mini->args = ft_split(mini->cmd, ' ');
@@ -194,7 +198,7 @@ void	normal_cmd(mini_t *mini, char **env)
 		if (execve(mini->path, mini->args, env) == -1)
 		{
 			printf("command not found\n");
-            exit_status = EXIT_FAILURE;
+			exit_status = EXIT_FAILURE;
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -215,14 +219,17 @@ char	*ft_pipe_check(char *cmd)
 
 void	cmd_exe(mini_t *mini, char **env)
 {
+	signals_handle();
 	mini->cmd = readline(ANSI_COLOR_YELLOW "→" ANSI_COLOR_RESET " ");
 	if (!mini->cmd)
 	{
+		rl_clear_history();
 		printf("exit\n");
 		exit(0);
 	}
 	add_history(mini->cmd);
-	if (ft_strnstr(mini->cmd, "cd", 2) || cmp(mini->cmd, "exit", 4) == 0 || ft_strnstr(mini->cmd, "echo", 4))
+	if (ft_strnstr(mini->cmd, "cd", 2) || cmp(mini->cmd, "exit", 4) == 0
+		|| ft_strnstr(mini->cmd, "echo", 4))
 		check_builtin(mini, env, exit_status);
 	else if (ft_pipe_check(mini->cmd))
 		multiple_cmds(mini, env);
@@ -232,13 +239,13 @@ void	cmd_exe(mini_t *mini, char **env)
 }
 void	execution(mini_t *mini, char **env)
 {
-	signals_handle();
 	while (1)
 	{
+
 		cmd_exe(mini, env);
 		wait(NULL);
 	}
-	rl_clear_history();
+	
 }
 int	main(int ac, char *av[], char *env[])
 {
