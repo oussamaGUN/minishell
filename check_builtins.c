@@ -1,6 +1,6 @@
 #include "main.h"
 
-void	check_builtin(mini_t *mini, char **env, int exit_status)
+void	check_builtin(mini_t *mini, char **env)
 {
 	mini->piped_command = ft_split(mini->cmd, ' ');
 	if (!mini->piped_command)
@@ -17,5 +17,5 @@ void	check_builtin(mini_t *mini, char **env, int exit_status)
             exit(EXIT_SUCCESS);
     }
     else if (cmp(mini->piped_command[0], "echo", 4) == 0)
-        ft_echo(mini, env, exit_status);
+        ft_echo(mini, env);
 }
