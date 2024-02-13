@@ -17,10 +17,5 @@ void	ft_cd(mini_t *mini, char **env)
 
 void ft_pwd(mini_t *mini, char **env)
 {
-	char cwd[1024];
-
-    if (getcwd(cwd, sizeof(cwd)) != NULL)
-        printf("%s\n", cwd);
-    else
-        printf("%s\n", mini->current_path);
+    printf("%s\n", mini->current_path);
 }
