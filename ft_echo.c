@@ -30,7 +30,7 @@ char *ft_new(char *s, char **env)
 		if (ft_get_value(res[i], env))
 			res[i] = ft_strdup(ft_get_value(res[i], env));
 		else
-			res[i] = '\0';
+			res[i] = ft_strdup("");
 		i++;
 	}
 	i = 0;
@@ -49,7 +49,7 @@ char **ft_split_env(char *str, char **env)
 	int i = 0;
 	while (s[i])
 	{
-		if (ft_strchr(s[i], '$'))
+		if (ft_strchr(s[i], '$') && cmp(s[i], "S", 1) == 1)
 			s[i] = ft_new(s[i], env);
 		i++;
 	}
