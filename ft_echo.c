@@ -23,6 +23,7 @@ char *ft_new(char *s, char **env)
 		i++;
 		s++;
 	}
+	half[i] = '\0';
 	char **res = ft_split(s, '$');
 	i = 0;
 	while (res[i])
@@ -34,8 +35,7 @@ char *ft_new(char *s, char **env)
 		i++;
 	}
 	i = 0;
-	char *ret = "";
-	ret = ft_strjoin(ret, half);
+	char *ret = ft_strdup(half);
 	while (res[i])
 	{
 		ret = ft_strjoin(ret, res[i]);

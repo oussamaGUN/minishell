@@ -229,8 +229,8 @@ void	cmd_exe(mini_t *mini, char **env)
 	}
 	add_history(mini->cmd);
 	getcwd(mini->current_path, sizeof(mini->current_path));
-	if (ft_strnstr(mini->cmd, "cd", 2) || cmp(mini->cmd, "exit", 4) == 0
-		|| cmp(mini->cmd, "pwd", 3) == 0 || ft_strnstr(mini->cmd, "echo", 4))
+	if (cmp(mini->cmd, "cd", 2) || cmp(mini->cmd, "exit", 4) == 0
+		|| cmp(mini->cmd, "pwd", 3) == 0 || cmp(mini->cmd, "echo", 4))
 		check_builtin(mini, env);
 	else if (ft_pipe_check(mini->cmd))
 		multiple_cmds(mini, env);
