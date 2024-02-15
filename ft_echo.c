@@ -49,7 +49,7 @@ char **ft_split_env(char *str, char **env)
 	int i = 0;
 	while (s[i])
 	{
-		if (ft_strchr(s[i], '$') && cmp(s[i], "S", 1) == 1)
+		if (ft_strchr(s[i], '$') && cmp(s[i], "$", ft_strlen(s[i])) == 1)
 			s[i] = ft_new(s[i], env);
 		i++;
 	}
