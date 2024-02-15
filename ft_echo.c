@@ -13,24 +13,47 @@ char *ft_get_value(char *key, char **env)
 	}
 	return NULL;
 }
-char *joining(char **s)
+char *ft_new(char *s, char **env)
 {
-    int i = 0;
-    char *res = "";
-    while (s[i])
-    {
-        res = ft_strjoin(res, s[i]);
-        res = ft_strjoin(res, " ");
-        i++;
-    }
-    return res;
+	char half[1024];
+	int i = 0;
+	while (*s != '$')
+	{
+		half[i] = *s;
+		i++;
+		s++;
+	}
+	char **res = ft_split(s, '$');
+	i = 0;
+	while (res[i])
+	{
+		if (ft_get_value(res[i], env))
+			res[i] = ft_strdup(ft_get_value(res[i], env));
+		else
+			res[i] = '\0';
+		i++;
+	}
+	i = 0;
+	char *ret = "";
+	ret = ft_strjoin(ret, half);
+	while (res[i])
+	{
+		ret = ft_strjoin(ret, res[i]);
+		i++;
+	}
+	return ret;
 }
-char **ft_split_env(char *str)
+char **ft_split_env(char *str, char **env)
 {
-    char **sp = ft_split(str, '$');
-    char *string = joining(sp);
-    char **res = ft_split(string, ' ');
-    return res;
+	char **s = ft_split(str, ' ');
+	int i = 0;
+	while (s[i])
+	{
+		if (ft_strchr(s[i], '$'))
+			s[i] = ft_new(s[i], env);
+		i++;
+	}
+	return s;
 }
 void ft_echo(mini_t *mini, char **env)
 {
@@ -39,19 +62,9 @@ void ft_echo(mini_t *mini, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
-		mini->args = ft_split_env(mini->cmd);
+		mini->args = ft_split_env(mini->cmd, env);
 		mini->path = ft_getpath(mini->args[0], env);
 
-		char *env_var;
-		char **s;
-		int i = 0;
-
-		while (mini->args[++i])
-		{
-			    env_var = ft_get_value(mini->args[i], env);
-				if (env_var)
-					mini->args[i] = ft_strdup(env_var);
-		}
 		if (execve(mini->path, mini->args, env) == -1)
 		{
 			printf("command not found\n");
