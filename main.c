@@ -230,7 +230,6 @@ void	cmd_exe(mini_t *mini, char **env)
 	}
 	add_history(mini->cmd);
 	getcwd(mini->current_path, sizeof(mini->current_path));
-
 	if (ft_pipe_check(mini->cmd))
 		multiple_cmds(mini, env);
 	else if (ft_strncmp(mini->cmd, "cd", 2) == 0 || ft_strncmp(mini->cmd, "exit", 4) == 0
@@ -242,6 +241,8 @@ void	cmd_exe(mini_t *mini, char **env)
 }
 void	execution(mini_t *mini, char **env)
 {
+	t_list *list = ft_lst_creat_env(mini, env);
+
 	while (1)
 	{
 

@@ -1,5 +1,5 @@
 SRC = main.c normal_cmd.c handle_signal.c check_builtins.c builtin.c ft_echo.c \
-	ft_export.c
+	ft_export.c 
 
 LIBFT = libft/libft.a
 
