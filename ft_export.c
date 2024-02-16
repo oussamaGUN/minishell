@@ -49,11 +49,15 @@ void ft_putsort(mini_t *mini, char **env)
 
     i = 0;
     while (str[i])
-        printf("%s\n",str[i++]);
+        printf("declare -x %s\n",str[i++]);
 }
 
 void    ft_export(mini_t *mini,char **env)
 {
-    if (ft_strncmp(mini->cmd, "export", 6) == 0)
-        ft_putsort(mini, env);
+    char **sp = ft_split(mini->cmd, ' ');
+    int i = 0;
+    while (sp[i])
+        i++;
+    if (ft_strncmp(sp[0], "export", 6) == 0 && !sp[1])
+        ft_putsort(mini, env);  
 }
