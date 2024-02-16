@@ -16,8 +16,6 @@ void	check_builtin(mini_t *mini, char **env)
         else
             exit(EXIT_SUCCESS);
     }
-    else if (ft_strncmp(mini->piped_command[0], "echo", 4) == 0)
-        ft_echo(mini, env);
     else if (ft_strncmp(mini->cmd, "export", 6) == 0)
         ft_export(mini, env);
 }
