@@ -1,18 +1,5 @@
 #include "main.h"
 
-char *ft_get_value(char *key, char **env)
-{
-	int i = 0;
-	char **split;   
-	while (env[i])
-	{
-		split = ft_split(env[i], '=');
-		if (strcmp(split[0], key) == 0)
-			return split[1];
-		i++;
-	}
-	return NULL;
-}
 char *ft_new(char *s, char **env)
 {
 	char half[1024];
@@ -28,8 +15,8 @@ char *ft_new(char *s, char **env)
 	i = 0;
 	while (res[i])
 	{
-		if (ft_get_value(res[i], env))
-			res[i] = ft_strdup(ft_get_value(res[i], env));
+		if (getenv(res[i]))
+			res[i] = getenv(res[i]);
 		else
 			res[i] = ft_strdup("");
 		i++;
@@ -54,21 +41,4 @@ char **ft_split_env(char *str, char **env)
 		i++;
 	}
 	return s;
-}
-void ft_echo(mini_t *mini, char **env)
-{
-	int	pid;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		mini->args = ft_split_env(mini->cmd, env);
-		mini->path = ft_getpath(mini->args[0], env);
-
-		if (execve(mini->path, mini->args, env) == -1)
-		{
-			printf("command not found\n");
-			exit(EXIT_FAILURE);
-		}
-	}
 }

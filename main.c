@@ -68,7 +68,7 @@ void	ft_output_execution(mini_t *mini, char **env, char *cmd)
 	}
 	if (mini->pid == 0)
 	{
-		mini->args = ft_split(cmd, ' ');
+		mini->args = ft_split_env(cmd, env);
 		mini->path = ft_getpath(mini->args[0], env);
 		dup2(mini->input, STDIN_FILENO);
 		close(mini->fd[1]);
@@ -98,7 +98,7 @@ void	ft_input_execution(mini_t *mini, char **env, char *cmd)
 	}
 	if (mini->pid == 0)
 	{
-		mini->args = ft_split(cmd, ' ');
+		mini->args = ft_split_env(cmd, env);
 		mini->path = ft_getpath(mini->args[0], env);
 		dup2(mini->input, STDIN_FILENO);
 		dup2(mini->fd[1], STDOUT_FILENO);
@@ -129,7 +129,7 @@ void	exec_first_cmd(mini_t *mini, char *cmd, char **env)
 	}
 	if (mini->pid == 0)
 	{
-		mini->args = ft_split(cmd, ' ');
+		mini->args = ft_split_env(cmd, env);
 		mini->path = ft_getpath(mini->args[0], env);
 		dup2(mini->fd[1], STDOUT_FILENO);
 		close(mini->fd[0]);
@@ -195,7 +195,7 @@ void	normal_cmd(mini_t *mini, char **env)
 
 	if (pid == 0)
 	{
-		mini->args = ft_split(mini->cmd, ' ');
+		mini->args = ft_split_env(mini->cmd, env);
 		mini->path = ft_getpath(mini->args[0], env);
 		if (execve(mini->path, mini->args, env) == -1)
 		{
@@ -231,11 +231,11 @@ void	cmd_exe(mini_t *mini, char **env)
 	add_history(mini->cmd);
 	getcwd(mini->current_path, sizeof(mini->current_path));
 
-	if (ft_strncmp(mini->cmd, "cd", 2) == 0 || ft_strncmp(mini->cmd, "exit", 4) == 0
-		|| ft_strncmp(mini->cmd, "pwd", 3) == 0 || ft_strncmp(mini->cmd, "echo", 4) == 0)
-		check_builtin(mini, env);
-	else if (ft_pipe_check(mini->cmd))
+	if (ft_pipe_check(mini->cmd))
 		multiple_cmds(mini, env);
+	else if (ft_strncmp(mini->cmd, "cd", 2) == 0 || ft_strncmp(mini->cmd, "exit", 4) == 0
+		|| ft_strncmp(mini->cmd, "pwd", 3) == 0 || ft_strncmp(mini->cmd, "export", 6) == 0)
+		check_builtin(mini, env);
 	else
 		normal_cmd(mini, env);
 	free(mini->cmd);

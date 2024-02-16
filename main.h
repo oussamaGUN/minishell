@@ -42,4 +42,6 @@ void		ft_quit(int sig);
 void		handle_process(int signal_num);
 void		ft_pwd(mini_t *mini, char **env);
 void		ft_echo(mini_t *mini, char **env);
+void ft_export(mini_t *mini, char **env);
+char **ft_split_env(char *str, char **env);
 #endif
