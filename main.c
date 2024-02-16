@@ -222,6 +222,7 @@ void	cmd_exe(mini_t *mini, char **env)
 {
 	signals_handle();
 	mini->cmd = readline(ANSI_COLOR_YELLOW "→" ANSI_COLOR_RESET " ");
+	// t_list *list = ft_lst_creat_env(mini, env);
 	if (!mini->cmd)
 	{
 		rl_clear_history();
@@ -230,10 +231,13 @@ void	cmd_exe(mini_t *mini, char **env)
 	}
 	add_history(mini->cmd);
 	getcwd(mini->current_path, sizeof(mini->current_path));
-	if (ft_pipe_check(mini->cmd))
+	char **sf;
+	if (ft_strncmp(mini->cmd, "export", 6) == 0)
+		ft_export(mini, env);
+	else if (ft_pipe_check(mini->cmd))
 		multiple_cmds(mini, env);
 	else if (ft_strncmp(mini->cmd, "cd", 2) == 0 || ft_strncmp(mini->cmd, "exit", 4) == 0
-		|| ft_strncmp(mini->cmd, "pwd", 3) == 0 || ft_strncmp(mini->cmd, "export", 6) == 0)
+		|| ft_strncmp(mini->cmd, "pwd", 3) == 0)
 		check_builtin(mini, env);
 	else
 		normal_cmd(mini, env);
@@ -241,11 +245,9 @@ void	cmd_exe(mini_t *mini, char **env)
 }
 void	execution(mini_t *mini, char **env)
 {
-	t_list *list = ft_lst_creat_env(mini, env);
 
 	while (1)
 	{
-
 		cmd_exe(mini, env);
 		wait(NULL);
 	}
