@@ -218,7 +218,7 @@ char	*ft_pipe_check(char *cmd)
 	return (NULL);
 }
 
-void	cmd_exe(mini_t *mini, char **env)
+void	cmd_exe(mini_t *mini, t_pars *pars, char **env)
 {
 	signals_handle();
 	mini->cmd = readline(ANSI_COLOR_YELLOW "→" ANSI_COLOR_RESET " ");
@@ -231,31 +231,35 @@ void	cmd_exe(mini_t *mini, char **env)
 	}
 	add_history(mini->cmd);
 	getcwd(mini->current_path, sizeof(mini->current_path));
-	char **sf;
-	if (ft_strncmp(mini->cmd, "export", 6) == 0)
-		ft_export(mini, env);
-	else if (ft_pipe_check(mini->cmd))
-		multiple_cmds(mini, env);
-	else if (ft_strncmp(mini->cmd, "cd", 2) == 0 || ft_strncmp(mini->cmd, "exit", 4) == 0
-		|| ft_strncmp(mini->cmd, "pwd", 3) == 0)
-		check_builtin(mini, env);
-	else
-		normal_cmd(mini, env);
+	pars->parsed_cmd = parsing(mini, pars, env);
+	printf("%s\n", pars->parsed_cmd);
+	// char **sf;
+	// if (ft_strncmp(mini->cmd, "export", 6) == 0)
+	// 	ft_export(mini, env);
+	// else if (ft_pipe_check(mini->cmd))
+	// 	multiple_cmds(mini, env);
+	// else if (ft_strncmp(mini->cmd, "cd", 2) == 0 || ft_strncmp(mini->cmd, "exit", 4) == 0
+	// 	|| ft_strncmp(mini->cmd, "pwd", 3) == 0)
+	// 	check_builtin(mini, env);
+	// else
+	// 	normal_cmd(mini, env);
 	free(mini->cmd);
 }
-void	execution(mini_t *mini, char **env)
+void	execution(mini_t *mini, t_pars *pars, char **env)
 {
 
 	while (1)
 	{
-		cmd_exe(mini, env);
+		cmd_exe(mini, pars, env);
 		wait(NULL);
+
 	}
-	
+	rl_clear_history();
 }
 int	main(int ac, char *av[], char *env[])
 {
 	mini_t mini;
+	t_pars pars;
 
-	execution(&mini, env);
+	execution(&mini, &pars, env);
 }

@@ -17,6 +17,16 @@
 // ANSI color escape codes
 # define ANSI_COLOR_YELLOW "\x1b[33m"
 # define ANSI_COLOR_RESET "\x1b[0m"
+// parsing
+typedef struct s_pars
+{
+	char *parsed_cmd;
+	char **expand;
+	char *new;
+	int flag;
+}	t_pars;
+
+// execution
 typedef struct mini_s
 {
 	char	*cmd;
@@ -28,6 +38,12 @@ typedef struct mini_s
 	int		pid;
 	char	current_path[1024];
 }			mini_t;
+
+enum OP {
+	quote = '"',
+
+};
+
 
 void		normal_cmd(mini_t *mini, char **env);
 char		*ft_getpath(char *cmd, char **env);
@@ -44,4 +60,9 @@ void		ft_pwd(mini_t *mini, char **env);
 void		ft_export(mini_t *mini, char **env);
 char		**ft_split_env(char *str, char **env);
 // t_list		*ft_lst_creat_env(mini_t *mini, char **env);
+
+
+// parsing 
+char *parsing(mini_t *mini, t_pars *pars, char **env);
+char	*quotes(mini_t *mini, t_pars *pars, char **env);
 #endif

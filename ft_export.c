@@ -49,7 +49,10 @@ void ft_putsort(mini_t *mini, char **env)
 
     i = 0;
     while (str[i])
-        printf("declare -x %s\n",str[i++]);
+    {
+        ft_putstr_fd("declare -x ", 1);
+        ft_putendl_fd(str[i++], 1);
+    }
 }
 
 void    ft_export(mini_t *mini,char **env)
@@ -59,5 +62,9 @@ void    ft_export(mini_t *mini,char **env)
     while (sp[i])
         i++;
     if (ft_strncmp(sp[0], "export", 6) == 0 && !sp[1])
-        ft_putsort(mini, env);  
+        ft_putsort(mini, env);
+    else
+    {
+        
+    }
 }
