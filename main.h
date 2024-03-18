@@ -17,14 +17,28 @@
 // ANSI color escape codes
 # define ANSI_COLOR_YELLOW "\x1b[33m"
 # define ANSI_COLOR_RESET "\x1b[0m"
-// parsing
-typedef struct s_pars
+
+// tokenize
+typedef struct s_token
 {
-	char *parsed_cmd;
-	char **expand;
-	char *new;
-	int flag;
-}	t_pars;
+	int type;
+	char *content;
+	struct s_token *next;
+}	t_token;
+
+typedef enum s_type {
+	COMMAND,
+	PIPE,
+	REDIRECT,
+	INPUT,
+	APPEND,
+	HER_DOC,
+	FILE_NAME,
+
+}t_type;
+
+t_token *tokenizer(char *str);
+
 
 // execution
 typedef struct mini_s
@@ -39,10 +53,6 @@ typedef struct mini_s
 	char	current_path[1024];
 }			mini_t;
 
-enum OP {
-	quote = '"',
-
-};
 
 
 void		normal_cmd(mini_t *mini, char **env);
@@ -62,7 +72,4 @@ char		**ft_split_env(char *str, char **env);
 // t_list		*ft_lst_creat_env(mini_t *mini, char **env);
 
 
-// parsing 
-char *parsing(mini_t *mini, t_pars *pars, char **env);
-char	*quotes(mini_t *mini, t_pars *pars, char **env);
 #endif

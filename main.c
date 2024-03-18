@@ -218,11 +218,11 @@ char	*ft_pipe_check(char *cmd)
 	return (NULL);
 }
 
-void	cmd_exe(mini_t *mini, t_pars *pars, char **env)
+void	cmd_exe(mini_t *mini, t_token *token, char **env)
 {
 	signals_handle();
 	mini->cmd = readline(ANSI_COLOR_YELLOW "→" ANSI_COLOR_RESET " ");
-	// t_list *list = ft_lst_creat_env(mini, env);
+	// t_token token = ft_lst_creat_env(mini, env);
 	if (!mini->cmd)
 	{
 		rl_clear_history();
@@ -231,8 +231,14 @@ void	cmd_exe(mini_t *mini, t_pars *pars, char **env)
 	}
 	add_history(mini->cmd);
 	getcwd(mini->current_path, sizeof(mini->current_path));
-	pars->parsed_cmd = parsing(mini, pars, env);
-	printf("%s\n", pars->parsed_cmd);
+	token = tokenizer(mini->cmd);
+    t_token *test = token;
+    int i = 0;
+    while (test->next && test)
+    {
+        printf("%d %s\n", test->type, test->content);
+        test = test->next;
+    }
 	// char **sf;
 	// if (ft_strncmp(mini->cmd, "export", 6) == 0)
 	// 	ft_export(mini, env);
@@ -245,12 +251,12 @@ void	cmd_exe(mini_t *mini, t_pars *pars, char **env)
 	// 	normal_cmd(mini, env);
 	free(mini->cmd);
 }
-void	execution(mini_t *mini, t_pars *pars, char **env)
+void	execution(mini_t *mini, t_token *token, char **env)
 {
 
 	while (1)
 	{
-		cmd_exe(mini, pars, env);
+		cmd_exe(mini, token, env);
 		wait(NULL);
 
 	}
@@ -259,7 +265,7 @@ void	execution(mini_t *mini, t_pars *pars, char **env)
 int	main(int ac, char *av[], char *env[])
 {
 	mini_t mini;
-	t_pars pars;
+	t_token token;
 
-	execution(&mini, &pars, env);
+	execution(&mini, &token, env);
 }

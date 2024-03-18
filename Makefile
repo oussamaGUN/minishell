@@ -2,7 +2,7 @@ CC = gcc
 
 #CFLAGS = -Wall -Wextra -Werror
 
-SRC = main.c normal_cmd.c handle_signal.c check_builtins.c builtin.c ft_echo.c ft_export.c parsing/parsing.c parsing/double_q.c 
+SRC = main.c normal_cmd.c handle_signal.c check_builtins.c builtin.c ft_echo.c ft_export.c tokenizing/first_step.c
 
 LIBFT = libft/libft.a
 
