@@ -232,15 +232,18 @@ void	cmd_exe(mini_t *mini, t_token *token, char **env)
 	add_history(mini->cmd);
 	getcwd(mini->current_path, sizeof(mini->current_path));
 	token = tokenizer(mini->cmd);
-    // t_token *test = token;
-    // int i = 0;
-    // while (test)
-    // {
-    //     printf("%d %s\n", test->type, test->content);
-    //     test = test->next;
-	// 	if (!test)
-	// 		break;
-    // }
+	if (!token)
+		return ;
+	
+    t_token *test = token;
+    int i = 0;
+    while (test && test->next)
+    {
+        printf("%d %s\n", test->type, test->content);
+        test = test->next;
+		if (!test)
+			break;
+    }
 	// char **sf;
 	// if (ft_strncmp(mini->cmd, "export", 6) == 0)
 	// 	ft_export(mini, env);

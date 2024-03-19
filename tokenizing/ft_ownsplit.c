@@ -44,7 +44,7 @@ int	ft_len(char const *s, char c)
 
     while (s[i] && s[i] != c)
 	{
-		if (s[i] == '\"')
+		if (s[i] == '\"' || s[i] == '\'')
 		{
 			i++;
 			while ((s[i] != '\"' || *s == '\'') && s[i])
@@ -77,14 +77,20 @@ char	**ft_trim(char const *s, char c, char **arr, size_t words_count)
 	    {
 			if (*s == '\"' || *s == '\'')
 			{
+				if (*s == '\"')
+					arr[k][j++] = '\"';
+				else if (*s == '\'')
+					arr[k][j++] = '\'';					
 				s++;
-				arr[k][j++] = '\"';
-				while ((*s != '\"' ) && *s)
+				while ((*s != '\"' || *s == '\'') && *s)
 				{
 					arr[k][j++] = *s;
 					s++;
 				}
-				arr[k][j++] = '\"';
+				if (*s == '\"')
+					arr[k][j++] = '\"';
+				else if (*s == '\'')
+					arr[k][j++] = '\'';	
 				s++;
 			}
 			if (*s != c && *s)
@@ -111,9 +117,15 @@ int ft_count_quotes(char const *s)
 		i++;
 	}
 	if (count1 % 2 == 1)
+	{
+		ft_putendl_fd("missing double quotes", 2);
 		return 0;
+	}
 	if (count2 % 2 == 1)
+	{
+		ft_putendl_fd("missing single quotes", 2);
 		return 0;
+	}
 	return 1;
 }
 
@@ -125,13 +137,9 @@ char	**ft_ownsplit(char const *s, char c)
 
 	if (s == NULL)
 		return (NULL);
-	if (ft_count_quotes(s) == 0)
-	{
-		ft_putendl_fd("missing some quotes", 2);
+	if (ft_count_quotes(s) == 0)	
 		return (NULL);
-	}
 	words_count = ft_word((char *)s, c);
-	printf("%ld\n", words_count);
 	arr = (char **) malloc(sizeof(char *) * (words_count + 1));
 	if (!arr)
 		return (NULL);
