@@ -27,18 +27,19 @@ typedef struct s_token
 }	t_token;
 
 typedef enum s_type {
-	COMMAND,
+	WORD,
 	PIPE,
-	REDIRECT,
-	INPUT,
-	APPEND,
+	RED_OUTPUT,
+	RED_INPUT,
+	RED_APPEND,
 	HER_DOC,
-	FILE_NAME,
-
+	FILE_APP,
+	FILE_OUT,
+	FILE_IN,
 }t_type;
 
 t_token *tokenizer(char *str);
-
+char	**ft_ownsplit(char const *s, char c);
 
 // execution
 typedef struct mini_s
