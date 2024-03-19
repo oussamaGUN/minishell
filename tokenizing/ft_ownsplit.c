@@ -82,7 +82,7 @@ char	**ft_trim(char const *s, char c, char **arr, size_t words_count)
 				else if (*s == '\'')
 					arr[k][j++] = '\'';					
 				s++;
-				while ((*s != '\"' || *s == '\'') && *s)
+				while (*s != '\"' && *s != '\'' && *s)
 				{
 					arr[k][j++] = *s;
 					s++;
