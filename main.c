@@ -220,6 +220,7 @@ char	*ft_pipe_check(char *cmd)
 
 void	cmd_exe(mini_t *mini, t_token *token, char **env)
 {
+	t_parsing *parsing;
 	signals_handle();
 	mini->cmd = readline(ANSI_COLOR_YELLOW "→" ANSI_COLOR_RESET " ");
 	// t_token token = ft_lst_creat_env(mini, env);
@@ -233,17 +234,7 @@ void	cmd_exe(mini_t *mini, t_token *token, char **env)
 	getcwd(mini->current_path, sizeof(mini->current_path));
 	token = tokenizer(mini->cmd);
 	if (!token)
-		return ;
-	
-    t_token *test = token;
-    int i = 0;
-    while (test && test->next)
-    {
-        printf("%d %s\n", test->type, test->content);
-        test = test->next;
-		if (!test)
-			break;
-    }
+		return ;	
 	// char **sf;
 	// if (ft_strncmp(mini->cmd, "export", 6) == 0)
 	// 	ft_export(mini, env);

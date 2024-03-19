@@ -1,12 +1,5 @@
 #include "../main.h"
-t_token	*ft_last(t_token *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
-}
+
 void	ft_lstadd(t_token **lst, t_token *new)
 {
 	if (!lst || !new)
@@ -64,6 +57,7 @@ t_token *tokenizer(char *str)
         ft_lstadd(&lst, node);
         i++;
     }
+    ft_lstadd(&lst, NULL);
     int j = 0;
     while (sp[j])
         free(sp[j++]);

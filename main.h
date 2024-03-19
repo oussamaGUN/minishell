@@ -18,6 +18,7 @@
 # define ANSI_COLOR_YELLOW "\x1b[33m"
 # define ANSI_COLOR_RESET "\x1b[0m"
 
+
 // tokenize
 typedef struct s_token
 {
@@ -40,6 +41,17 @@ typedef enum s_type {
 
 t_token *tokenizer(char *str);
 char	**ft_ownsplit(char const *s, char c);
+
+
+
+//parsing
+typedef struct s_parsing
+{
+	t_token *pars;
+}t_parsing;
+t_token *ft_pars(t_token *token);
+// parsing
+
 
 // execution
 typedef struct mini_s
