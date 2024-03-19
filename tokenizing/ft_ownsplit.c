@@ -24,7 +24,11 @@ int	ft_word(char *s, char c)
 			i++;
 		}
 		while (s[i] == c && s[i])
+		{
+			if (s[i + 1] != c)
+				break;
 			i++;
+		}
 		if (!s[i])
 			break;
 		i++;
@@ -82,15 +86,6 @@ char	**ft_trim(char const *s, char c, char **arr, size_t words_count)
 				}
 				arr[k][j++] = '\"';
 				s++;
-				// if (*(s + 1))
-				// {
-				// 	while (*s != c && *s)
-				// 	{
-				// 		arr[k][j++] = *s;
-				// 		s++;					
-				// 	}
-				// }
-				// else
 			}
 			if (*s != c && *s)
 			{
@@ -121,25 +116,7 @@ int ft_count_quotes(char const *s)
 		return 0;
 	return 1;
 }
-char *if_empty(char const *s)
-{
-	char *res = malloc(sizeof(char) * (ft_strlen(s) + 1));
-	if (!res)
-		return NULL;
-	int i = 0;
-	int j = 0;
-	while (s[i])
-	{
-		if ((s[i] == '\"' && s[i + 1] == '\"')
-			|| (s[i] == '\'' && s[i + 1] == '\''))
-			i += 2;
-		res[j] = s[i];
-		i++;
-		j++;
-	}
-	res[j] = '\0';
-	return res;
-}
+
 char	**ft_ownsplit(char const *s, char c)
 {
 	size_t			words_count;
@@ -147,9 +124,6 @@ char	**ft_ownsplit(char const *s, char c)
 	unsigned int	i;
 
 	if (s == NULL)
-		return (NULL);
-	s = if_empty(s);
-	if (!s)
 		return (NULL);
 	if (ft_count_quotes(s) == 0)
 	{

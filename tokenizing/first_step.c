@@ -19,8 +19,6 @@ t_token *tokenizer(char *str)
     char **sp = ft_ownsplit(str, ' ');
     if (!sp)
         return NULL;
-    for (int i = 0;sp[i];i++)
-        printf("%s\n", sp[i]);
     t_token *lst;
     t_token *node;
     int i = 0;
