@@ -39,7 +39,7 @@ typedef enum s_type {
 	FILE_IN,
 }t_type;
 
-t_token *tokenizer(char *str);
+void tokenizer(char *str, t_token **token);
 char	**ft_ownsplit(char const *s, char c);
 
 
@@ -67,7 +67,8 @@ typedef struct mini_s
 }			mini_t;
 
 
-
+void	clear(t_token **lst, void (*del)(void *));
+void del(void *s);
 void		normal_cmd(mini_t *mini, char **env);
 char		*ft_getpath(char *cmd, char **env);
 void		exec_first_cmd(mini_t *mini, char *cmd, char **env);
