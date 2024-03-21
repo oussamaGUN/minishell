@@ -242,7 +242,7 @@ int	cmd_exe(mini_t *mini, t_token *token, char **env)
 	t_token *s = token;
 	while (s)
 	{
-		printf("%s %d\n", s->content, s->type);
+		prfdintf("%s %d\n", s->content, s->type);
 		s = s->next;
 	}
 
