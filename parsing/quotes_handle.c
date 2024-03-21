@@ -63,16 +63,17 @@ int nested_quotes(t_token *token)
     }
     return 1;
 }
-t_token *ft_pars(t_token *token)
+t_token *ft_check_errors(t_token *token)
 {
     if (!nested_quotes(token))
     {
         ft_putendl_fd("nested quotes", 2);
-        return token;
+        return NULL;
     }
     if (!syntax_error(token))
     {
         ft_putendl_fd("syntax error", 2);
+        return NULL;
     }
     return token;
 }

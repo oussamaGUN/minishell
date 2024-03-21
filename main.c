@@ -1,6 +1,5 @@
 #include "main.h"
 
-int		exit_status = EXIT_SUCCESS;
 char	*ft_strcat(char *dest, char *src)
 {
 	int	i;
@@ -63,7 +62,6 @@ void	ft_output_execution(mini_t *mini, char **env, char *cmd)
 	mini->pid = fork();
 	if (mini->pid == -1)
 	{
-		exit_status = EXIT_FAILURE;
 		exit(EXIT_FAILURE);
 	}
 	if (mini->pid == 0)
@@ -81,7 +79,6 @@ void	ft_output_execution(mini_t *mini, char **env, char *cmd)
 				free(mini->args[i++]);
 			free(mini->args);
 			printf("command not found\n");
-			exit_status = EXIT_FAILURE;
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -93,7 +90,6 @@ void	ft_input_execution(mini_t *mini, char **env, char *cmd)
 	mini->pid = fork();
 	if (mini->pid == -1)
 	{
-		exit_status = EXIT_FAILURE;
 		exit(EXIT_FAILURE);
 	}
 	if (mini->pid == 0)
@@ -111,7 +107,6 @@ void	ft_input_execution(mini_t *mini, char **env, char *cmd)
 				free(mini->args[i++]);
 			free(mini->args);
 			printf("command not found\n");
-			exit_status = EXIT_FAILURE;
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -124,7 +119,6 @@ void	exec_first_cmd(mini_t *mini, char *cmd, char **env)
 	mini->pid = fork();
 	if (mini->pid == -1)
 	{
-		exit_status = EXIT_FAILURE;
 		exit(EXIT_FAILURE);
 	}
 	if (mini->pid == 0)
@@ -141,7 +135,6 @@ void	exec_first_cmd(mini_t *mini, char *cmd, char **env)
 				free(mini->args[i++]);
 			free(mini->args);
 			printf("command not found\n");
-			exit_status = EXIT_FAILURE;
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -156,7 +149,6 @@ void	multiple_cmds(mini_t *mini, char **env)
 	j = 0;
 	if (pipe(mini->fd) == -1)
 	{
-		exit_status = EXIT_FAILURE;
 		exit(EXIT_FAILURE);
 	}
 	exec_first_cmd(mini, mini->piped_command[0], env);
@@ -168,7 +160,6 @@ void	multiple_cmds(mini_t *mini, char **env)
 		mini->input = mini->fd[0];
 		if (pipe(mini->fd) == -1)
 		{
-			exit_status = EXIT_FAILURE;
 			exit(EXIT_FAILURE);
 		}
 		if (mini->piped_command[i + 1] == NULL)
@@ -224,7 +215,7 @@ void ft_free(t_token **token, mini_t *mini)
 
 int	cmd_exe(mini_t *mini, t_token *token, char **env)
 {
-	t_token *lst;
+	t_token *new_token;
 	signals_handle();
 	mini->cmd = readline(ANSI_COLOR_YELLOW "→" ANSI_COLOR_RESET " ");
 	// t_token token = ft_lst_creat_env(mini, env);
@@ -237,14 +228,18 @@ int	cmd_exe(mini_t *mini, t_token *token, char **env)
 	add_history(mini->cmd);
 	getcwd(mini->current_path, sizeof(mini->current_path));
 	token = NULL;
-	tokenizer(mini->cmd, &token);
-	// lst= ft_pars(token);
-	t_token *s = token;
-	while (s)
-	{
-		prfdintf("%s %d\n", s->content, s->type);
-		s = s->next;
-	}
+	int flag = tokenizer(mini->cmd, &token);
+	if (!flag)
+		return 0;
+	if (!ft_check_errors(token))
+		return 0;
+	new_token = expanding(token);
+	// t_token *s = token;
+	// while (s)
+	// {
+	// 	printf("%s %d\n", s->content, s->type);
+	// 	s = s->next;
+	// }
 
 
 

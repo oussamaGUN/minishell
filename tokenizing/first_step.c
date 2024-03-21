@@ -12,7 +12,7 @@ t_token	*new(void *content)
 	else
 		new->content = (void *)content;
 	new->next = NULL;
-    // new->prev = NULL;
+    new->prev = NULL;
 	return (new);
 }
 void	ft_lstadd(t_token **lst, t_token *new)
@@ -27,14 +27,14 @@ void	ft_lstadd(t_token **lst, t_token *new)
 		while (tmp && tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
-		// new->prev = tmp;
+		new->prev = tmp;
 	}
 }
-void tokenizer(char *str, t_token **token)
+int tokenizer(char *str, t_token **token)
 {
     char **sp = ft_ownsplit(str, ' ');
     if (!sp)
-        return ;
+        return 0;
     t_token *node;
     int i = 0;
     int flag = 0;
@@ -78,5 +78,5 @@ void tokenizer(char *str, t_token **token)
         ft_lstadd(token, node);
         i++;
     }
-
+    return 1;
 }

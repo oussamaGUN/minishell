@@ -241,6 +241,8 @@ char	**ft_ownsplit(char const *s, char c)
 		return (NULL);
 	arr = ft_trim(s, c, arr, words_count);
 	arr[words_count] = NULL;
+
+	
 	return (arr);
 }
 

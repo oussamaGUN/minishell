@@ -25,6 +25,7 @@ typedef struct s_token
 	int type;
 	char *content;
 	struct s_token *next;
+	struct s_token *prev;
 }	t_token;
 typedef enum s_type {
 	WORD,
@@ -85,11 +86,13 @@ char		**ft_split_env(char *str, char **env);
 
 
 
-void tokenizer(char *str, t_token **token);
+int tokenizer(char *str, t_token **token);
 char	**ft_ownsplit(char const *s, char c);
 
 
-t_token *ft_pars(t_token *token);
+t_token *ft_check_errors(t_token *token);
 int syntax_error(t_token *token);
 
+
+t_token *expanding(t_token *token);
 #endif
