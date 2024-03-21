@@ -1,9 +1,9 @@
-CC = gcc
+CC = cc
 
 #CFLAGS = -Wall -Wextra -Werror
 
 SRC = main.c normal_cmd.c handle_signal.c check_builtins.c builtin.c ft_echo.c ft_export.c tokenizing/first_step.c tokenizing/ft_ownsplit.c \
-	parsing/quotes_handle.c tools/tools.c
+	parsing/quotes_handle.c tools/tools.c parsing/syntax_error.c
 
 LIBFT = libft/libft.a
 

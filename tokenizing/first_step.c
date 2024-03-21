@@ -12,21 +12,23 @@ t_token	*new(void *content)
 	else
 		new->content = (void *)content;
 	new->next = NULL;
+    // new->prev = NULL;
 	return (new);
 }
 void	ft_lstadd(t_token **lst, t_token *new)
 {
-	t_token	*ptr;
+	t_token *tmp;
 
-	if (lst && *lst)
-	{
-		ptr = *lst;
-		while (ptr->next)
-			ptr = ptr->next;
-		ptr->next = new;
-	}
-	else if (lst)
+	if (lst == NULL || (*lst) == NULL)
 		*lst = new;
+	else
+	{
+		tmp = *lst;
+		while (tmp && tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+		// new->prev = tmp;
+	}
 }
 void tokenizer(char *str, t_token **token)
 {
@@ -39,23 +41,23 @@ void tokenizer(char *str, t_token **token)
     while (sp[i])
     {
         node = new(sp[i]);
-        if (ft_strncmp(sp[i], "|", ft_strlen(sp[i])) == 0)
+        if (ft_strncmp(sp[i], "|", 1) == 0)
             node->type = PIPE;
-        else if (ft_strncmp(sp[i], ">>", ft_strlen(sp[i])) == 0)
+        else if (ft_strncmp(sp[i], ">>", 2) == 0)
         {
             if (sp[i + 1])
                 flag = 1;
             node->type = RED_APPEND;
         }
-        else if (ft_strncmp(sp[i], "<<", ft_strlen(sp[i])) == 0)
+        else if (ft_strncmp(sp[i], "<<", 2) == 0)
             node->type = HER_DOC;
-        else if (ft_strncmp(sp[i], ">", ft_strlen(sp[i])) == 0)
+        else if (ft_strncmp(sp[i], ">", 1) == 0)
         {
             if (sp[i + 1])
                 flag = 2;
             node->type = RED_OUTPUT;
         }
-        else if (ft_strncmp(sp[i], "<", ft_strlen(sp[i])) == 0)
+        else if (ft_strncmp(sp[i], "<", 2) == 0)
         {
             if (sp[i + 1])
                 flag = 3;            
@@ -76,11 +78,5 @@ void tokenizer(char *str, t_token **token)
         ft_lstadd(token, node);
         i++;
     }
-	// t_token *s = lst;
 
-	// while (s != NULL)
-	// {
-	// 	printf("%s %d\n", s->content, s->type);
-	// 	s = s->next;
-	// }
 }

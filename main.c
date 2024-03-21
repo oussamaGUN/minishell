@@ -238,9 +238,13 @@ int	cmd_exe(mini_t *mini, t_token *token, char **env)
 	getcwd(mini->current_path, sizeof(mini->current_path));
 	token = NULL;
 	tokenizer(mini->cmd, &token);
-
-	lst= ft_pars(token);
-	
+	// lst= ft_pars(token);
+	t_token *s = token;
+	while (s)
+	{
+		printf("%s %d\n", s->content, s->type);
+		s = s->next;
+	}
 
 
 

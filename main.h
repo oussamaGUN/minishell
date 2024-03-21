@@ -26,7 +26,6 @@ typedef struct s_token
 	char *content;
 	struct s_token *next;
 }	t_token;
-
 typedef enum s_type {
 	WORD,
 	PIPE,
@@ -39,8 +38,7 @@ typedef enum s_type {
 	FILE_IN,
 }t_type;
 
-void tokenizer(char *str, t_token **token);
-char	**ft_ownsplit(char const *s, char c);
+
 
 
 
@@ -49,7 +47,7 @@ typedef struct s_parsing
 {
 	t_token *pars;
 }t_parsing;
-t_token *ft_pars(t_token *token);
+
 // parsing
 
 
@@ -85,5 +83,13 @@ void		ft_export(mini_t *mini, char **env);
 char		**ft_split_env(char *str, char **env);
 // t_list		*ft_lst_creat_env(mini_t *mini, char **env);
 
+
+
+void tokenizer(char *str, t_token **token);
+char	**ft_ownsplit(char const *s, char c);
+
+
+t_token *ft_pars(t_token *token);
+int syntax_error(t_token *token);
 
 #endif

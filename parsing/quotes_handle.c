@@ -8,9 +8,9 @@ int quotes_compare(char **arr)
     int i = 0;
     int mid = len - 1;
 
-    while (i < mid / 2)
+    while (i <= mid / 2)
     {
-        if (ft_strncmp(arr[i], arr[mid], 1) == 1)
+        if (strcmp(arr[i], arr[mid]))
             return 0;
         i++;
         mid--;
@@ -25,16 +25,18 @@ int check_node(char *s)
     char **arr;
     while (s[i])
     {
-        if (s[i] == '\"' || s[i] == '\'')
+        if (s[i] == '\'' || s[i] == '\"')
             len++;
         i++;
     }
+    if (len == 0)
+        return 2;
     arr = malloc(sizeof(char *) * (len + 1));
     i = 0;
     int j = 0;
     while (s[i])
     {
-        if (s[i] == '\"' || s[i] == '\'')
+        if (s[i] == '\'' || s[i] == '\"')
         {
             arr[j] = malloc(sizeof(char) * (2));
             arr[j][0] = s[i];
@@ -46,7 +48,6 @@ int check_node(char *s)
     arr[j] = NULL;
     if (!quotes_compare(arr))
         return 0;
-    // printf("hello\n");
     return 1;
 }
 int nested_quotes(t_token *token)
@@ -68,6 +69,10 @@ t_token *ft_pars(t_token *token)
     {
         ft_putendl_fd("nested quotes", 2);
         return token;
+    }
+    if (!syntax_error(token))
+    {
+        ft_putendl_fd("syntax error", 2);
     }
     return token;
 }
