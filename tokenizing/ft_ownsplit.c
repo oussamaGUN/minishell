@@ -75,21 +75,31 @@ char	**ft_trim(char const *s, char c, char **arr, size_t words_count)
 			return (NULL);
         while (*s != c && *s)
 	    {
-			if (*s == '\"' || *s == '\'')
+			if (*s == '\"')
 			{
 				if (*s == '\"')
-					arr[k][j++] = '\"';
-				else if (*s == '\'')
-					arr[k][j++] = '\'';					
+					arr[k][j++] = '\"';				
 				s++;
-				while (*s != '\"' && *s != '\'' && *s)
+				while (*s != '\"' && *s)
 				{
 					arr[k][j++] = *s;
 					s++;
 				}
 				if (*s == '\"')
 					arr[k][j++] = '\"';
-				else if (*s == '\'')
+				s++;
+			}
+			if (*s == '\'')
+			{
+				if (*s == '\'')
+					arr[k][j++] = '\'';					
+				s++;
+				while (*s != '\'' && *s)
+				{
+					arr[k][j++] = *s;
+					s++;
+				}
+				if (*s == '\'')
 					arr[k][j++] = '\'';	
 				s++;
 			}

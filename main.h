@@ -94,5 +94,5 @@ t_token *ft_check_errors(t_token *token);
 int syntax_error(t_token *token);
 
 
-t_token *expanding(t_token *token);
+t_token *expanding(t_token *token, char **env);
 #endif

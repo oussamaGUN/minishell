@@ -46,6 +46,11 @@ int check_node(char *s)
         i++;
     }
     arr[j] = NULL;
+    // for (int s = 0; arr[s]; s++)
+    // {
+    //     printf("%s\n", arr[s]);
+    // }
+    
     if (!quotes_compare(arr))
         return 0;
     return 1;

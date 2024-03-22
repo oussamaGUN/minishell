@@ -40,5 +40,6 @@ char **ft_split_env(char *str, char **env)
 			s[i] = ft_new(s[i], env);
 		i++;
 	}
+	
 	return s;
 }

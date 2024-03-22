@@ -233,7 +233,7 @@ int	cmd_exe(mini_t *mini, t_token *token, char **env)
 		return 0;
 	if (!ft_check_errors(token))
 		return 0;
-	new_token = expanding(token);
+	new_token = expanding(token, env);
 	// t_token *s = token;
 	// while (s)
 	// {
