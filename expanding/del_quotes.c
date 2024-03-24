@@ -33,7 +33,7 @@ t_token *expanding(t_token *token, char **env)
                 while (token->content[i] != '\"' && token->content[i])
                 {
                     j = 0;
-                    if (token->content[i] == '$' && token->content[i + 1] != ' ' && token->content[i + 1] != '\'' && token->content[i] != '\"' && token->content[i])
+                    if (token->content[i] == '$' && token->content[i + 1] != ' ' && token->content[i + 1] != '\'' && token->content[i + 1] != '\"' && token->content[i + 1])
                     {
                         i++;
                         while (token->content[i] != '$' && token->content[i] != ' ' && token->content[i] != '\'' && token->content[i] != '\"')
@@ -51,20 +51,18 @@ t_token *expanding(t_token *token, char **env)
                         }
                         else
                             res = ft_strjoin(res, "");
-                        if (token->content[i] == '\"')
-                            i++;
-                        if (token->content[i] == '$')
-                            i--;
+                        i--;
                     }
-                    // else
-                    
+                    else
                         res[k] = token->content[i];
-                    k++;
+                    if (res[k])
+                        k++;
                     i++;
                 }
                 res[k] = '\0';
+
             }
-                i++;
+            i++;
         }
                     printf("%s %c\n", res, token->content[i]);
         token = token->next;
