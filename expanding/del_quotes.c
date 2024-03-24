@@ -43,6 +43,7 @@ t_token *expanding(t_token *token, char **env)
                             j++;
                         }
                         inside_dquotes[j] = '\0';
+                        // printf("%s\n", inside_dquotes);
                         exp = expand(inside_dquotes);
                         if (exp)
                         {
