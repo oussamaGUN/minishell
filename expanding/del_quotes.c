@@ -1,99 +1,74 @@
 #include "../main.h"
 
 
-char *ft_get(char *s)
+char *expand(char *s)
 {
-    char **arr = ft_split(s, '$');
     char *env;
-    char *res = "";
-    int i = 0;
-    while (arr[i])
-    {
-        env = getenv(arr[i]);
-        if (env)
-            res = ft_strjoin(res, env);
-        else
-            res = ft_strjoin(res, arr[i]);
-        i++;
-    }
-    return res;
+    env = getenv(s);
+    if (env)
+        return ft_strdup(env);
+    return NULL;
 }
-char *get_envir(char *s, char **env)
-{
-    char **arr = ft_split(s, ' ');
-    char *res = "";
-    int i = 0;
-    while (arr[i])
-    {
-        if (ft_strchr(arr[i], '$'))
-            res = ft_strjoin(res, ft_get(arr[i]));
-        else
-            res = ft_strjoin(res, arr[i]);
-        if (arr[i + 1])
-            res = ft_strjoin(res, " ");
-        i++;
-    }
-    return res;
-}
-
 t_token *expanding(t_token *token, char **env)
 {
-    t_token *new_token;
-    char *res = malloc(1);
+    char *normal;
+    char *inside_dquotes;
+    char *inside_squotes;
+    char *cpy;
     char *exp;
+    char *res;
     int i = 0;
+    int k = 0;
     int j = 0;
-    int len = 0;
     while (token)
     {
+        inside_dquotes = malloc(ft_strlen(token->content) * 100);
+        res = malloc(ft_strlen(token->content) * 100);
+        res[0] = '\0';
         while (token->content[i])
         {
             if (token->content[i] == '\"')
             {
-                len = ft_strlen(token->content);
-                exp = malloc(sizeof(char) * len);
                 i++;
                 while (token->content[i] != '\"' && token->content[i])
                 {
-                    exp[j++] = token->content[i];
+                    j = 0;
+                    if (token->content[i] == '$' && token->content[i + 1] != ' ' && token->content[i + 1] != '\'' && token->content[i] != '\"' && token->content[i])
+                    {
+                        i++;
+                        while (token->content[i] != '$' && token->content[i] != ' ' && token->content[i] != '\'' && token->content[i] != '\"')
+                        {
+                            inside_dquotes[j] = token->content[i];
+                            i++;
+                            j++;
+                        }
+                        inside_dquotes[j] = '\0';
+                        exp = expand(inside_dquotes);
+                        if (exp)
+                        {
+                            res = ft_strjoin(res, exp);
+                            k = ft_strlen(res);
+                        }
+                        else
+                            res = ft_strjoin(res, "");
+                        if (token->content[i] == '\"')
+                            i++;
+                        if (token->content[i] == '$')
+                            i--;
+                    }
+                    // else
+                    
+                        res[k] = token->content[i];
+                    k++;
                     i++;
                 }
-                exp[j] = '\0';
-                exp = get_envir(exp, env);
-                res = ft_strjoin(res, exp);
-                i++;
+                res[k] = '\0';
             }
-            else if (token->content[i] == '\'')
-            {
-                len = ft_strlen(token->content);
-                exp = malloc(sizeof(char) * len);
                 i++;
-                while (token->content[i] != '\'' && token->content[i])
-                {
-                    exp[j++] = token->content[i];
-                    i++;
-                }
-                exp[j] = '\0';
-                res = ft_strjoin(res, exp);
-                i++;
-            }
-            else
-            {
-                len = ft_strlen(token->content);
-                exp = malloc(sizeof(char) * len);
-                while (token->content[i] != '\'' && token->content[i] != '\"' && token->content[i])
-                {
-                    exp[j++] = token->content[i];
-                    i++;
-                }
-                exp[j] = '\0';
-                exp = get_envir(exp, env);
-                res = ft_strjoin(res, exp);
-            }
-            i++;
-            printf("%s\n", res);
         }
-    token = token->next;
+                    printf("%s %c\n", res, token->content[i]);
+        token = token->next;
     }
+    
     return token;
 }

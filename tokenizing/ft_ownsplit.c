@@ -121,9 +121,23 @@ int ft_count_quotes(char const *s)
 	while (s[i])
 	{
 		if (s[i] == '\"')
+		{
 			count1++;
+			i++;
+			while (s[i] != '\"' && s[i])
+				i++;
+			if (s[i] == '\"')
+				count1++;
+		}
 		else if (s[i] == '\'')
+		{
 			count2++;
+			i++;
+			while (s[i] != '\'' && s[i])
+				i++;
+			if (s[i] == '\'')
+				count2++;
+		}
 		i++;
 	}
 	if (count1 % 2 == 1)
