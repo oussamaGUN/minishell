@@ -77,7 +77,7 @@ void		signals_handle(void);
 void		check_builtin(mini_t *mini, char **env);
 void		ft_cd(mini_t *mini, char **env);
 void		handler(int signal_num);
-void		ft_quit(int sig);
+// void		ft_quit(int sig);
 void		handle_process(int signal_num);
 void		ft_pwd(mini_t *mini, char **env);
 void		ft_export(mini_t *mini, char **env);
@@ -95,4 +95,7 @@ int syntax_error(t_token *token);
 
 
 t_token *expanding(t_token *token, char **env);
+
+
+int open_files(t_token *token);
 #endif

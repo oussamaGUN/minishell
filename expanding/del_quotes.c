@@ -20,30 +20,32 @@ t_token *expanding(t_token *token, char **env)
     int i = 0;
     int k = 0;
     int j = 0;
-    while (token)
-    {
-        inside_dquotes = malloc(ft_strlen(token->content) * 100);
+    inside_dquotes = malloc(ft_strlen(token->content));
+    t_token *itter = token;
         res = malloc(ft_strlen(token->content) * 100);
+    while (itter)
+    {
+        i = 0;
+        k = 0;
         res[0] = '\0';
-        while (token->content[i])
+        while (itter->content[i])
         {
-            if (token->content[i] == '\"')
+            if (itter->content[i] == '\"')
             {
                 i++;
-                while (token->content[i] != '\"' && token->content[i])
+                while (itter->content[i] != '\"' && itter->content[i])
                 {
                     j = 0;
-                    if (token->content[i] == '$' && token->content[i + 1] != ' ' && token->content[i + 1] != '\'' && token->content[i + 1] != '\"' && token->content[i + 1])
+                    if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\'' && itter->content[i + 1] != '\"' && itter->content[i + 1])
                     {
                         i++;
-                        while (token->content[i] != '$' && token->content[i] != ' ' && token->content[i] != '\'' && token->content[i] != '\"')
+                        while (itter->content[i] != '$' && itter->content[i] != ' ' && itter->content[i] != '\'' && itter->content[i] != '\"')
                         {
-                            inside_dquotes[j] = token->content[i];
+                            inside_dquotes[j] = itter->content[i];
                             i++;
                             j++;
                         }
                         inside_dquotes[j] = '\0';
-                        // printf("%s\n", inside_dquotes);
                         exp = expand(inside_dquotes);
                         if (exp)
                         {
@@ -55,18 +57,65 @@ t_token *expanding(t_token *token, char **env)
                         i--;
                     }
                     else
-                        res[k] = token->content[i];
+                        res = ft_strjoin(res, &itter->content[i]);
                     if (res[k])
                         k++;
                     i++;
+                    res[k] = '\0';
                 }
-                res[k] = '\0';
 
             }
-            i++;
+            else if (itter->content[i] == '\'')
+            {
+                i++;
+                while (itter->content[i] != '\'' && itter->content[i])
+                {
+                    res = ft_strjoin(res, &itter->content[i]);
+                    if (res[k])
+                        k++;
+                    if (itter->content[i])
+                        i++;
+                    res[k] = '\0';
+                }
+            }
+            else
+            {
+                while (itter->content[i] != '\"' && itter->content[i] && itter->content[i] != '\'')
+                {
+                    j = 0;
+                    if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\'' && itter->content[i + 1] != '\"' && itter->content[i + 1])
+                    {
+                        i++;
+                        while (itter->content[i] != '$' && itter->content[i] != ' ' && itter->content[i] != '\'' && itter->content[i] != '\"')
+                        {
+                            inside_dquotes[j] = itter->content[i];
+                            i++;
+                            j++;
+                        }
+                        inside_dquotes[j] = '\0';
+                        exp = expand(inside_dquotes);
+                        if (exp)
+                        {
+                            res = ft_strjoin(res, exp);
+                            k = ft_strlen(res);
+                        }
+                        else
+                            res = ft_strjoin(res, "");
+                        i--;
+                    }
+                    else
+                        res = ft_strjoin(res, &itter->content[i]);
+                    if (res[k])
+                        k++;
+                    if (itter->content[i])
+                        i++;
+                    res[k] = '\0';
+                }
+            }
+            // i++;
         }
-                    printf("%s %c\n", res, token->content[i]);
-        token = token->next;
+        itter->content = ft_strdup(res);
+        itter = itter->next;
     }
     
     return token;

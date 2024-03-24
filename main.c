@@ -181,8 +181,7 @@ void	normal_cmd(mini_t *mini, char **env)
 	int	pid;
 
 	pid = fork();
-	signal(SIGQUIT, ft_quit);
-	signal(SIGINT, handle_process);
+
 
 	if (pid == 0)
 	{
@@ -216,12 +215,9 @@ void ft_free(t_token **token, mini_t *mini)
 int	cmd_exe(mini_t *mini, t_token *token, char **env)
 {
 	t_token *new_token;
-	signals_handle();
 	mini->cmd = readline(ANSI_COLOR_YELLOW "→" ANSI_COLOR_RESET " ");
-	// t_token token = ft_lst_creat_env(mini, env);
 	if (!mini->cmd)
 	{
-		rl_clear_history();
 		printf("exit\n");
 		return 1;
 	}
@@ -234,12 +230,14 @@ int	cmd_exe(mini_t *mini, t_token *token, char **env)
 	if (!ft_check_errors(token))
 		return 0;
 	new_token = expanding(token, env);
-	// t_token *s = token;
-	// while (s)
-	// {
-	// 	printf("%s %d\n", s->content, s->type);
-	// 	s = s->next;
-	// }
+	if (open_files(new_token) == 1)
+		return 0;
+	t_token *s = new_token;
+	while (s)
+	{
+		printf("%s %d\n", s->content, s->type);
+		s = s->next;
+	}
 
 
 
