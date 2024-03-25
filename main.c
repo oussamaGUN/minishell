@@ -225,7 +225,7 @@ void	normal_cmd(t_token *token, char **env)
 		path = ft_getpath(args[0], env);
 		if (execve(path, args, env) == -1)
 		{
-			printf("command not found\n");
+			printf("bash: %s: command not found\n", args[0]);
 			exit(EXIT_FAILURE);
 		}
 	}
