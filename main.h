@@ -68,20 +68,8 @@ typedef struct mini_s
 
 void	clear(t_token **lst, void (*del)(void *));
 void del(void *s);
-void		normal_cmd(mini_t *mini, char **env);
-char		*ft_getpath(char *cmd, char **env);
-void		exec_first_cmd(mini_t *mini, char *cmd, char **env);
-void		ft_input_execution(mini_t *mini, char **env, char *cmd);
-void		ft_output_execution(mini_t *mini, char **env, char *cmd);
-void		signals_handle(void);
-void		check_builtin(mini_t *mini, char **env);
-void		ft_cd(mini_t *mini, char **env);
-void		handler(int signal_num);
+
 // void		ft_quit(int sig);
-void		handle_process(int signal_num);
-void		ft_pwd(mini_t *mini, char **env);
-void		ft_export(mini_t *mini, char **env);
-char		**ft_split_env(char *str, char **env);
 // t_list		*ft_lst_creat_env(mini_t *mini, char **env);
 
 

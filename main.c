@@ -66,7 +66,7 @@ void	ft_output_execution(mini_t *mini, char **env, char *cmd)
 	}
 	if (mini->pid == 0)
 	{
-		mini->args = ft_split_env(cmd, env);
+		
 		mini->path = ft_getpath(mini->args[0], env);
 		dup2(mini->input, STDIN_FILENO);
 		close(mini->fd[1]);
@@ -94,7 +94,7 @@ void	ft_input_execution(mini_t *mini, char **env, char *cmd)
 	}
 	if (mini->pid == 0)
 	{
-		mini->args = ft_split_env(cmd, env);
+		
 		mini->path = ft_getpath(mini->args[0], env);
 		dup2(mini->input, STDIN_FILENO);
 		dup2(mini->fd[1], STDOUT_FILENO);
@@ -123,7 +123,7 @@ void	exec_first_cmd(mini_t *mini, char *cmd, char **env)
 	}
 	if (mini->pid == 0)
 	{
-		mini->args = ft_split_env(cmd, env);
+		
 		mini->path = ft_getpath(mini->args[0], env);
 		dup2(mini->fd[1], STDOUT_FILENO);
 		close(mini->fd[0]);
@@ -175,19 +175,55 @@ void	multiple_cmds(mini_t *mini, char **env)
 		free(mini->piped_command[i++]);
 	free(mini->piped_command);
 }
+int	lstsize(t_token *lst)
+{
+	int	i;
 
-void	normal_cmd(mini_t *mini, char **env)
+	i = 0;
+	if (lst)
+	{
+		while (lst)
+		{
+			i++;
+			lst = lst->next;
+		}
+	}
+	return (i);
+}
+char **array(t_token *token)
+{
+	char **arr;
+	int i = 0;
+	int j = 0;
+	int len = lstsize(token) + 1;
+	arr = malloc(sizeof(char *) * (len + 1));
+	while (token)
+	{
+		arr[i] = malloc(ft_strlen(token->content) + 1);
+		while (token->content[j])
+		{
+			arr[i][j] = token->content[j];
+			j++;
+		}
+		arr[i][j] = '\0';
+		j = 0;
+		i++;
+		token = token->next;
+	}
+	arr[i] = NULL;
+	return arr;
+}
+void	normal_cmd(t_token *token, char **env)
 {
 	int	pid;
-
+	char *path;
+	char **args;
 	pid = fork();
-
-
 	if (pid == 0)
 	{
-		mini->args = ft_split_env(mini->cmd, env);
-		mini->path = ft_getpath(mini->args[0], env);
-		if (execve(mini->path, mini->args, env) == -1)
+		args = array(token);
+		path = ft_getpath(args[0], env);
+		if (execve(path, args, env) == -1)
 		{
 			printf("command not found\n");
 			exit(EXIT_FAILURE);
@@ -222,7 +258,6 @@ int	cmd_exe(mini_t *mini, t_token *token, char **env)
 		return 1;
 	}
 	add_history(mini->cmd);
-	getcwd(mini->current_path, sizeof(mini->current_path));
 	token = NULL;
 	int flag = tokenizer(mini->cmd, &token);
 	if (!flag)
@@ -232,12 +267,12 @@ int	cmd_exe(mini_t *mini, t_token *token, char **env)
 	new_token = expanding(token, env);
 	if (open_files(new_token) == 1)
 		return 0;
-	t_token *s = new_token;
-	while (s)
-	{
-		printf("%s %d\n", s->content, s->type);
-		s = s->next;
-	}
+	// t_token *s = new_token;
+	// while (s)
+	// {
+	// 	printf("%s %d\n", s->content, s->type);
+	// 	s = s->next;
+	// }
 
 
 
@@ -252,7 +287,7 @@ int	cmd_exe(mini_t *mini, t_token *token, char **env)
 	// 	|| ft_strncmp(mini->cmd, "pwd", 3) == 0)
 	// 	check_builtin(mini, env);
 	// else
-	// 	normal_cmd(mini, env);
+		normal_cmd(new_token, env);
 	return 0;
 }
 int	execution(mini_t *mini, t_token *token, char **env)
