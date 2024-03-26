@@ -127,7 +127,7 @@ int ft_count_quotes(char const *s)
 	int i = 0;
 	while (s[i])
 	{
-		if (s[i] == '\"' && s[i - 1] != '\\')
+		if (s[i] == '\"')
 		{
 			count1++;
 			i++;
@@ -136,7 +136,7 @@ int ft_count_quotes(char const *s)
 			if (s[i] == '\"')
 				count1++;
 		}
-		else if (s[i] == '\'' && s[i - 1] != '\\')
+		else if (s[i] == '\'')
 		{
 			count2++;
 			i++;
