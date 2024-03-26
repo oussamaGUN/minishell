@@ -92,7 +92,8 @@ char	**ft_trim(char const *s, char c, char **arr, size_t words_count)
 				}
 				if (*s == '\"')
 					arr[k][j++] = '\"';
-				s++;
+				if (*s)
+					s++;
 			}
 			else if (*s == '\'')
 			{
@@ -106,7 +107,8 @@ char	**ft_trim(char const *s, char c, char **arr, size_t words_count)
 				}
 				if (*s == '\'')
 					arr[k][j++] = '\'';	
-				s++;
+				if (*s)
+					s++;
 			}
 			else if (*s != c && *s && *s != '\"' && *s != '\'')
 			{
@@ -125,7 +127,7 @@ int ft_count_quotes(char const *s)
 	int i = 0;
 	while (s[i])
 	{
-		if (s[i] == '\"')
+		if (s[i] == '\"' && s[i - 1] != '\\')
 		{
 			count1++;
 			i++;
@@ -134,7 +136,7 @@ int ft_count_quotes(char const *s)
 			if (s[i] == '\"')
 				count1++;
 		}
-		else if (s[i] == '\'')
+		else if (s[i] == '\'' && s[i - 1] != '\\')
 		{
 			count2++;
 			i++;
@@ -212,7 +214,6 @@ char	**ft_ownsplit(char const *s, char c)
 	if (s == NULL)
 		return (NULL);
 	s = minisplit(s);
-
 	if (!s)
 		return (NULL);
 	if (ft_count_quotes(s) == 0)	

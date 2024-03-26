@@ -262,6 +262,12 @@ int	cmd_exe(mini_t *mini, t_token *token, char **env)
 	int flag = tokenizer(mini->cmd, &token);
 	if (!flag)
 		return 0;
+	// t_token *s = token;
+	// while (s)
+	// {
+	// 	printf("%s %d\n", s->content, s->type);
+	// 	s = s->next;
+	// }
 	if (!ft_check_errors(token))
 		return 0;
 	new_token = expanding(token, env);
@@ -271,12 +277,6 @@ int	cmd_exe(mini_t *mini, t_token *token, char **env)
 
 
 
-	// t_token *s = token;
-	// while (s)
-	// {
-	// 	printf("%s %d\n", s->content, s->type);
-	// 	s = s->next;
-	// }
 	// char **sf;
 	// if (ft_strncmp(mini->cmd, "export", 6) == 0)
 	// 	ft_export(mini, env);

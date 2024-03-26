@@ -63,7 +63,11 @@ t_token *expanding(t_token *token, char **env)
                         if (itter->content[i] == '$' && ft_isdigit(itter->content[i + 1]))
                             i++;
                         else
+                        {
+                            if (itter->content[i] == '\\')
+                                i++;
                             res = ft_strjoin(res, &itter->content[i]);
+                        }
                     }
                     if (res[k])
                         k++;
@@ -91,6 +95,7 @@ t_token *expanding(t_token *token, char **env)
             }
             else
             {
+
                 while (itter->content[i] != '\"' && itter->content[i] && itter->content[i] != '\'')
                 {
                     j = 0;
@@ -98,7 +103,7 @@ t_token *expanding(t_token *token, char **env)
                         && itter->content[i + 1] != '\"' && itter->content[i + 1] && !ft_isdigit(itter->content[i + 1]))
                     {
                         i++;
-                        while (itter->content[i] != ' ' && itter->content[i] != '\'' 
+                        while (itter->content[i] != ' ' && itter->content[i] != '\'' && itter->content[i] != '\\' 
                             && itter->content[i] != '\"' && itter->content[i] && ft_isalnum(itter->content[i]))
                         {
                             inside_dquotes[j] = itter->content[i];
@@ -121,16 +126,19 @@ t_token *expanding(t_token *token, char **env)
                         if (itter->content[i] == '$' && ft_isdigit(itter->content[i + 1]))
                             i++;
                         else
+                        {
+                            if (itter->content[i] == '\\')
+                                i++;
                             res = ft_strjoin(res, &itter->content[i]);
+                        }
                     }
-                    if (res[k])
-                        k++;
+                    k++;
+                    res[k] = '\0';
+                    // printf("%c\n", itter->content[i]);
                     if (itter->content[i])
                         i++;
-                    res[k] = '\0';
                 }
             }
-
         }
         itter->content = ft_strdup(res);
         itter = itter->next;
