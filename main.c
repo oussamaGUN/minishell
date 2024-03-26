@@ -264,12 +264,6 @@ int	cmd_exe(mini_t *mini, t_token *token, char **env)
 		return 0;
 	if (!ft_check_errors(token))
 		return 0;
-	// t_token *s = token;
-	// while (s)
-	// {
-	// 	printf("%s %d\n", s->content, s->type);
-	// 	s = s->next;
-	// }
 	new_token = expanding(token, env);
 	if (open_files(new_token) == 1)
 		return 0;
@@ -277,7 +271,12 @@ int	cmd_exe(mini_t *mini, t_token *token, char **env)
 
 
 
-
+	// t_token *s = token;
+	// while (s)
+	// {
+	// 	printf("%s %d\n", s->content, s->type);
+	// 	s = s->next;
+	// }
 	// char **sf;
 	// if (ft_strncmp(mini->cmd, "export", 6) == 0)
 	// 	ft_export(mini, env);

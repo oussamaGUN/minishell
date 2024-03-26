@@ -36,10 +36,12 @@ t_token *expanding(t_token *token, char **env)
                 while (itter->content[i] != '\"' && itter->content[i])
                 {
                     j = 0;
-                    if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\'' && itter->content[i + 1] != '\"' && itter->content[i + 1])
+                    if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\'' 
+                        && itter->content[i + 1] != '\"' && itter->content[i + 1]&& !ft_isdigit(itter->content[i + 1]))
                     {
                         i++;
-                        while (ft_isalnum(itter->content[i]) && itter->content[i] != ' ' && itter->content[i] != '\'' && itter->content[i] != '\"')
+                        while (itter->content[i] != '$' && itter->content[i] != ' ' && itter->content[i] != '\'' 
+                            && itter->content[i] != '\"' && ft_isalnum(itter->content[i]))
                         {
                             inside_dquotes[j] = itter->content[i];
                             i++;
@@ -57,7 +59,12 @@ t_token *expanding(t_token *token, char **env)
                         i--;
                     }
                     else
-                        res = ft_strjoin(res, &itter->content[i]);
+                    {
+                        if (itter->content[i] == '$' && ft_isdigit(itter->content[i + 1]))
+                            i++;
+                        else
+                            res = ft_strjoin(res, &itter->content[i]);
+                    }
                     if (res[k])
                         k++;
                     if (itter->content[i])
@@ -87,10 +94,12 @@ t_token *expanding(t_token *token, char **env)
                 while (itter->content[i] != '\"' && itter->content[i] && itter->content[i] != '\'')
                 {
                     j = 0;
-                    if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\'' && itter->content[i + 1] != '\"' && itter->content[i + 1])
+                    if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\'' 
+                        && itter->content[i + 1] != '\"' && itter->content[i + 1] && !ft_isdigit(itter->content[i + 1]))
                     {
                         i++;
-                        while (ft_isalnum(itter->content[i]) && itter->content[i] != ' ' && itter->content[i] != '\'' && itter->content[i] != '\"' && itter->content[i])
+                        while (itter->content[i] != ' ' && itter->content[i] != '\'' 
+                            && itter->content[i] != '\"' && itter->content[i] && ft_isalnum(itter->content[i]))
                         {
                             inside_dquotes[j] = itter->content[i];
                             i++;
@@ -108,7 +117,12 @@ t_token *expanding(t_token *token, char **env)
                         i--;
                     }
                     else
-                        res = ft_strjoin(res, &itter->content[i]);
+                    {
+                        if (itter->content[i] == '$' && ft_isdigit(itter->content[i + 1]))
+                            i++;
+                        else
+                            res = ft_strjoin(res, &itter->content[i]);
+                    }
                     if (res[k])
                         k++;
                     if (itter->content[i])
