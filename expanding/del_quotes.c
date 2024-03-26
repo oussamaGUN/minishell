@@ -22,7 +22,7 @@ t_token *expanding(t_token *token, char **env)
     int j = 0;
     inside_dquotes = malloc(ft_strlen(token->content));
     t_token *itter = token;
-        res = malloc(ft_strlen(token->content) * 100);
+    res = malloc(ft_strlen(token->content) * 1);
     while (itter)
     {
         i = 0;
@@ -39,7 +39,7 @@ t_token *expanding(t_token *token, char **env)
                     if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\'' && itter->content[i + 1] != '\"' && itter->content[i + 1])
                     {
                         i++;
-                        while (itter->content[i] != '$' && itter->content[i] != ' ' && itter->content[i] != '\'' && itter->content[i] != '\"')
+                        while (ft_isalnum(itter->content[i]) && itter->content[i] != ' ' && itter->content[i] != '\'' && itter->content[i] != '\"')
                         {
                             inside_dquotes[j] = itter->content[i];
                             i++;
@@ -60,9 +60,11 @@ t_token *expanding(t_token *token, char **env)
                         res = ft_strjoin(res, &itter->content[i]);
                     if (res[k])
                         k++;
-                    i++;
+                    if (itter->content[i])
+                        i++;
                     res[k] = '\0';
                 }
+                i++;
 
             }
             else if (itter->content[i] == '\'')
@@ -75,8 +77,10 @@ t_token *expanding(t_token *token, char **env)
                         k++;
                     if (itter->content[i])
                         i++;
-                    res[k] = '\0';
+                    
                 }
+                i++;
+                res[k] = '\0';
             }
             else
             {
@@ -86,7 +90,7 @@ t_token *expanding(t_token *token, char **env)
                     if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\'' && itter->content[i + 1] != '\"' && itter->content[i + 1])
                     {
                         i++;
-                        while (itter->content[i] != '$' && itter->content[i] != ' ' && itter->content[i] != '\'' && itter->content[i] != '\"')
+                        while (ft_isalnum(itter->content[i]) && itter->content[i] != ' ' && itter->content[i] != '\'' && itter->content[i] != '\"' && itter->content[i])
                         {
                             inside_dquotes[j] = itter->content[i];
                             i++;
@@ -112,7 +116,7 @@ t_token *expanding(t_token *token, char **env)
                     res[k] = '\0';
                 }
             }
-            // i++;
+
         }
         itter->content = ft_strdup(res);
         itter = itter->next;

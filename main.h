@@ -27,6 +27,7 @@ typedef struct s_token
 	struct s_token *next;
 	struct s_token *prev;
 }	t_token;
+
 typedef enum s_type {
 	WORD,
 	PIPE,

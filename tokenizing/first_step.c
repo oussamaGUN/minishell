@@ -33,6 +33,8 @@ void	ft_lstadd(t_token **lst, t_token *new)
 int tokenizer(char *str, t_token **token)
 {
     char **sp = ft_ownsplit(str, ' ');
+
+    
     if (!sp)
         return 0;
     t_token *node;

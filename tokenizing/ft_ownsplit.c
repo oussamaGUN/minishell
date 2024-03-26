@@ -15,10 +15,16 @@ int	ft_word(char *s, char c)
 		count++;
 		while (s[i] != c  && s[i])
 		{
-			if (s[i] == '\"' || s[i] == '\'')
+			if (s[i] == '\"')
 			{
 				i++;
-				while (s[i] != '\"' && s[i] != '\'' && s[i])
+				while (s[i] != '\"' && s[i])
+					i++;
+			}
+			else if (s[i] == '\'')
+			{
+				i++;
+				while (s[i] != '\'' && s[i])
 					i++;
 			}
 			i++;
@@ -60,7 +66,6 @@ char	**ft_trim(char const *s, char c, char **arr, size_t words_count)
 	unsigned int	j;
 	unsigned int	k;
 	size_t			word_len;
-
 	k = 0;
 	while (k < words_count)
 	{
@@ -89,7 +94,7 @@ char	**ft_trim(char const *s, char c, char **arr, size_t words_count)
 					arr[k][j++] = '\"';
 				s++;
 			}
-			if (*s == '\'')
+			else if (*s == '\'')
 			{
 				if (*s == '\'')
 					arr[k][j++] = '\'';					
@@ -103,7 +108,7 @@ char	**ft_trim(char const *s, char c, char **arr, size_t words_count)
 					arr[k][j++] = '\'';	
 				s++;
 			}
-			if (*s != c && *s && *s != '\"' && *s != '\'')
+			else if (*s != c && *s && *s != '\"' && *s != '\'')
 			{
 		    	arr[k][j++] = *s;
 				s++;
@@ -152,54 +157,7 @@ int ft_count_quotes(char const *s)
 	}
 	return 1;
 }
-char *empty(char const *s)
-{
-	char *res = malloc(sizeof(char) * (ft_strlen(s) + 1));
-	if (!res)
-		return NULL;
-	int i = 0;
-	int j = 0;
-	int flag = 0;
-	while (s[i])
-	{
-		if (s[i] == '\"' && s[i + 1] != '\"')
-		{
-			i++;
-			// if (s[i + 1] != '\"' && s[i])
-				res[j++] = '\"';
-			while (s[i] != '\"' && s[i])
-			{
-				res[j++] = s[i];
-				i++;
-			}
-			if (s[i])
-				res[j++] = '\"';
-			i++;
-		}
-		else if (s[i] == '\'' && s[i + 1] != '\'')
-		{
-			i++;
-			res[j++] = '\'';
-			while (s[i] != '\'' && s[i])
-			{
-				res[j++] = s[i];
-				i++;
-			}
-			if (s[i])
-				res[j++] = '\'';
-			i++;
-		}
-		if ((s[i] == '\"' && s[i + 1] == '\"' && s[i - 1] != ' ' && s[i + 2] != ' ') 
-			|| (s[i] == '\'' && s[i + 1] == '\'' && s[i - 1] != ' ' && s[i + 2] != ' '))
-		{
-			i += 2;
-		}
-		res[j++] = s[i];
-		i++;
-	}
-	res[j] = '\0';
-	return res;
-}
+
 char *minisplit(char const *s)
 {
 	int i = 0;
@@ -254,7 +212,7 @@ char	**ft_ownsplit(char const *s, char c)
 	if (s == NULL)
 		return (NULL);
 	s = minisplit(s);
-	s = empty(s);
+
 	if (!s)
 		return (NULL);
 	if (ft_count_quotes(s) == 0)	
