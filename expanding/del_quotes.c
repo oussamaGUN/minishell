@@ -95,11 +95,10 @@ t_token *expanding(t_token *token, char **env)
             }
             else
             {
-
                 while (itter->content[i] != '\"' && itter->content[i] && itter->content[i] != '\'')
                 {
                     j = 0;
-                    if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\'' 
+                    if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\'' && itter->content[i + 1] != '\\'
                         && itter->content[i + 1] != '\"' && itter->content[i + 1] && !ft_isdigit(itter->content[i + 1]))
                     {
                         i++;
@@ -132,11 +131,12 @@ t_token *expanding(t_token *token, char **env)
                             res = ft_strjoin(res, &itter->content[i]);
                         }
                     }
-                    k++;
-                    res[k] = '\0';
-                    // printf("%c\n", itter->content[i]);
+                    if (res[k])
+                        k++;
                     if (itter->content[i])
                         i++;
+                    res[k] = '\0';
+                    // printf("%c\n", itter->content[i]);
                 }
             }
         }
