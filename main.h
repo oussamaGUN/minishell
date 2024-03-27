@@ -20,6 +20,7 @@
 
 
 // tokenize
+
 typedef struct s_token
 {
 	int type;
@@ -27,6 +28,19 @@ typedef struct s_token
 	struct s_token *next;
 	struct s_token *prev;
 }	t_token;
+typedef struct s_tokenizer
+{
+	size_t			words_count;
+	char			**arr;
+	int flag;
+	int i;
+	int j;
+	int k;
+	char *s;
+	char *res;
+	int count1;
+	int count2;
+}t_tokenizer;
 
 typedef enum s_type {
 	WORD,
@@ -76,7 +90,7 @@ void del(void *s);
 
 
 int tokenizer(char *str, t_token **token);
-char	**ft_ownsplit(char const *s, char c);
+char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars);
 
 
 t_token *ft_check_errors(t_token *token);
