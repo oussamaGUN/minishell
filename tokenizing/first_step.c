@@ -51,8 +51,6 @@ void token_type(char *sp, t_tokenizer *vars, t_token *node)
             vars->flag = 1;
             node->type = RED_APPEND;
         }
-        else if (ft_strncmp(sp, "<<", 2) == 0)
-            node->type = HER_DOC;
         else if (ft_strncmp(sp, ">", 1) == 0)
         {
             vars->flag = 2;
@@ -63,6 +61,8 @@ void token_type(char *sp, t_tokenizer *vars, t_token *node)
             vars->flag = 3;            
             node->type = RED_INPUT;
         }
+        else if (ft_strncmp(sp, "<<", 2) == 0)
+            node->type = HERE_DOC;
 }
 int tokenizer(char *str, t_token **token)
 {
@@ -72,7 +72,7 @@ int tokenizer(char *str, t_token **token)
     int i;
 
     i = 0;
-    vars = malloc(sizeof(t_tokenizer *));
+    vars = malloc(sizeof(t_tokenizer));
     sp = ft_ownsplit(str, ' ', vars);
     vars->flag = 0;
     if (!sp)
@@ -89,5 +89,6 @@ int tokenizer(char *str, t_token **token)
         ft_lstadd(token, node);
         i++;
     }
+    
     return 1;
 }

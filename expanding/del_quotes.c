@@ -1,7 +1,6 @@
 #include "../main.h"
 
-
-char *expand(char *s)
+char *expand(char *s, t_env *envp)
 {
     char *env;
     env = getenv(s);
@@ -9,7 +8,7 @@ char *expand(char *s)
         return ft_strdup(env);
     return NULL;
 }
-t_token *expanding(t_token *token, char **env)
+t_token *expanding(t_token *token, t_env *env)
 {
     char *normal;
     char *inside_dquotes;
@@ -48,7 +47,7 @@ t_token *expanding(t_token *token, char **env)
                             j++;
                         }
                         inside_dquotes[j] = '\0';
-                        exp = expand(inside_dquotes);
+                        exp = expand(inside_dquotes, env);
                         if (exp)
                         {
                             res = ft_strjoin(res, exp);
@@ -109,7 +108,7 @@ t_token *expanding(t_token *token, char **env)
                             j++;
                         }
                         inside_dquotes[j] = '\0';
-                        exp = expand(inside_dquotes);
+                        exp = expand(inside_dquotes, env);
                         if (exp)
                         {
                             res = ft_strjoin(res, exp);

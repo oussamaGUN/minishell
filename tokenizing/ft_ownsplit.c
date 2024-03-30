@@ -221,7 +221,7 @@ char *minisplit(char const *s, t_tokenizer *vars)
 }
 char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars)
 {
-	t_tokenizer *trim = malloc(sizeof(t_tokenizer *));
+	t_tokenizer *trim = malloc(sizeof(t_tokenizer));
 	size_t			words_count;
 	char			**arr;
 	unsigned int	i;

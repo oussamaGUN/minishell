@@ -51,6 +51,13 @@ int syntax_error(t_token *token)
             if (s->next->type != FILE_APP)
                 return 0;   
         }
+        else if (s->type == HERE_DOC)
+        {
+            if (!s->next)
+                return 0;
+            if (s->next->type != WORD)
+                return 0;   
+        }
         s = s->next;
 	}
     return 1;

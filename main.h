@@ -25,9 +25,22 @@ typedef struct s_token
 {
 	int type;
 	char *content;
+	char **arr;
+	int output_file;
+	int input_file;
 	struct s_token *next;
 	struct s_token *prev;
 }	t_token;
+
+typedef struct s_env
+{
+	char *key;
+	char *value;
+	char **env;
+	struct s_env *next;
+}t_env;
+
+
 typedef struct s_tokenizer
 {
 	size_t			words_count;
@@ -36,7 +49,7 @@ typedef struct s_tokenizer
 	int i;
 	int j;
 	int k;
-	char *s;
+	char const *s;
 	char *res;
 	int count1;
 	int count2;
@@ -48,7 +61,7 @@ typedef enum s_type {
 	RED_OUTPUT,
 	RED_INPUT,
 	RED_APPEND,
-	HER_DOC,
+	HERE_DOC,
 	FILE_APP,
 	FILE_OUT,
 	FILE_IN,
@@ -58,12 +71,9 @@ typedef enum s_type {
 
 
 
-//parsing
-typedef struct s_parsing
-{
-	t_token *pars;
-}t_parsing;
-
+// list 
+t_token	*new(void *content);
+void	ft_lstadd(t_token **lst, t_token *new);
 // parsing
 
 
@@ -91,14 +101,16 @@ void del(void *s);
 
 int tokenizer(char *str, t_token **token);
 char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars);
-
-
+char **array(t_token *token);
 t_token *ft_check_errors(t_token *token);
 int syntax_error(t_token *token);
-
-
-t_token *expanding(t_token *token, char **env);
-
-
+t_token *ft_list(t_token *token);
+t_token *expanding(t_token *token, t_env *env);
 int open_files(t_token *token);
+int here_doc(t_token *token);
+
+
+// execution
+char	*ft_getpath(char *cmd, char **env);
+int execution(t_token *lst, t_env *env);
 #endif
