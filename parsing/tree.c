@@ -32,7 +32,7 @@ t_token *ft_list(t_token *token)
                 node->arr[i++] = ft_strdup(token->content);
             else if (token->type == FILE_OUT)
             {
-                node->output_file = open(token->content, O_CREAT | O_RDWR | O_TRUNC, 0666);
+                node->output_file = open(token->content,  O_TRUNC | O_CREAT | O_WRONLY, 0644);
                 if (node->output_file == -1)
                     return NULL;
             }
@@ -44,6 +44,12 @@ t_token *ft_list(t_token *token)
                     printf("bash: %s: No such file or directory\n", token->content);
                     return NULL;
                 }
+            }
+            else if (token->type == FILE_APP)
+            {
+                node->output_file = open(token->content,  O_APPEND | O_CREAT | O_WRONLY, 0644);
+                if (node->output_file == -1)
+                    return NULL;
             }
             token = token->next;
             if (!token)

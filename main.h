@@ -28,6 +28,7 @@ typedef struct s_token
 	char **arr;
 	int output_file;
 	int input_file;
+	int fd[2];
 	struct s_token *next;
 	struct s_token *prev;
 }	t_token;
@@ -74,6 +75,7 @@ typedef enum s_type {
 // list 
 t_token	*new(void *content);
 void	ft_lstadd(t_token **lst, t_token *new);
+int	lstsize(t_token *lst);
 // parsing
 
 
@@ -106,7 +108,6 @@ t_token *ft_check_errors(t_token *token);
 int syntax_error(t_token *token);
 t_token *ft_list(t_token *token);
 t_token *expanding(t_token *token, t_env *env);
-int open_files(t_token *token);
 int here_doc(t_token *token);
 
 
