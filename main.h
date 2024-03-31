@@ -31,6 +31,7 @@ typedef struct s_token
 	int fd[2];
 	struct s_token *next;
 	struct s_token *prev;
+	pid_t pid;
 }	t_token;
 
 typedef struct s_env

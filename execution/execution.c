@@ -31,10 +31,10 @@ char **env_arr(t_env *env)
 }
 int process_output(t_token *lst, t_env *env, int input)
 {
-    int id = fork();
-    if (id == -1)
+    lst->pid = fork();
+    if (lst->pid == -1)
         return 0;
-    else if (id == 0)
+    else if (lst->pid == 0)
     {
         if (lst->output_file != -1)
             dup2(lst->output_file, STDOUT_FILENO);
@@ -49,91 +49,105 @@ int process_output(t_token *lst, t_env *env, int input)
         if (execve(path, lst->arr, envp) == -1)
         {
             printf("bash: %s: command not found\n", lst->arr[0]);
-            exit(EXIT_FAILURE);
+            exit(127);
         }
     }
+
     return 1;
 }
 int process_input(t_token *lst, t_env *env, int input)
 {
-    int id = fork();
-    if (id == -1)
+    lst->pid = fork();
+    if (lst->pid == -1)
         return 0;
-    else if (id == 0)
+    else if (lst->pid == 0)
     {
         if (lst->output_file != -1)
             dup2(lst->output_file, STDOUT_FILENO);
         else
-		    dup2(lst->fd[0], STDOUT_FILENO);
+		    dup2(lst->fd[1], STDOUT_FILENO);
         if (lst->input_file != -1)
             dup2(lst->input_file, STDIN_FILENO);
         else
 		    dup2(input, STDIN_FILENO);
-		close(lst->fd[1]);
+		close(lst->fd[0]);
         char **envp = env_arr(env);
         char *path = ft_getpath(lst->arr[0], envp);
         if (execve(path, lst->arr, envp) == -1)
         {
             printf("bash: %s: command not found\n", lst->arr[0]);
-            exit(EXIT_FAILURE);
+            exit(127);
         }
     }
+
     return 1;
 }
 int exec_first_cmd(t_token *lst, t_env *env)
 {
-    int id = fork();
-    if (id == -1)
+    lst->pid = fork();
+    if (lst->pid == -1)
         return 0;
-    else if (id == 0)
+    else if (lst->pid == 0)
     {
         if (lst->output_file != -1)
             dup2(lst->output_file, STDOUT_FILENO);
         else
-            dup2(lst->fd[0], STDOUT_FILENO);
+            dup2(lst->fd[1], STDOUT_FILENO);
         if (lst->input_file != -1)
             dup2(lst->input_file, STDIN_FILENO);
-        close(lst->fd[1]);
+        close(lst->fd[0]);
         char **envp = env_arr(env);
         char *path = ft_getpath(lst->arr[0], envp);
         if (execve(path, lst->arr, envp) == -1)
         {
             printf("bash: %s: command not found\n", lst->arr[0]);
-            exit(EXIT_FAILURE);
+            exit(127);
         }
     }
+
     return 1;
 }
 int multiple_cmd(t_token *lst, t_env *env)
 {
+    int exit_status;
+    t_token *head = lst;
+    // int STD_OUT;
+    // int STD_IN;
+    // STD_OUT = dup(STDOUT_FILENO);
+    // STD_IN = dup(STDIN_FILENO);
     if (pipe(lst->fd) == -1)
         return 0;
     exec_first_cmd(lst, env);
-    close(lst->fd[0]);
+    close(lst->fd[1]);
+    int input = lst->fd[0];
     lst = lst->next;
-    int input;
     while (lst)
     {
-        input = lst->fd[1];
-        wait(NULL);
         if (pipe(lst->fd) == -1)
             return 0;
         if (!lst->next)
             process_output(lst, env, input);
         else
             process_input(lst, env, input);
-        close(lst->fd[0]);
+        close(input);
+        input = lst->fd[0];
+        close(lst->fd[1]);
         lst = lst->next;
     }
-    
+    while (head)
+    {
+        waitpid(head->pid, &exit_status, 0);
+        head = head->next;
+    }
+
     return 1;
 }
 int normal(t_token *lst, t_env *env)
 {
-    int id = fork();
-    if (id == -1)
+    lst->pid = fork();
+    if (lst->pid == -1)
         return 0;
-    else if (id == 0)
+    else if (lst->pid == 0)
     {
         if (lst->output_file != -1)
             dup2(lst->output_file, STDOUT_FILENO);
@@ -144,7 +158,7 @@ int normal(t_token *lst, t_env *env)
         if (execve(path, lst->arr, envp) == -1)
         {
             printf("bash: %s: command not found\n", lst->arr[0]);
-            exit(EXIT_FAILURE);
+            exit(127);
         }
     }
     return 1;
