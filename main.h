@@ -29,6 +29,7 @@ typedef struct s_token
 	int output_file;
 	int input_file;
 	int fd[2];
+	int exit_status;
 	struct s_token *next;
 	struct s_token *prev;
 	pid_t pid;

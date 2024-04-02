@@ -1,0 +1,39 @@
+            {
+                if (pipe(token->fd) == -1)
+                    return NULL;
+                pid_t id = fork();
+                if (id == -1)
+                    return NULL;
+                else if (id == 0)
+                {
+                    while (1)
+                    {
+                        char *s = readline("> ");
+                        if (!s)
+                            break;
+                        if (ft_strncmp(s, "\n", ft_strlen(s)) == 1)
+                        {
+                            if (ft_strncmp(s, token->content, ft_strlen(s)) == 0 )
+                            {
+                                close(token->fd[0]);
+                                break ;
+                            }
+                        }
+                        char *new = here_doc_expand(s, env);
+                        if (!new)
+                            return NULL;
+                        ft_putendl_fd(new, token->fd[1]);
+                    }
+                    close(token->fd[1]);
+
+                }
+                else
+                    waitpid(id, &token->exit_status, 0);
+                close(token->fd[1]);
+                node->input_file = token->fd[0];
+                if (node->input_file == -1)
+                {
+                    printf("bash: %s: No such file or directory\n", token->content);
+                    return NULL;
+                }
+            }

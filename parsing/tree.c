@@ -121,30 +121,42 @@ t_token *ft_list(t_token *token, t_env *env)
             }
             else if (token->type == DELIMITER)
             {
-                int file = open(".heredoc_tmp", O_TRUNC | O_CREAT | O_WRONLY, 0644);
+                if (pipe(token->fd) == -1)
+                    return NULL;
+                int file = token->fd[1];
                 if (file == -1)
                 {
                     printf("bash: %s: No such file or directory\n", token->content);
                     return NULL;
                 }
-                while (1)
+                pid_t id = fork();
+                if (id == -1)
+                    return NULL;
+                else if (id == 0)
                 {
-                    char *s = readline("> ");
-                    if (!s)
-                        break;
-                    if (ft_strncmp(s, "\n", ft_strlen(s)) == 1)
+                    while (1)
                     {
-                        if (ft_strncmp(s, token->content, ft_strlen(s)) == 0 )
+                        char *s = readline("> ");
+                        if (!s)
+                            break;
+                        if (ft_strncmp(s, "\n", ft_strlen(s)) == 1)
                         {
-                            break ;
+                            if (ft_strncmp(s, token->content, ft_strlen(s)) == 0 )
+                            {
+                                break ;
+                            }
                         }
+                        char *new = here_doc_expand(s, env);
+                        if (!new)
+                            return NULL;
+                        ft_putendl_fd(new, file);
                     }
-                    char *new = here_doc_expand(s, env);
-                    if (!new)
-                        return NULL;
-                    ft_putendl_fd(new, file);
+                    close(token->fd[1]);
+                    exit(0);
                 }
-                node->input_file = open(".heredoc_tmp", O_RDONLY);
+                close(token->fd[1]);
+                    wait(NULL);
+                node->input_file = token->fd[0];
                 if (node->input_file == -1)
                 {
                     printf("bash: %s: No such file or directory\n", token->content);
