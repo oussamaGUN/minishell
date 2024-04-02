@@ -21,118 +21,132 @@ t_token *expanding(t_token *token, t_env *env)
     int j = 0;
     inside_dquotes = malloc(ft_strlen(token->content));
     t_token *itter = token;
-    res = malloc(ft_strlen(token->content) * 1);
     while (itter)
     {
         i = 0;
         k = 0;
-        res[0] = '\0';
-        while (itter->content[i])
+        if (itter->type == DELIMITER)
         {
-            if (itter->content[i] == '\"')
+            res = malloc((ft_strlen(itter->content) + 1) * 1);
+            while (itter->content[i])
             {
+                if (itter->content[i] != '\'' && itter->content[i] != '\"')
+                    res[j++] = itter->content[i];
                 i++;
-                while (itter->content[i] != '\"' && itter->content[i])
+            }
+            res[j] = '\0';
+        }
+        else
+        {
+            res = malloc((ft_strlen(itter->content) + 1) * 1);
+            res[0] = '\0';
+            while (itter->content[i])
+            {
+                if (itter->content[i] == '\"')
                 {
-                    j = 0;
-                    if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\'' 
-                        && itter->content[i + 1] != '\"' && itter->content[i + 1]&& !ft_isdigit(itter->content[i + 1]))
+                    i++;
+                    while (itter->content[i] != '\"' && itter->content[i])
                     {
-                        i++;
-                        while (itter->content[i] != '$' && itter->content[i] != ' ' 
-                            && itter->content[i] != '\"' && ft_isalnum(itter->content[i]))
+                        j = 0;
+                        if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\'' 
+                            && itter->content[i + 1] != '\"' && itter->content[i + 1]&& !ft_isdigit(itter->content[i + 1]))
                         {
-                            inside_dquotes[j] = itter->content[i];
                             i++;
-                            j++;
-                        }
-                        inside_dquotes[j] = '\0';
-                        exp = expand(inside_dquotes, env);
-                        if (exp)
-                        {
-                            res = ft_strjoin(res, exp);
-                            k = ft_strlen(res);
+                            while (itter->content[i] != '$' && itter->content[i] != ' ' 
+                                && itter->content[i] != '\"' && ft_isalnum(itter->content[i]))
+                            {
+                                inside_dquotes[j] = itter->content[i];
+                                i++;
+                                j++;
+                            }
+                            inside_dquotes[j] = '\0';
+                            exp = expand(inside_dquotes, env);
+                            if (exp)
+                            {
+                                res = ft_strjoin(res, exp);
+                                k = ft_strlen(res);
+                            }
+                            else
+                                res = ft_strjoin(res, "");
+                            i--;
                         }
                         else
-                            res = ft_strjoin(res, "");
-                        i--;
-                    }
-                    else
-                    {
-                        if (itter->content[i] == '$' && ft_isdigit(itter->content[i + 1]))
-                            i++;
-                        else
                         {
- 
-                            res = ft_strjoin(res, &itter->content[i]);
+                            if (itter->content[i] == '$' && ft_isdigit(itter->content[i + 1]))
+                                i++;
+                            else
+                            {
+    
+                                res = ft_strjoin(res, &itter->content[i]);
+                            }
                         }
+                        if (res[k])
+                            k++;
+                        if (itter->content[i])
+                            i++;
+                        res[k] = '\0';
                     }
-                    if (res[k])
-                        k++;
-                    if (itter->content[i])
-                        i++;
-                    res[k] = '\0';
-                }
-                i++;
+                    i++;
 
-            }
-            else if (itter->content[i] == '\'')
-            {
-                i++;
-                while (itter->content[i] != '\'' && itter->content[i])
-                {
-                    res = ft_strjoin(res, &itter->content[i]);
-                    if (res[k])
-                        k++;
-                    if (itter->content[i])
-                        i++;
-                    
                 }
-                i++;
-                res[k] = '\0';
-            }
-            else
-            {
-                while (itter->content[i] != '\"' && itter->content[i])
+                else if (itter->content[i] == '\'')
                 {
-                    j = 0;
-                    if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\''
-                        && itter->content[i + 1] != '\"' && itter->content[i + 1] && !ft_isdigit(itter->content[i + 1]))
+                    i++;
+                    while (itter->content[i] != '\'' && itter->content[i])
                     {
-                        i++;
-                        while (itter->content[i] != ' ' 
-                            && itter->content[i] != '\"' && itter->content[i] && ft_isalnum(itter->content[i]))
-                        {
-                            inside_dquotes[j] = itter->content[i];
+                        res = ft_strjoin(res, &itter->content[i]);
+                        if (res[k])
+                            k++;
+                        if (itter->content[i])
                             i++;
-                            j++;
-                        }
-                        inside_dquotes[j] = '\0';
-                        exp = expand(inside_dquotes, env);
-                        if (exp)
-                        {
-                            res = ft_strjoin(res, exp);
-                            k = ft_strlen(res);
-                        }
-                        else
-                            res = ft_strjoin(res, "");
-                        i--;
+                        
                     }
-                    else
-                    {
-                        if (itter->content[i] == '$' && ft_isdigit(itter->content[i + 1]))
-                            i++;
-                        else
-                        {
-                            res = ft_strjoin(res, &itter->content[i]);
-                        }
-                    }
-                    if (res[k])
-                        k++;
-                    if (itter->content[i])
-                        i++;
+                    i++;
                     res[k] = '\0';
-                    // printf("%c\n", itter->content[i]);
+                }
+                else
+                {
+                    while (itter->content[i] != '\"' && itter->content[i])
+                    {
+                        j = 0;
+                        if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\''
+                            && itter->content[i + 1] != '\"' && itter->content[i + 1] && !ft_isdigit(itter->content[i + 1]))
+                        {
+                            i++;
+                            while (itter->content[i] != ' ' 
+                                && itter->content[i] != '\"' && itter->content[i] && ft_isalnum(itter->content[i]))
+                            {
+                                inside_dquotes[j] = itter->content[i];
+                                i++;
+                                j++;
+                            }
+                            inside_dquotes[j] = '\0';
+                            exp = expand(inside_dquotes, env);
+                            if (exp)
+                            {
+                                res = ft_strjoin(res, exp);
+                                k = ft_strlen(res);
+                            }
+                            else
+                                res = ft_strjoin(res, "");
+                            i--;
+                        }
+                        else
+                        {
+                            if (itter->content[i] == '$' && ft_isdigit(itter->content[i + 1]))
+                                i++;
+                            else
+                            {
+                                res = ft_strjoin(res, &itter->content[i]);
+                            }
+                        }
+                        if (res[k])
+                            k++;
+                        if (itter->content[i])
+                            i++;
+                        res[k] = '\0';
+                        // printf("%c\n", itter->content[i]);
+                    }
                 }
             }
         }

@@ -64,12 +64,28 @@ char *here_doc_expand(char *s, t_env *env)
     }
     return res;
 }
+// int ft_here_doc_count(t_token *token)
+// {
+//     t_token *n = token;
+//     int count = 0;
+//     while (n)
+//     {
+//         if (n->type == DELIMITER)
+//             count++;
+//         n = n->next;
+//     }
+//     if (count > 16)
+//         return 0;
+//     return count;
+// }
 t_token *ft_list(t_token *token, t_env *env)
 {
     t_token *lst = NULL;
     t_token *node;
     int count = 0;
     int i = 0;
+    // if (!ft_here_doc_count(token))
+    //     return NULL;
     while (token)
     {
         node = new(token->content);
@@ -114,6 +130,8 @@ t_token *ft_list(t_token *token, t_env *env)
                 while (1)
                 {
                     char *s = readline("> ");
+                    if (!s)
+                        break;
                     if (ft_strncmp(s, "\n", ft_strlen(s)) == 1)
                     {
                         if (ft_strncmp(s, token->content, ft_strlen(s)) == 0 )
