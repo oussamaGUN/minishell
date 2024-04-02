@@ -51,6 +51,33 @@ t_token *ft_list(t_token *token)
                 if (node->output_file == -1)
                     return NULL;
             }
+            else if (token->type == DELIMITER)
+            {
+                int file = open(".heredoc_tmp", O_TRUNC | O_CREAT | O_WRONLY, 0644);
+                if (file == -1)
+                {
+                    printf("bash: %s: No such file or directory\n", token->content);
+                    return NULL;
+                }
+                while (1)
+                {
+                    char *s = readline("> ");
+                    if (ft_strncmp(s, "\n", ft_strlen(s)) == 1)
+                    {
+                        if (ft_strncmp(s, token->content, ft_strlen(s)) == 0 )
+                        {
+                            break ;
+                        }
+                    }
+                    ft_putendl_fd(s, file);
+                }
+                node->input_file = open(".heredoc_tmp", O_RDONLY);
+                if (node->input_file == -1)
+                {
+                    printf("bash: %s: No such file or directory\n", token->content);
+                    return NULL;
+                }
+            }
             token = token->next;
             if (!token)
                 break;

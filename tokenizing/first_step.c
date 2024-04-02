@@ -38,6 +38,8 @@ void f_open(t_tokenizer *vars, t_token *node)
         node->type = FILE_OUT;
     else if (vars->flag == 3)
         node->type = FILE_IN;
+    else if (vars->flag == 4)
+        node->type = DELIMITER;
     else
         node->type = WORD;
     vars->flag = 0;
@@ -56,13 +58,16 @@ void token_type(char *sp, t_tokenizer *vars, t_token *node)
             vars->flag = 2;
             node->type = RED_OUTPUT;
         }
-        else if (ft_strncmp(sp, "<", 2) == 0)
+        else if (ft_strncmp(sp, "<", ft_strlen(sp)) == 0)
         {
             vars->flag = 3;            
             node->type = RED_INPUT;
         }
-        else if (ft_strncmp(sp, "<<", 2) == 0)
+        else if (ft_strncmp(sp, "<<", ft_strlen(sp)) == 0)
+        {
+            vars->flag = 4;
             node->type = HERE_DOC;
+        }
 }
 int tokenizer(char *str, t_token **token)
 {
@@ -81,8 +86,7 @@ int tokenizer(char *str, t_token **token)
     {
         node = new(sp[i]);
         if (ft_strncmp(sp[i], "|", 1) == 0 || ft_strncmp(sp[i], ">>", 2) == 0
-            || ft_strncmp(sp[i], "<<", 2) == 0 || ft_strncmp(sp[i], ">", 1) == 0
-            || ft_strncmp(sp[i], "<", 2) == 0)
+            || ft_strncmp(sp[i], ">", 1) == 0 || ft_strncmp(sp[i], "<", 1) == 0)
             token_type(sp[i], vars, node);
         else
             f_open(vars, node);

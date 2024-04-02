@@ -96,13 +96,10 @@ int	cmd_exe(t_token *token, t_env *env)
 	token = NULL;
 	int flag = tokenizer(cmd, &token);
 	if (!flag)
-		return 0;
+		return 0;	
 	if (!ft_check_errors(token))
 		return 0;
 	new_token = expanding(token, env);
-	// if (open_files(new_token) == 1)
-	// 	return 0;
-
 	cmd_list = ft_list(new_token);
 	if (!cmd_list)
 		return 0;
@@ -118,8 +115,6 @@ int	programme(t_token *token, t_env *env)
 		flag = cmd_exe(token, env);
 		if (flag == 1)
 			break;
-		wait(NULL);
-
 	}
 
 	// rl_clear_history();

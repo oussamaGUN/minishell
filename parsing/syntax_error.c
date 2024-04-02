@@ -9,12 +9,12 @@ int syntax_error(t_token *token)
 	{
         if (s->type == PIPE)
         {
-
             if (!s->next)
                 return 0;
             if (!s->prev)
                 return 0;
-            if (s->prev->type != WORD && s->prev->type != FILE_OUT && s->prev->type != FILE_IN && s->prev->type != FILE_APP)
+            if (s->prev->type != WORD && s->prev->type != FILE_OUT 
+            && s->prev->type != FILE_IN && s->prev->type != FILE_APP && s->prev->type != DELIMITER)
                 return 0;
             if (s->next->type != WORD)
                 return 0;
@@ -25,7 +25,8 @@ int syntax_error(t_token *token)
                 return 0;
             if (!s->prev)
                 return 0;
-            if (s->prev->type != WORD && s->prev->type != FILE_OUT && s->prev->type != FILE_IN && s->prev->type != FILE_APP)
+            if (s->prev->type != WORD && s->prev->type != FILE_OUT 
+            && s->prev->type != FILE_IN && s->prev->type != FILE_APP && s->prev->type != DELIMITER)
                 return 0;
             if (s->next->type != FILE_OUT)
                 return 0;
@@ -35,7 +36,8 @@ int syntax_error(t_token *token)
             if (!s->next)
                 return 0;
             if (s->prev)
-                if (s->prev->type != WORD && s->prev->type != FILE_OUT && s->prev->type != FILE_IN && s->prev->type != FILE_APP)
+                if (s->prev->type != WORD && s->prev->type != FILE_OUT 
+                && s->prev->type != FILE_IN && s->prev->type != FILE_APP && s->prev->type != DELIMITER)
                     return 0;
             if (s->next->type != FILE_IN)
                 return 0;
@@ -46,7 +48,8 @@ int syntax_error(t_token *token)
                 return 0;
             if (!s->prev)
                 return 0;
-            if (s->prev->type != WORD && s->prev->type != FILE_OUT && s->prev->type != FILE_IN && s->prev->type != FILE_APP)
+            if (s->prev->type != WORD && s->prev->type != FILE_OUT 
+            && s->prev->type != FILE_IN && s->prev->type != FILE_APP && s->prev->type != DELIMITER)
                 return 0;
             if (s->next->type != FILE_APP)
                 return 0;   
@@ -55,8 +58,23 @@ int syntax_error(t_token *token)
         {
             if (!s->next)
                 return 0;
-            if (s->next->type != WORD)
-                return 0;   
+            if (s->prev)
+                if (s->prev->type != WORD && s->prev->type != FILE_OUT 
+                && s->prev->type != FILE_IN && s->prev->type != FILE_APP && s->prev->type != DELIMITER)
+                    return 0;
+            if (s->next->type != DELIMITER)
+                return 0;
+        }
+        else if (s->type == FILE_IN)
+        {
+            if (!s->prev->prev && !s->next)
+                return 2;
+
+        }
+        else if (s->type == DELIMITER)
+        {
+            if (!s->prev->prev && !s->next)
+                return 3;
         }
         s = s->next;
 	}

@@ -171,7 +171,7 @@ int ft_count_quotes(char const *s, t_tokenizer *vars)
 void first_minisplit(char const *s, t_tokenizer *vars)
 {
 	vars->flag = 0;
-	while (s[vars->i] != '\"' && s[vars->i] != '\'' && vars->flag && s[vars->i])
+	while (s[vars->i] != '\"' && s[vars->i] != '\'' && !vars->flag && s[vars->i])
 	{
 		vars->res[vars->j++] = s[vars->i];
 		vars->i++;
@@ -206,8 +206,13 @@ char *minisplit(char const *s, t_tokenizer *vars)
 	while (s[vars->i])
 	{
 		if (s[vars->i] == '\"' || s[vars->i] == '\'')
+		{
+			vars->res[vars->j++] = s[vars->i];
+			vars->i++;
 			first_minisplit(s, vars);
-		if ((s[vars->i] == '|' || s[vars->i] == '>' || s[vars->i] == '<') && vars->flag)
+			
+		}
+		if ((s[vars->i] == '|' || s[vars->i] == '>' || s[vars->i] == '<') && !vars->flag)
 		{
 			second_minisplit(s, vars);
 			vars->i++;
