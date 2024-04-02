@@ -72,12 +72,18 @@ int process_input(t_token *lst, t_env *env, int input)
 		    dup2(input, STDIN_FILENO);
 		close(lst->fd[0]);
         char **envp = env_arr(env);
-        char *path = ft_getpath(lst->arr[0], envp);
-        if (execve(path, lst->arr, envp) == -1)
+        char *path;
+        if (lst->arr[0])
         {
-            printf("bash: %s: command not found\n", lst->arr[0]);
-            exit(127);
+            path = ft_getpath(lst->arr[0], envp);
+            if (execve(path, lst->arr, envp) == -1)
+            {
+                printf("bash: %s: command not found\n", lst->arr[0]);
+                exit(127);
+            }
         }
+        else
+            exit(0);
     }
 
     return 1;
@@ -97,12 +103,18 @@ int exec_first_cmd(t_token *lst, t_env *env)
             dup2(lst->input_file, STDIN_FILENO);
         close(lst->fd[0]);
         char **envp = env_arr(env);
-        char *path = ft_getpath(lst->arr[0], envp);
-        if (execve(path, lst->arr, envp) == -1)
+        char *path;
+        if (lst->arr[0])
         {
-            printf("bash: %s: command not found\n", lst->arr[0]);
-            exit(127);
+            path = ft_getpath(lst->arr[0], envp);
+            if (execve(path, lst->arr, envp) == -1)
+            {
+                printf("bash: %s: command not found\n", lst->arr[0]);
+                exit(127);
+            }
         }
+        else
+            exit(0);
     }
 
     return 1;

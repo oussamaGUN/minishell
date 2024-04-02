@@ -105,13 +105,12 @@ void del(void *s);
 
 int tokenizer(char *str, t_token **token);
 char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars);
-char **array(t_token *token);
 t_token *ft_check_errors(t_token *token);
 int syntax_error(t_token *token);
-t_token *ft_list(t_token *token);
+t_token *ft_list(t_token *token, t_env *env);
 t_token *expanding(t_token *token, t_env *env);
 int here_doc(t_token *token);
-
+char *expand(char *s, t_env *envp);
 
 // execution
 char	*ft_getpath(char *cmd, char **env);

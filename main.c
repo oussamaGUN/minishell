@@ -100,7 +100,7 @@ int	cmd_exe(t_token *token, t_env *env)
 	if (!ft_check_errors(token))
 		return 0;
 	new_token = expanding(token, env);
-	cmd_list = ft_list(new_token);
+	cmd_list = ft_list(new_token, env);
 	if (!cmd_list)
 		return 0;
 	if (!execution(cmd_list, env))

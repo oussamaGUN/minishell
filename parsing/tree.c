@@ -12,7 +12,59 @@ int ft_words(t_token *token)
     }
     return count;
 }
-t_token *ft_list(t_token *token)
+
+char *here_doc_expand(char *s, t_env *env)
+{
+    int i = 0;
+    int j = 0;
+    char *inside_dquotes = malloc(ft_strlen(s));
+    char *res = malloc(ft_strlen(s) * 1);
+    res[0] = '\0';
+    int k = 0;
+    char *exp;
+    while (s[i])
+    {
+        j = 0;
+        if (s[i] == '$' && s[i + 1] != ' ' && s[i + 1] && !ft_isdigit(s[i + 1]))
+        {
+            i++;
+            while (s[i] != ' ' && s[i] && ft_isalnum(s[i]))
+            {
+                inside_dquotes[j] = s[i];
+                i++;
+                j++;
+            }
+            inside_dquotes[j] = '\0';
+            exp = expand(inside_dquotes, env);
+
+            if (exp)
+            {
+                res = ft_strjoin(res, exp);
+                k = ft_strlen(res);
+            }
+            else
+                res = ft_strjoin(res, "");
+            i--;
+        }
+        else
+        {
+            if (s[i] == '$' && ft_isdigit(s[i + 1]))
+                i++;
+            else
+            {
+                res = ft_strjoin(res, &s[i]);
+            }
+        }
+        if (res[k])
+            k++;
+        if (s[i])
+            i++;
+        res[k] = '\0';
+        // printf("%c\n", s[i]);
+    }
+    return res;
+}
+t_token *ft_list(t_token *token, t_env *env)
 {
     t_token *lst = NULL;
     t_token *node;
@@ -69,7 +121,10 @@ t_token *ft_list(t_token *token)
                             break ;
                         }
                     }
-                    ft_putendl_fd(s, file);
+                    char *new = here_doc_expand(s, env);
+                    if (!new)
+                        return NULL;
+                    ft_putendl_fd(new, file);
                 }
                 node->input_file = open(".heredoc_tmp", O_RDONLY);
                 if (node->input_file == -1)
