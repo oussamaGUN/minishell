@@ -153,6 +153,20 @@ t_token *expanding(t_token *token, t_env *env)
                                 res = ft_strjoin(res, "");
                             i--;
                         }
+                        else if (itter->content[i] == '\'')
+                        {
+                            i++;
+                            while (itter->content[i] != '\'' && itter->content[i])
+                            {
+                                res = ft_strjoin(res, &itter->content[i]);
+                                if (res[k])
+                                    k++;
+                                if (itter->content[i])
+                                    i++;
+                                
+                            }
+                            res[k] = '\0';
+                        }
                         else
                         {
                             if (itter->content[i] == '$' && ft_isdigit(itter->content[i + 1]))
