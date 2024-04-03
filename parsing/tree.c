@@ -64,28 +64,32 @@ char *here_doc_expand(char *s, t_env *env)
     }
     return res;
 }
-// int ft_here_doc_count(t_token *token)
-// {
-//     t_token *n = token;
-//     int count = 0;
-//     while (n)
-//     {
-//         if (n->type == DELIMITER)
-//             count++;
-//         n = n->next;
-//     }
-//     if (count > 16)
-//         return 0;
-//     return count;
-// }
+int ft_here_doc_count(t_token *token)
+{
+    t_token *n = token;
+    int count = 0;
+    while (n)
+    {
+        if (n->type == DELIMITER)
+            count++;
+        n = n->next;
+    }
+    if (count > 16)
+        return 0;
+    count = 1;
+    return count;
+}
 t_token *ft_list(t_token *token, t_env *env)
 {
     t_token *lst = NULL;
     t_token *node;
     int count = 0;
     int i = 0;
-    // if (!ft_here_doc_count(token))
-    //     return NULL;
+    if (!ft_here_doc_count(token))
+    {
+        perror("bash: maximum here-document count exceeded");
+        return NULL;
+    }
     while (token)
     {
         node = new(token->content);

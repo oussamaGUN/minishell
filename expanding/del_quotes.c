@@ -48,7 +48,18 @@ t_token *expanding(t_token *token, t_env *env)
                     while (itter->content[i] != '\"' && itter->content[i])
                     {
                         j = 0;
-                        if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\'' 
+                        if (itter->content[i] == '$' && itter->content[i + 1] == '?')
+                        {
+                            i++;
+                            while (itter->content[i] != '$' && itter->content[i] != ' ' 
+                                && itter->content[i] != '\"' && ft_isalnum(itter->content[i]))
+                                i++;
+                            char *str = ft_itoa(exit_status >> 8);
+                            res = ft_strjoin(res, str);
+                            k = ft_strlen(res);
+                            
+                        }
+                        else if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\'' 
                             && itter->content[i + 1] != '\"' && itter->content[i + 1]&& !ft_isdigit(itter->content[i + 1]))
                         {
                             i++;
@@ -109,7 +120,18 @@ t_token *expanding(t_token *token, t_env *env)
                     while (itter->content[i] != '\"' && itter->content[i])
                     {
                         j = 0;
-                        if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\''
+        
+                        if (itter->content[i] == '$' && itter->content[i + 1] == '?')
+                        {
+                            i++;
+                            while (itter->content[i] != '$' && itter->content[i] != ' ' 
+                                && itter->content[i] != '\"' && itter->content[i] != '\'' && ft_isalnum(itter->content[i]))
+                                i++;
+                            char *str = ft_itoa(exit_status >> 8);
+                            res = ft_strjoin(res, str);
+                            k = ft_strlen(res);
+                        }
+                        else if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\''
                             && itter->content[i + 1] != '\"' && itter->content[i + 1] && !ft_isdigit(itter->content[i + 1]))
                         {
                             i++;

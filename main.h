@@ -20,7 +20,7 @@
 
 
 // tokenize
-
+int exit_status;
 typedef struct s_token
 {
 	int type;

@@ -152,7 +152,6 @@ int multiple_cmd(t_token *lst, t_env *env)
 }
 int normal(t_token *lst, t_env *env)
 {
-    int exit_status;
     lst->pid = fork();
     if (lst->pid == -1)
         return 0;
