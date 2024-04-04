@@ -30,6 +30,7 @@ typedef struct s_token
 	int input_file;
 	int fd[2];
 	int exit_status;
+	char *path;
 	struct s_token *next;
 	struct s_token *prev;
 	pid_t pid;
@@ -116,4 +117,5 @@ char *expand(char *s, t_env *envp);
 // execution
 char	*ft_getpath(char *cmd, char **env);
 int execution(t_token *lst, t_env *env);
+void builtins(t_token *lst, t_env *env);
 #endif

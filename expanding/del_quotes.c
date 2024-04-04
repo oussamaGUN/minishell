@@ -2,10 +2,13 @@
 
 char *expand(char *s, t_env *envp)
 {
-    char *env;
-    env = getenv(s);
-    if (env)
-        return ft_strdup(env);
+    t_env *lst = envp;
+    while (lst)
+    {
+        if (ft_strncmp(lst->key, s, ft_strlen(s)) == 0)
+            return (lst->value);
+        lst = lst->next;
+    }
     return NULL;
 }
 t_token *expanding(t_token *token, t_env *env)

@@ -182,7 +182,10 @@ int normal(t_token *lst, t_env *env)
 
 int execution(t_token *lst, t_env *env)
 {
-    if (lstsize(lst) == 1)
+    if (ft_strncmp(lst->arr[0], "cd", 2) == 0 || ft_strncmp(lst->arr[0], "CD", 2) == 0
+        || (ft_strncmp(lst->arr[0], "pwd", 3) == 0 || ft_strncmp(lst->arr[0], "PWD", 3) == 0))
+        builtins(lst, env);
+    else if (lstsize(lst) == 1)
     {
         if (normal(lst, env) == 0)
             return 0;

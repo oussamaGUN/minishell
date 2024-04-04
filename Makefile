@@ -4,7 +4,7 @@ CC = cc
 
 SRC = main.c  handle_signal.c tokenizing/first_step.c tokenizing/ft_ownsplit.c \
 	parsing/quotes_handle.c tools/tools.c parsing/syntax_error.c expanding/del_quotes.c  \
-	files/here_doc.c parsing/tree.c execution/execution.c
+	files/here_doc.c parsing/tree.c execution/execution.c builtins/builtins.c
 
 LIBFT = libft/libft.a
 

@@ -87,7 +87,7 @@ int	cmd_exe(t_token *token, t_env *env)
 	t_token *cmd_list;
 	char *cmd;
 	cmd = readline("→ ");
-	if (!cmd)
+	if (!cmd || ft_strncmp(cmd ,"exit", 4) == 0)
 	{
 		printf("exit\n");
 		return 1;
@@ -105,9 +105,22 @@ int	cmd_exe(t_token *token, t_env *env)
 	cmd_list = ft_list(new_token, env);
 	if (!cmd_list)
 		return 0;
+    char buff[4096];
+	char *path;
+    printf("hello\n");
+	if (getcwd(buff, 4096))
+	{
+		path = getcwd(buff, 4096);
+		cmd_list->path = ft_strdup(path);
+	}
+	else {
+    	
+		perror("getcwd() error");
+    	return 1;
+   }
+
 	if (!execution(cmd_list, env))
 		return 0;
-
 	return 0;
 }
 int	programme(t_token *token, t_env *env)
