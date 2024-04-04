@@ -105,20 +105,6 @@ int	cmd_exe(t_token *token, t_env *env)
 	cmd_list = ft_list(new_token, env);
 	if (!cmd_list)
 		return 0;
-    char buff[4096];
-	char *path;
-    printf("hello\n");
-	if (getcwd(buff, 4096))
-	{
-		path = getcwd(buff, 4096);
-		cmd_list->path = ft_strdup(path);
-	}
-	else {
-    	
-		perror("getcwd() error");
-    	return 1;
-   }
-
 	if (!execution(cmd_list, env))
 		return 0;
 	return 0;
