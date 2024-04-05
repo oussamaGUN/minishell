@@ -87,6 +87,46 @@ int env_print(t_env *env)
     }
     return 1;
 }
+int ft_dashn(char *s)
+{
+    int i;
+
+    i = 0;
+    if (s[i] == '-')
+        i++;
+    while (s[i])
+    {
+        if (s[i] != 'n')
+            return 0;
+        i++;
+    }
+    return 1;
+}
+int echo(t_token *lst)
+{
+    int i;
+    if (!lst->arr[1])
+        printf("\n");
+    else if (ft_dashn(lst->arr[1]))
+    {
+        i = 2;
+        while (lst->arr[i])
+            ft_putstr_fd(lst->arr[i++], 1);
+    }
+    else
+    {
+        i = 1;
+        while (lst->arr[i])
+        {
+            ft_putstr_fd(lst->arr[i], 1);
+            i++;
+            if (lst->arr[i])
+                ft_putstr_fd(" ", 1);
+        }
+        ft_putstr_fd("\n", 1);
+    }
+    return 1;
+}
 int builtins(t_token *lst, t_env *env)
 {
     if (ft_strncmp(lst->arr[0], "cd", 3) == 0 || ft_strncmp(lst->arr[0], "CD", 3) == 0)
@@ -104,6 +144,11 @@ int builtins(t_token *lst, t_env *env)
     {
 	    env = ft_update_pwd_env(env);
         if (!env_print(env))
+            return 0;
+    }
+    else if (ft_strncmp(lst->arr[0], "echo", 5) == 0 || ft_strncmp(lst->arr[0], "echo", 5) == 0)
+    {
+        if (!echo(lst))
             return 0;
     }
     return 1;
