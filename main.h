@@ -13,6 +13,7 @@
 # include <sys/ioctl.h>
 # include <sys/wait.h>
 # include <termios.h>
+# include <sys/stat.h>
 
 // ANSI color escape codes
 # define ANSI_COLOR_YELLOW "\x1b[33m"
@@ -117,6 +118,6 @@ char *expand(char *s, t_env *envp);
 // execution
 char	*ft_getpath(char *cmd, char **env);
 int execution(t_token *lst, t_env *env);
-void builtins(t_token *lst, t_env *env);
+int builtins(t_token *lst, t_env *env);
 char *ft_env(t_env *env, char *s);
 #endif

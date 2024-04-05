@@ -11,49 +11,100 @@ char *ft_env(t_env *env, char *s)
     }
     return NULL;
 }
-void pwd(t_token *lst, t_env *env)
+int pwd(t_token *lst, t_env *env)
 {
     char buff[4096];
 	char *path;
-
 	path = getcwd(buff, 4096);
-    if (path == NULL)
-        lst->path = ft_strdup(ft_env(env, "PWD"));
-    else
-	    lst->path = ft_strdup(path);
-    t_env *itter = env;
-    while (itter)
+    if (!path)
     {
-        if (ft_strncmp(itter->key, "PWD", 4) == 0)
-            itter->value = ft_strdup(lst->path);
-        itter = itter->next;
+        printf("bash: No such file or directory\n");
+        return 0;
     }
-    printf("%s\n", lst->path);
+    else
+    {
+	    lst->path = ft_strdup(path);
+        printf("%s\n", lst->path);
+    }
+    return 1;
 }
-void cd(char **arr, t_env *env)
+int cd(char **arr, t_env *env)
 {
     if (!arr[1])
     {
         if (chdir(ft_env(env, "HOME")) == -1)
         {
             perror("bash");
-            return ;
+            return 0;
         }
     }
     else if (chdir(arr[1]) == -1)
     {
         perror("bash");
-        return ;
+        return 0;
     }
+    return 1;
 }
-void builtins(t_token *lst, t_env *env)
+t_env *ft_update_pwd_env(t_env *env)
+{
+	char buff[4096];
+	char *path;
+	path = getcwd(buff, 4096);
+    if (!path)
+        return env;
+	t_env *itter = env;
+	while (itter)
+	{
+		if (ft_strncmp(itter->key, "PWD", 4) == 0)
+			itter->value = ft_strdup(path);
+		itter = itter->next;
+	}
+	return env;
+}
+t_env *ft_update_oldpwd_env(t_env *env)
+{
+	char buff[4096];
+	char *path;
+	path = getcwd(buff, 4096);
+    if (!path)
+        return env;
+	t_env *itter = env;
+	while (itter)
+	{
+		if (ft_strncmp(itter->key, "OLDPWD", 7) == 0)
+			itter->value = ft_strdup(path);
+		itter = itter->next;
+	}
+	return env;
+}
+int env_print(t_env *env)
+{
+    t_env *itter = env;
+    while (itter)
+    {
+        printf("%s=%s\n", itter->key, itter->value);
+        itter = itter->next;
+    }
+    return 1;
+}
+int builtins(t_token *lst, t_env *env)
 {
     if (ft_strncmp(lst->arr[0], "cd", 3) == 0 || ft_strncmp(lst->arr[0], "CD", 3) == 0)
     {
-        cd(lst->arr, env);
+        env = ft_update_oldpwd_env(env);
+        if (!cd(lst->arr, env))
+            return 0;
     }
     else if (ft_strncmp(lst->arr[0], "pwd", 3) == 0 || ft_strncmp(lst->arr[0], "PWD", 3) == 0)
     {
-        pwd(lst, env);
+        if (!pwd(lst, env))
+            return 0;
     }
+    else if (ft_strncmp(lst->arr[0], "env", 4) == 0)
+    {
+	    env = ft_update_pwd_env(env);
+        if (!env_print(env))
+            return 0;
+    }
+    return 1;
 }

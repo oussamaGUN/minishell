@@ -104,12 +104,24 @@ t_token *ft_list(t_token *token, t_env *env)
                 node->arr[i++] = ft_strdup(token->content);
             else if (token->type == FILE_OUT)
             {
+                if (access(token->content, R_OK) || access(token->content, W_OK))
+                {
+                    printf("bash: %s: Permission denied\n", token->content);
+                    exit_status = 1 << 8;
+                    return NULL;
+                }
                 node->output_file = open(token->content,  O_TRUNC | O_CREAT | O_WRONLY, 0644);
                 if (node->output_file == -1)
                     return NULL;
             }
             else if (token->type == FILE_IN)
             {
+                if (access(token->content, R_OK) || access(token->content, W_OK))
+                {
+                    printf("bash: %s: Permission denied\n", token->content);
+                    exit_status = 1 << 8;
+                    return NULL;
+                }
                 node->input_file = open(token->content, O_RDONLY);
                 if (node->input_file == -1)
                 {
@@ -119,6 +131,12 @@ t_token *ft_list(t_token *token, t_env *env)
             }
             else if (token->type == FILE_APP)
             {
+                if (access(token->content, R_OK) || access(token->content, W_OK))
+                {
+                    printf("bash: %s: Permission denied\n", token->content);
+                    exit_status = 1 << 8;
+                    return NULL;
+                }
                 node->output_file = open(token->content,  O_APPEND | O_CREAT | O_WRONLY, 0644);
                 if (node->output_file == -1)
                     return NULL;

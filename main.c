@@ -96,7 +96,7 @@ int	cmd_exe(t_token *token, t_env *env)
 	token = NULL;
 	int flag = tokenizer(cmd, &token);
 	if (!flag)
-		return 0;	
+		return 0;
 	if (!ft_check_errors(token))
 	{
 		return 0;
@@ -104,7 +104,9 @@ int	cmd_exe(t_token *token, t_env *env)
 	new_token = expanding(token, env);
 	cmd_list = ft_list(new_token, env);
 	if (!cmd_list)
+	{
 		return 0;
+	}
 	if (!execution(cmd_list, env))
 		return 0;
 	return 0;
@@ -136,6 +138,13 @@ void	list_for_env(t_env **lst, t_env *new)
 	else if (lst)
 		*lst = new;
 }
+char *counter(char *s)
+{
+	int num = ft_atoi(s);
+	num += 1;
+	char *res = ft_itoa(num);
+	return res;
+}
 t_env *envir(char **envp)
 {
 	int i = 0;
@@ -150,7 +159,10 @@ t_env *envir(char **envp)
 		if (!arr)
 			return NULL;
 		node->key = ft_strdup(arr[0]);
-		node->value = ft_strdup(arr[1]);
+		if (ft_strncmp(node->key, "SHLVL", 6) == 0)
+			node->value = ft_strdup(counter(arr[1]));
+		else
+			node->value = ft_strdup(arr[1]);
 		list_for_env(&env, node);
 		i++;
 	}

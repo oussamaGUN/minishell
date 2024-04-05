@@ -24,6 +24,8 @@ t_token *expanding(t_token *token, t_env *env)
     int j = 0;
     inside_dquotes = malloc(ft_strlen(token->content));
     t_token *itter = token;
+
+
     while (itter)
     {
         i = 0;
@@ -41,7 +43,7 @@ t_token *expanding(t_token *token, t_env *env)
         }
         else
         {
-            res = malloc((ft_strlen(itter->content) + 1) * 1);
+            res = malloc(1);
             res[0] = '\0';
             while (itter->content[i])
             {
