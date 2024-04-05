@@ -56,8 +56,6 @@ char	*ft_getpath(char *cmd, char **env)
 }
 
 
-
-
 int	lstsize(t_token *lst)
 {
 	int	i;
@@ -75,17 +73,13 @@ int	lstsize(t_token *lst)
 }
 
 
-
-void ft_free(t_token **token, mini_t *mini)
-{
-	clear(token, del);
-}
-
 int	cmd_exe(t_token *token, t_env *env)
 {
 	t_token *new_token;
 	t_token *cmd_list;
 	char *cmd;
+	int flag;
+
 	cmd = readline("→ ");
 	if (!cmd || ft_strncmp(cmd ,"exit", 4) == 0)
 	{
@@ -94,33 +88,31 @@ int	cmd_exe(t_token *token, t_env *env)
 	}
 	add_history(cmd);
 	token = NULL;
-	int flag = tokenizer(cmd, &token);
+	flag = tokenizer(cmd, &token);
 	if (!flag)
 		return 0;
 	if (!ft_check_errors(token))
-	{
 		return 0;
-	}
 	new_token = expanding(token, env);
 	cmd_list = ft_list(new_token, env);
 	if (!cmd_list)
-	{
 		return 0;
-	}
+	
 	if (!execution(cmd_list, env))
 		return 0;
 	return 0;
 }
 int	programme(t_token *token, t_env *env)
 {
-	int flag = 0;
+	int flag;
+
+	flag = 0;
 	while (1)
 	{
 		flag = cmd_exe(token, env);
 		if (flag == 1)
 			break;
 	}
-
 	// rl_clear_history();
 	return 0;
 }
@@ -138,19 +130,22 @@ void	list_for_env(t_env **lst, t_env *new)
 	else if (lst)
 		*lst = new;
 }
-char *counter(char *s)
+char *counter(int n)
 {
-	int num = ft_atoi(s);
-	num += 1;
-	char *res = ft_itoa(num);
-	return res;
+	char *res = ft_itoa(n);
+	int num = ft_atoi(res);
+
+	return ft_itoa(num);
 }
-t_env *envir(char **envp)
+t_env *envir(char **envp, int SHLVL)
 {
-	int i = 0;
-	char **arr;
-	t_env *env = NULL;
-	t_env *node;
+	int		i;
+	char	**arr;
+	t_env	*env;
+	t_env	*node;
+
+	i = 0;
+	env = NULL;
 	while (envp[i])
 	{
 		node = malloc(sizeof(t_env));
@@ -160,19 +155,22 @@ t_env *envir(char **envp)
 			return NULL;
 		node->key = ft_strdup(arr[0]);
 		if (ft_strncmp(node->key, "SHLVL", 6) == 0)
-			node->value = ft_strdup(counter(arr[1]));
+			node->value = ft_strdup(counter(SHLVL));
 		else
 			node->value = ft_strdup(arr[1]);
 		list_for_env(&env, node);
 		i++;
 	}
-	
 	return env;
 }
 int	main(int ac, char *av[], char *envp[])
 {
-	t_token token;
-	t_env *env = envir(envp);
+	t_token			token;
+	t_env			*env;
+	static int		SHLVL = 1;
+
+	SHLVL += 1;
+	env = envir(envp, SHLVL);
 	exit_status = 0;
 	programme(&token, env);
 }
