@@ -20,22 +20,35 @@ char	*ft_strcat(char *dest, char *src)
 	dest[i] = '\0';
 	return (dest);
 }
-
-char	*ft_getpath(char *cmd, char **env)
+char *relative_path(char *s, char **env)
+{
+	int		i;
+	int		j;
+	char	*str;
+	char	buff[4096];
+	char	*path;
+	i = 0;
+	path = getcwd(buff, 4096);
+    if (!path)
+    {
+        printf("bash: No such file or directory\n");
+        return 0;
+    }
+	s++;
+	str = ft_strjoin(path, s);
+	if (access(str, X_OK) == 0)
+	{
+		return str;
+	}
+	return NULL;
+}
+char *normal_path(char *cmd, char **env)
 {
 	int		i;
 	int		j;
 	char	**str;
 	char	**splited;
 	char	*path;
-
-	if (cmd[0] == '/')
-	{
-		if (access(cmd, X_OK) == 0)
-			return (cmd);
-		else
-			return (NULL);
-	}
 	i = 0;
 	while (env[i])
 	{
@@ -51,6 +64,34 @@ char	*ft_getpath(char *cmd, char **env)
 			j++;
 		}
 		i++;
+	}
+	return NULL;
+}
+char	*ft_getpath(char *cmd, char **env)
+{
+	char *str;
+	if (cmd[0] == '/')
+	{
+		if (access(cmd, X_OK) == 0)
+			return (cmd);
+		else
+			return (NULL);
+	}
+	else if (cmd[0] == '.')
+	{
+		str = relative_path(cmd, env);
+		if (str)
+			return str;
+		else
+			return NULL;
+	}
+	else
+	{
+		str = normal_path(cmd, env);
+		if (str)
+			return str;
+		else
+			return NULL;
 	}
 	return (NULL);
 }
