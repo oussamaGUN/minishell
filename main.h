@@ -1,7 +1,7 @@
 #ifndef MAIN_H
 # define MAIN_H
 
-# include "lb/libft.h"
+# include "libft/libft.h"
 # include <dirent.h>
 # include <fcntl.h>
 # include <readline/history.h>
