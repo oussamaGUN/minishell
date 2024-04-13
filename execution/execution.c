@@ -218,11 +218,12 @@ int normal(t_token *lst, t_env *env)
                 dup2(lst->output_file, STDOUT_FILENO);
             if (lst->input_file != -1)
                 dup2(lst->input_file, STDIN_FILENO);
-            char **envp = env_arr(env);
-            char *path;
             if (lst->arr[0])
             {
+                char **envp = env_arr(env);
+                char *path;
                 path = ft_getpath(lst->arr[0], envp);
+                // #!/bin/bash
                 if (execve(path, lst->arr, envp) == -1)
                 {
                     printf("bash: %s: command not found\n", lst->arr[0]);
