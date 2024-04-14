@@ -61,6 +61,20 @@ typedef struct s_tokenizer
 	int count2;
 }t_tokenizer;
 
+
+typedef struct s_multx
+{
+    char *normal;
+    char *inside_dquotes;
+    char *inside_squotes;
+    char *cpy;
+    char *exp;
+    char *res;
+	int i;
+    int k;
+    int j;
+}t_multx;
+
 typedef enum s_type {
 	WORD,
 	PIPE,

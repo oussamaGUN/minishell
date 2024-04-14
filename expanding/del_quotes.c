@@ -13,186 +13,177 @@ char *expand(char *s, t_env *envp)
 }
 t_token *expanding(t_token *token, t_env *env)
 {
-    char *normal;
-    char *inside_dquotes;
-    char *inside_squotes;
-    char *cpy;
-    char *exp;
-    char *res;
-    int i = 0;
-    int k = 0;
-    int j = 0;
-    inside_dquotes = malloc(ft_strlen(token->content));
+    t_multx *exp_vars = malloc(sizeof(t_multx));
+    exp_vars->k = 0;
+    exp_vars->j = 0;
+    exp_vars->inside_dquotes = malloc(ft_strlen(token->content));
     t_token *itter = token;
 
 
     while (itter)
     {
-        i = 0;
-        k = 0;
+        exp_vars->i = 0;
+        exp_vars->k = 0;
         if (itter->type == DELIMITER)
         {
-            res = malloc((ft_strlen(itter->content) + 1) * 1);
-            while (itter->content[i])
+            exp_vars->res = malloc((ft_strlen(itter->content) + 1) * 1);
+            while (itter->content[exp_vars->i])
             {
-                if (itter->content[i] != '\'' && itter->content[i] != '\"')
-                    res[j++] = itter->content[i];
-                i++;
+                if (itter->content[exp_vars->i] != '\'' && itter->content[exp_vars->i] != '\"')
+                    exp_vars->res[exp_vars->j++] = itter->content[exp_vars->i];
+                exp_vars->i++;
             }
-            res[j] = '\0';
+            exp_vars->res[exp_vars->j] = '\0';
         }
         else
         {
-            res = malloc(1);
-            res[0] = '\0';
-            while (itter->content[i])
+            exp_vars->res = malloc(1);
+            exp_vars->res[0] = '\0';
+            while (itter->content[exp_vars->i])
             {
-                if (itter->content[i] == '\"')
+                if (itter->content[exp_vars->i] == '\"')
                 {
-                    i++;
-                    while (itter->content[i] != '\"' && itter->content[i])
+                    exp_vars->i++;
+                    while (itter->content[exp_vars->i] != '\"' && itter->content[exp_vars->i])
                     {
-                        j = 0;
-                        if (itter->content[i] == '$' && itter->content[i + 1] == '?')
+                        exp_vars->j = 0;
+                        if (itter->content[exp_vars->i] == '$' && itter->content[exp_vars->i + 1] == '?')
                         {
-                            i++;
-                            while (itter->content[i] != '$' && itter->content[i] != ' ' 
-                                && itter->content[i] != '\"' && ft_isalnum(itter->content[i]))
-                                i++;
+                            exp_vars->i++;
                             char *str = ft_itoa(exit_status >> 8);
-                            res = ft_strjoin(res, str);
-                            k = ft_strlen(res);
+                            exp_vars->res = ft_strjoin(exp_vars->res, str);
+                            exp_vars->k = ft_strlen(exp_vars->res);
                             
                         }
-                        else if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\'' 
-                            && itter->content[i + 1] != '\"' && itter->content[i + 1]&& !ft_isdigit(itter->content[i + 1]))
+                        else if (itter->content[exp_vars->i] == '$' && itter->content[exp_vars->i + 1] != ' ' && itter->content[exp_vars->i + 1] != '\'' 
+                            && itter->content[exp_vars->i + 1] != '\"' && itter->content[exp_vars->i + 1]&& !ft_isdigit(itter->content[exp_vars->i + 1]))
                         {
-                            i++;
-                            while (itter->content[i] != '$' && itter->content[i] != ' ' 
-                                && itter->content[i] != '\"' && ft_isalnum(itter->content[i]))
+                            exp_vars->i++;
+                            while (itter->content[exp_vars->i] != '$' && itter->content[exp_vars->i] != ' ' 
+                                && itter->content[exp_vars->i] != '\"' && ft_isalnum(itter->content[exp_vars->i]))
                             {
-                                inside_dquotes[j] = itter->content[i];
-                                i++;
-                                j++;
+                                exp_vars->inside_dquotes[exp_vars->j] = itter->content[exp_vars->i];
+                                exp_vars->i++;
+                                exp_vars->j++;
                             }
-                            inside_dquotes[j] = '\0';
-                            exp = expand(inside_dquotes, env);
-                            if (exp)
+                            exp_vars->inside_dquotes[exp_vars->j] = '\0';
+                            exp_vars->exp = expand(exp_vars->inside_dquotes, env);
+                            if (exp_vars->exp)
                             {
-                                res = ft_strjoin(res, exp);
-                                k = ft_strlen(res);
+                                exp_vars->res = ft_strjoin(exp_vars->res, exp_vars->exp);
+                                exp_vars->k = ft_strlen(exp_vars->res);
                             }
                             else
-                                res = ft_strjoin(res, "");
-                            i--;
+                                exp_vars->res = ft_strjoin(exp_vars->res, "");
+                            exp_vars->i--;
                         }
                         else
                         {
-                            if (itter->content[i] == '$' && ft_isdigit(itter->content[i + 1]))
-                                i++;
+                            if (itter->content[exp_vars->i] == '$' && ft_isdigit(itter->content[exp_vars->i + 1]))
+                                exp_vars->i++;
                             else
                             {
     
-                                res = ft_strjoin(res, &itter->content[i]);
+                                exp_vars->res = ft_strjoin(exp_vars->res, &itter->content[exp_vars->i]);
                             }
                         }
-                        if (res[k])
-                            k++;
-                        if (itter->content[i])
-                            i++;
-                        res[k] = '\0';
+                        if (exp_vars->res[exp_vars->k])
+                            exp_vars->k++;
+                        if (itter->content[exp_vars->i])
+                            exp_vars->i++;
+                        exp_vars->res[exp_vars->k] = '\0';
                     }
-                    i++;
+                    exp_vars->i++;
 
                 }
-                else if (itter->content[i] == '\'')
+                else if (itter->content[exp_vars->i] == '\'')
                 {
-                    i++;
-                    while (itter->content[i] != '\'' && itter->content[i])
+                    exp_vars->i++;
+                    while (itter->content[exp_vars->i] != '\'' && itter->content[exp_vars->i])
                     {
-                        res = ft_strjoin(res, &itter->content[i]);
-                        if (res[k])
-                            k++;
-                        if (itter->content[i])
-                            i++;
+                        exp_vars->res = ft_strjoin(exp_vars->res, &itter->content[exp_vars->i]);
+                        if (exp_vars->res[exp_vars->k])
+                            exp_vars->k++;
+                        if (itter->content[exp_vars->i])
+                            exp_vars->i++;
                         
                     }
-                    i++;
-                    res[k] = '\0';
+                    exp_vars->i++;
+                    exp_vars->res[exp_vars->k] = '\0';
                 }
                 else
                 {
-                    while (itter->content[i] != '\"' && itter->content[i] != '\'' && itter->content[i])
+                    while (itter->content[exp_vars->i] != '\"' && itter->content[exp_vars->i] != '\'' && itter->content[exp_vars->i])
                     {
-                        j = 0;
-                        if (itter->content[i] == '$' && itter->content[i + 1] == '?')
+                        exp_vars->j = 0;
+                        if (itter->content[exp_vars->i] == '$' && itter->content[exp_vars->i + 1] == '?')
                         {
-                            i++;
-                            while (itter->content[i] != '$' && itter->content[i] != ' ' 
-                                && itter->content[i] != '\"' && itter->content[i] != '\'' && ft_isalnum(itter->content[i]))
-                                i++;
+                            exp_vars->i++;
+                            while (itter->content[exp_vars->i] != '$' && itter->content[exp_vars->i] != ' ' 
+                                && itter->content[exp_vars->i] != '\"' && itter->content[exp_vars->i] != '\'' && ft_isalnum(itter->content[exp_vars->i]))
+                                exp_vars->i++;
                             char *str = ft_itoa(exit_status >> 8);
-                            res = ft_strjoin(res, str);
-                            k = ft_strlen(res);
+                            exp_vars->res = ft_strjoin(exp_vars->res, str);
+                            exp_vars->k = ft_strlen(exp_vars->res);
                         }
-                        else if (itter->content[i] == '$' && itter->content[i + 1] != ' ' && itter->content[i + 1] != '\''
-                            && itter->content[i + 1] != '\"' && itter->content[i + 1] && !ft_isdigit(itter->content[i + 1]))
+                        else if (itter->content[exp_vars->i] == '$' && itter->content[exp_vars->i + 1] != ' ' && itter->content[exp_vars->i + 1] != '\''
+                            && itter->content[exp_vars->i + 1] != '\"' && itter->content[exp_vars->i + 1] && !ft_isdigit(itter->content[exp_vars->i + 1]))
                         {
-                            i++;
-                            while (itter->content[i] != ' ' 
-                                && itter->content[i] != '\"' && itter->content[i] && ft_isalnum(itter->content[i]))
+                            exp_vars->i++;
+                            while (itter->content[exp_vars->i] != ' ' 
+                                && itter->content[exp_vars->i] != '\"' && itter->content[exp_vars->i] && ft_isalnum(itter->content[exp_vars->i]))
                             {
-                                inside_dquotes[j] = itter->content[i];
-                                i++;
-                                j++;
+                                exp_vars->inside_dquotes[exp_vars->j] = itter->content[exp_vars->i];
+                                exp_vars->i++;
+                                exp_vars->j++;
                             }
-                            inside_dquotes[j] = '\0';
-                            exp = expand(inside_dquotes, env);
-                            if (exp)
+                            exp_vars->inside_dquotes[exp_vars->j] = '\0';
+                            exp_vars->exp = expand(exp_vars->inside_dquotes, env);
+                            if (exp_vars->exp)
                             {
-                                res = ft_strjoin(res, exp);
-                                k = ft_strlen(res);
+                                exp_vars->res = ft_strjoin(exp_vars->res, exp_vars->exp);
+                                exp_vars->k = ft_strlen(exp_vars->res);
                             }
                             else
-                                res = ft_strjoin(res, "");
-                            i--;
+                                exp_vars->res = ft_strjoin(exp_vars->res, "");
+                            exp_vars->i--;
                         }
-                        else if (itter->content[i] == '\'')
+                        else if (itter->content[exp_vars->i] == '\'')
                         {
-                            i++;
-                            while (itter->content[i] != '\'' && itter->content[i])
+                            exp_vars->i++;
+                            while (itter->content[exp_vars->i] != '\'' && itter->content[exp_vars->i])
                             {
-                                res = ft_strjoin(res, &itter->content[i]);
-                                if (res[k])
-                                    k++;
-                                if (itter->content[i])
-                                    i++;
+                                exp_vars->res = ft_strjoin(exp_vars->res, &itter->content[exp_vars->i]);
+                                if (exp_vars->res[exp_vars->k])
+                                    exp_vars->k++;
+                                if (itter->content[exp_vars->i])
+                                    exp_vars->i++;
                                 
                             }
-                            res[k] = '\0';
+                            exp_vars->res[exp_vars->k] = '\0';
                         }
                         else
                         {
-                            if (itter->content[i] == '$' && ft_isdigit(itter->content[i + 1]))
-                                i++;
-                            else if (itter->content[i] == '$' && (itter->content[i + 1] == '\"' || itter->content[i + 1] == '\'') && itter->content[i + 2])
-                                i++;
+                            if (itter->content[exp_vars->i] == '$' && ft_isdigit(itter->content[exp_vars->i + 1]))
+                                exp_vars->i++;
+                            else if (itter->content[exp_vars->i] == '$' && (itter->content[exp_vars->i + 1] == '\"' || itter->content[exp_vars->i + 1] == '\'') && itter->content[exp_vars->i + 2])
+                                exp_vars->i++;
                             else
-                                res = ft_strjoin(res, &itter->content[i]);
+                                exp_vars->res = ft_strjoin(exp_vars->res, &itter->content[exp_vars->i]);
                         }
-                        if (res[k])
-                            k++;
-                        if (itter->content[i])
-                            i++;
-                        res[k] = '\0';
+                        if (exp_vars->res[exp_vars->k])
+                            exp_vars->k++;
+                        if (itter->content[exp_vars->i])
+                            exp_vars->i++;
+                        exp_vars->res[exp_vars->k] = '\0';
                         // printf("%c\n", itter->content[i]);
                     }
-                    if ((itter->content[i] == '\'' || itter->content[i]) && itter->content[i])
-                        i++;
+                    if ((itter->content[exp_vars->i] == '\'' || itter->content[exp_vars->i]) && itter->content[exp_vars->i])
+                        exp_vars->i++;
                 }
             }
         }
-        itter->content = ft_strdup(res);
+        itter->content = ft_strdup(exp_vars->res);
         itter = itter->next;
     }
     
