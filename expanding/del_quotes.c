@@ -86,7 +86,6 @@ void ft_single_quotes(t_multx *exp_vars, char *s)
             exp_vars->k++;
         if (s[exp_vars->i])
             exp_vars->i++;
-        
     }
     exp_vars->i++;
     exp_vars->res[exp_vars->k] = '\0';
@@ -135,7 +134,7 @@ void ft_expand_double_in_multiple(t_multx *exp_vars, char *s, t_env *env)
         if (s[exp_vars->i] == '$' && s[exp_vars->i + 1] == '?')
             ft_exit_value(exp_vars, s);
         else if (s[exp_vars->i] == '$' && s[exp_vars->i + 1] != ' ' && s[exp_vars->i + 1] != '\'' 
-            && s[exp_vars->i + 1] != '\"' && s[exp_vars->i + 1]&& !ft_isdigit(s[exp_vars->i + 1]))
+            && s[exp_vars->i + 1] != '\"' && s[exp_vars->i + 1] && !ft_isdigit(s[exp_vars->i + 1]))
             ft_expanding_the_inside(exp_vars, s, env);
         else
         {

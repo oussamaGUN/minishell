@@ -138,7 +138,6 @@ int	cmd_exe(t_token *token, t_env *env)
 	cmd_list = ft_list(new_token, env);
 	if (!cmd_list)
 		return 0;
-	
 	if (!execution(cmd_list, env))
 		return 0;
 	return 0;

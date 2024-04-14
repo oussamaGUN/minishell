@@ -79,90 +79,116 @@ int ft_here_doc_count(t_token *token)
     count = 1;
     return count;
 }
+t_token *child_process_for_heredoc(t_token *token, t_token *node, t_env *env, int file)
+{
+    while (1)
+    {
+        char *s = readline("> ");
+        if (!s)
+            break;
+        if (ft_strncmp(s, "\n", ft_strlen(s)) == 1 
+            && ft_strncmp(s, token->content, ft_strlen(token->content)) == 0 )
+            break ;
+        char *new = here_doc_expand(s, env);
+        if (!new)
+            return NULL;
+        ft_putendl_fd(new, file);
+    }
+    close(token->fd[1]);
+    exit(0);
+}
+
+t_token *here_doc_implement(t_token *token, t_token *node, t_env *env)
+{
+    int file;
+    pid_t id;
+
+    if (!ft_here_doc_count(token))
+    {
+        perror("bash: maximum here-document count exceeded");
+        return NULL;
+    }
+    if (pipe(token->fd) == -1)
+        return NULL;
+    file = token->fd[1];
+    if (file == -1)
+    {
+        printf("bash: %s: No such file or directory\n", token->content);
+        return NULL;
+    }
+    id = fork();
+    if (id == -1)
+        return NULL;
+    else if (id == 0)
+        child_process_for_heredoc(token, node, env, file);
+    close(token->fd[1]);
+    wait(NULL);
+    node->input_file = token->fd[0];
+    if (node->input_file == -1)
+    {
+        printf("bash: %s: No such file or directory\n", token->content);
+        return NULL;
+    }
+    return token;
+}
+t_token *ft_openning_files(t_token *token, t_token *node)
+{
+    if (token->type == FILE_OUT)
+    {
+        node->output_file = open(token->content,  O_TRUNC | O_CREAT | O_WRONLY, 0644);
+        if (node->output_file == -1)
+            return NULL;
+    }
+    else if (token->type == FILE_IN)
+    {
+        node->input_file = open(token->content, O_RDONLY);
+        if (node->input_file == -1)
+        {
+            printf("bash: %s: No such file or directory\n", token->content);
+            return NULL;
+        }
+    }
+    else if (token->type == FILE_APP)
+    {
+        node->output_file = open(token->content,  O_APPEND | O_CREAT | O_WRONLY, 0644);
+        if (node->output_file == -1)
+            return NULL;
+    }
+    return token;
+}
+t_token *little_norm(t_token *node, int count)
+{
+    node->arr = malloc(sizeof(char *) * (count + 1));
+    if (!node->arr)
+        return NULL;
+    node->output_file = -1;
+    node->input_file = -1;
+    return node;
+}
 t_token *ft_list(t_token *token, t_env *env)
 {
     t_token *lst = NULL;
     t_token *node;
     int count = 0;
     int i = 0;
-    if (!ft_here_doc_count(token))
-    {
-        perror("bash: maximum here-document count exceeded");
-        return NULL;
-    }
+
     while (token)
     {
         node = new(token->content);
         count = ft_words(token);
-        node->arr = malloc(sizeof(char *) * (count + 1));
-        node->output_file = -1;
-        node->input_file = -1;
+        if (!little_norm(node, count))
+            return NULL;
         i = 0;
         while (token->type != PIPE)
         {
+            if (!ft_openning_files(token, node))
+                return NULL;
             if (token->type == WORD)
                 node->arr[i++] = ft_strdup(token->content);
-            else if (token->type == FILE_OUT)
-            {
-                node->output_file = open(token->content,  O_TRUNC | O_CREAT | O_WRONLY, 0644);
-                if (node->output_file == -1)
-                    return NULL;
-            }
-            else if (token->type == FILE_IN)
-            {
-                node->input_file = open(token->content, O_RDONLY);
-                if (node->input_file == -1)
-                {
-                    printf("bash: %s: No such file or directory\n", token->content);
-                    return NULL;
-                }
-            }
-            else if (token->type == FILE_APP)
-            {
-                node->output_file = open(token->content,  O_APPEND | O_CREAT | O_WRONLY, 0644);
-                if (node->output_file == -1)
-                    return NULL;
-            }
             else if (token->type == DELIMITER)
             {
-                if (pipe(token->fd) == -1)
+                if (!here_doc_implement(token, node, env))
                     return NULL;
-                int file = token->fd[1];
-                if (file == -1)
-                {
-                    printf("bash: %s: No such file or directory\n", token->content);
-                    return NULL;
-                }
-                pid_t id = fork();
-                if (id == -1)
-                    return NULL;
-                else if (id == 0)
-                {
-                    while (1)
-                    {
-                        char *s = readline("> ");
-                        if (!s)
-                            break;
-                        if (ft_strncmp(s, "\n", ft_strlen(s)) == 1 && ft_strncmp(s, token->content, ft_strlen(s)) == 0 )
-                        {
-                            break ;
-                        }
-                        char *new = here_doc_expand(s, env);
-                        if (!new)
-                            return NULL;
-                        ft_putendl_fd(new, file);
-                    }
-                    close(token->fd[1]);
-                    exit(0);
-                }
-                close(token->fd[1]);
-                    wait(NULL);
-                node->input_file = token->fd[0];
-                if (node->input_file == -1)
-                {
-                    printf("bash: %s: No such file or directory\n", token->content);
-                    return NULL;
-                }
             }
             token = token->next;
             if (!token)
