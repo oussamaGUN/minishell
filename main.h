@@ -49,6 +49,7 @@ typedef struct s_env
 typedef struct s_tokenizer
 {
 	size_t			words_count;
+	size_t word_len;
 	char			**arr;
 	int flag;
 	int i;

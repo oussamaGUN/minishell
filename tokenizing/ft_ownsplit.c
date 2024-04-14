@@ -60,62 +60,69 @@ int	ft_len(char const *s, char c)
 	return (i);
 }
 
-char	**ft_trim(char const *s, char c, t_tokenizer *trim)
+
+char * first_trim(t_tokenizer *trim, char *s)
 {
-	int	j;
-	int	k;
-	size_t			word_len;
-	k = 0;
-	while (k < trim->words_count)
+	if (*s == '\"')
+		trim->arr[trim->k][trim->j++] = '\"';				
+	s++;
+	while (*s != '\"' && *s)
 	{
-		j = 0;
+		trim->arr[trim->k][trim->j++] = *s;
+		s++;
+	}
+	if (*s == '\"')
+		trim->arr[trim->k][trim->j++] = '\"';
+	if (*s)
+		s++;
+	return s;
+}
+char *second_trim(t_tokenizer *trim, char *s)
+{
+	if (*s == '\'')
+		trim->arr[trim->k][trim->j++] = '\'';					
+	s++;
+	while (*s != '\'' && *s)
+	{
+		trim->arr[trim->k][trim->j++] = *s;
+		s++;
+	}
+	if (*s == '\'')
+		trim->arr[trim->k][trim->j++] = '\'';	
+	if (*s)
+		s++;
+	return s;
+}
+char *third_trim(t_tokenizer *trim, char *s)
+{
+	trim->arr[trim->k][trim->j++] = *s;
+	s++;
+	return s;
+}
+char	**ft_trim(char *s, char c, t_tokenizer *trim)
+{
+	trim->k = 0;
+	while (trim->k < trim->words_count)
+	{
+		trim->j = 0;
 		while (*s == c && *s)
 			s++;
 		if (*s == '\0')
 			break ;
-		word_len = ft_len(s, c);
-		trim->arr[k] = malloc(sizeof(char) * (word_len + 1));
-		if (!trim->arr[k])
+		trim->word_len = ft_len(s, c);
+		trim->arr[trim->k] = malloc(sizeof(char) * (trim->word_len + 1));
+		if (!trim->arr[trim->k])
 			return (NULL);
         while (*s != c && *s)
 	    {
 			if (*s == '\"')
-			{
-				if (*s == '\"')
-					trim->arr[k][j++] = '\"';				
-				s++;
-				while (*s != '\"' && *s)
-				{
-					trim->arr[k][j++] = *s;
-					s++;
-				}
-				if (*s == '\"')
-					trim->arr[k][j++] = '\"';
-				if (*s)
-					s++;
-			}
+				s = first_trim(trim, s);
 			else if (*s == '\'')
-			{
-				if (*s == '\'')
-					trim->arr[k][j++] = '\'';					
-				s++;
-				while (*s != '\'' && *s)
-				{
-					trim->arr[k][j++] = *s;
-					s++;
-				}
-				if (*s == '\'')
-					trim->arr[k][j++] = '\'';	
-				if (*s)
-					s++;
-			}
+				s = second_trim(trim, s);
 			else if (*s != c && *s && *s != '\"' && *s != '\'')
-			{
-		    	trim->arr[k][j++] = *s;
-				s++;
-			}
+				s = third_trim(trim, s);
 	    }
-		trim->arr[k++][j] = '\0';
+		trim->arr[trim->k++][trim->j] = '\0';
 	}
 	return (trim->arr);
 }
@@ -243,7 +250,7 @@ char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars)
 	trim->arr = (char **) malloc(sizeof(char *) * (trim->words_count + 1));
 	if (!trim->arr)
 		return (NULL);
-	trim->arr = ft_trim(s, c, trim);
+	trim->arr = ft_trim((char *)s, c, trim);
 	trim->arr[trim->words_count] = NULL;
 
 	

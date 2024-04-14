@@ -94,6 +94,8 @@ int ft_dashn(char *s)
     i = 0;
     if (s[i] == '-')
         i++;
+    else
+        return 0;
     while (s[i])
     {
         if (s[i] != 'n')

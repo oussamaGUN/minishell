@@ -199,10 +199,10 @@ int multiple_cmd(t_token *lst, t_env *env)
 }
 int normal(t_token *lst, t_env *env)
 {
-    if (lst->arr[0] && (ft_strncmp(lst->arr[0], "cd", 3) == 0 || ft_strncmp(lst->arr[0], "CD", 3) == 0
-        || (ft_strncmp(lst->arr[0], "pwd", 4) == 0 || ft_strncmp(lst->arr[0], "PWD", 4) == 0)
-        || ft_strncmp(lst->arr[0], "env", 4) == 0 || ft_strncmp(lst->arr[0], "ENV", 4) == 0
-        || ft_strncmp(lst->arr[0], "echo", 5) == 0 || ft_strncmp(lst->arr[0], "echo", 5) == 0))
+    if (lst->arr[0] && (ft_strncmp(lst->arr[0], "cd", 3) == 0 
+        || ft_strncmp(lst->arr[0], "pwd", 4) == 0
+        || ft_strncmp(lst->arr[0], "env", 4) == 0
+        || ft_strncmp(lst->arr[0], "echo", 5) == 0))
     {
         if (!builtins(lst, env))
             return 0;

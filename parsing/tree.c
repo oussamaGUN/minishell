@@ -143,12 +143,9 @@ t_token *ft_list(t_token *token, t_env *env)
                         char *s = readline("> ");
                         if (!s)
                             break;
-                        if (ft_strncmp(s, "\n", ft_strlen(s)) == 1)
+                        if (ft_strncmp(s, "\n", ft_strlen(s)) == 1 && ft_strncmp(s, token->content, ft_strlen(s)) == 0 )
                         {
-                            if (ft_strncmp(s, token->content, ft_strlen(s)) == 0 )
-                            {
-                                break ;
-                            }
+                            break ;
                         }
                         char *new = here_doc_expand(s, env);
                         if (!new)
