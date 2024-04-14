@@ -234,11 +234,14 @@ char *minisplit(char const *s, t_tokenizer *vars)
 }
 char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars)
 {
-	t_tokenizer *trim = malloc(sizeof(t_tokenizer));
+	t_tokenizer *trim;
 	size_t			words_count;
 	char			**arr;
 	unsigned int	i;
 
+	trim = malloc(sizeof(t_tokenizer));
+	if (!trim)
+		return NULL;
 	if (s == NULL)
 		return (NULL);
 	s = minisplit(s, vars);
@@ -252,8 +255,6 @@ char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars)
 		return (NULL);
 	trim->arr = ft_trim((char *)s, c, trim);
 	trim->arr[trim->words_count] = NULL;
-
-	
 	return (trim->arr);
 }
 
