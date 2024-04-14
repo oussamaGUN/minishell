@@ -97,25 +97,25 @@ t_token *child_process_for_heredoc(t_token *token, t_token *node, t_env *env, in
     close(token->fd[1]);
     exit(0);
 }
-
+int here_doc_mininorm(t_token *token)
+{
+    if (!ft_here_doc_count(token))
+    {
+        perror("bash: maximum here-document count exceeded");
+        return -1;
+    }
+    if (pipe(token->fd) == -1)
+        return -1;
+    return token->fd[1];
+}
 t_token *here_doc_implement(t_token *token, t_token *node, t_env *env)
 {
     int file;
     pid_t id;
 
-    if (!ft_here_doc_count(token))
-    {
-        perror("bash: maximum here-document count exceeded");
+    file = here_doc_mininorm(token);
+    if (file < 0)
         return NULL;
-    }
-    if (pipe(token->fd) == -1)
-        return NULL;
-    file = token->fd[1];
-    if (file == -1)
-    {
-        printf("bash: %s: No such file or directory\n", token->content);
-        return NULL;
-    }
     id = fork();
     if (id == -1)
         return NULL;
@@ -165,13 +165,26 @@ t_token *little_norm(t_token *node, int count)
     node->input_file = -1;
     return node;
 }
+t_token *normy(t_token *token, t_env *env, t_token *node)
+{
+    if (!ft_openning_files(token, node))
+        return NULL;
+    else if (token->type == DELIMITER)
+    {
+        if (!here_doc_implement(token, node, env))
+            return NULL;
+    }
+    return token;
+}
+
 t_token *ft_list(t_token *token, t_env *env)
 {
-    t_token *lst = NULL;
+    t_token *lst;
     t_token *node;
-    int count = 0;
-    int i = 0;
+    int count;
+    int i;
 
+    lst = NULL;
     while (token)
     {
         node = new(token->content);
@@ -179,20 +192,13 @@ t_token *ft_list(t_token *token, t_env *env)
         if (!little_norm(node, count))
             return NULL;
         i = 0;
-        while (token->type != PIPE)
+        while (token && token->type != PIPE)
         {
-            if (!ft_openning_files(token, node))
-                return NULL;
             if (token->type == WORD)
                 node->arr[i++] = ft_strdup(token->content);
-            else if (token->type == DELIMITER)
-            {
-                if (!here_doc_implement(token, node, env))
-                    return NULL;
-            }
+            if (!normy(token, env, node))
+                return NULL;
             token = token->next;
-            if (!token)
-                break;
         }
         node->arr[i] = NULL;
         ft_lstadd(&lst, node);
