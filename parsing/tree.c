@@ -12,57 +12,60 @@ int ft_words(t_token *token)
     }
     return count;
 }
-
+void here_doc_expand_norm(t_multx *vars, char *s, t_env *env)
+{
+    vars->i++;
+    while (s[vars->i] != ' ' && s[vars->i] && ft_isalnum(s[vars->i]))
+    {
+        vars->inside_dquotes[vars->j] = s[vars->i];
+        vars->i++;
+        vars->j++;
+    }
+    vars->inside_dquotes[vars->j] = '\0';
+    vars->exp = expand(vars->inside_dquotes, env);
+    if (vars->exp)
+    {
+        vars->res = ft_strjoin(vars->res, vars->exp);
+        vars->k = ft_strlen(vars->res);
+    }
+    else
+        vars->res = ft_strjoin(vars->res, "");
+    vars->i--;
+}
+void here_doc_expand_norm_two(t_multx *vars, char *s)
+{
+    if (s[vars->i] == '$' && ft_isdigit(s[vars->i + 1]))
+        vars->i++;
+    else
+        vars->res = ft_strjoin(vars->res, &s[vars->i]);
+}
 char *here_doc_expand(char *s, t_env *env)
 {
-    int i = 0;
-    int j = 0;
-    char *inside_dquotes = malloc(ft_strlen(s));
-    char *res = malloc(ft_strlen(s) * 1);
-    res[0] = '\0';
-    int k = 0;
-    char *exp;
-    while (s[i])
+    t_multx *vars;
+    
+    vars = malloc(sizeof(t_multx));
+    vars->inside_dquotes = malloc(ft_strlen(s));
+    vars->res = malloc(ft_strlen(s) * 1);
+    if (!vars || !vars->inside_dquotes || !vars->res)
+        return NULL;
+    vars->res[0] = '\0';
+    vars->k = 0;
+    vars->i = 0;
+    while (s[vars->i])
     {
-        j = 0;
-        if (s[i] == '$' && s[i + 1] != ' ' && s[i + 1] && !ft_isdigit(s[i + 1]))
-        {
-            i++;
-            while (s[i] != ' ' && s[i] && ft_isalnum(s[i]))
-            {
-                inside_dquotes[j] = s[i];
-                i++;
-                j++;
-            }
-            inside_dquotes[j] = '\0';
-            exp = expand(inside_dquotes, env);
-
-            if (exp)
-            {
-                res = ft_strjoin(res, exp);
-                k = ft_strlen(res);
-            }
-            else
-                res = ft_strjoin(res, "");
-            i--;
-        }
+        vars->j = 0;
+        if (s[vars->i] == '$' && s[vars->i + 1] != ' ' 
+        && s[vars->i + 1] && !ft_isdigit(s[vars->i + 1]))
+            here_doc_expand_norm(vars, s, env);
         else
-        {
-            if (s[i] == '$' && ft_isdigit(s[i + 1]))
-                i++;
-            else
-            {
-                res = ft_strjoin(res, &s[i]);
-            }
-        }
-        if (res[k])
-            k++;
-        if (s[i])
-            i++;
-        res[k] = '\0';
-        // printf("%c\n", s[i]);
+            here_doc_expand_norm_two(vars, s);
+        if (vars->res[vars->k])
+            vars->k++;
+        if (s[vars->i])
+            vars->i++;
+        vars->res[vars->k] = '\0';
     }
-    return res;
+    return vars->res;
 }
 int ft_here_doc_count(t_token *token)
 {
@@ -156,18 +159,22 @@ t_token *ft_openning_files(t_token *token, t_token *node)
     }
     return token;
 }
-t_token *little_norm(t_token *node, int count)
+t_token *little_norm(t_token *node, t_multx *vars, t_token *token)
 {
-    node->arr = malloc(sizeof(char *) * (count + 1));
+    vars->count = ft_words(token);
+    vars->i = 0;
+    node->arr = malloc(sizeof(char *) * (vars->count + 1));
     if (!node->arr)
         return NULL;
     node->output_file = -1;
     node->input_file = -1;
     return node;
 }
-t_token *normy(t_token *token, t_env *env, t_token *node)
+t_token *normy(t_token *token, t_env *env, t_token *node, t_multx *vars)
 {
-    if (!ft_openning_files(token, node))
+    if (token->type == WORD)
+        node->arr[vars->i++] = ft_strdup(token->content);
+    else if (!ft_openning_files(token, node))
         return NULL;
     else if (token->type == DELIMITER)
     {
@@ -181,26 +188,24 @@ t_token *ft_list(t_token *token, t_env *env)
 {
     t_token *lst;
     t_token *node;
-    int count;
-    int i;
+    t_multx *vars;
 
+    vars = malloc(sizeof(t_multx));
+    if (!vars)
+        return NULL;
     lst = NULL;
     while (token)
     {
         node = new(token->content);
-        count = ft_words(token);
-        if (!little_norm(node, count))
+        if (!little_norm(node, vars, token))
             return NULL;
-        i = 0;
         while (token && token->type != PIPE)
         {
-            if (token->type == WORD)
-                node->arr[i++] = ft_strdup(token->content);
-            if (!normy(token, env, node))
+            if (!normy(token, env, node, vars))
                 return NULL;
             token = token->next;
         }
-        node->arr[i] = NULL;
+        node->arr[vars->i] = NULL;
         ft_lstadd(&lst, node);
         if (token)
             token = token->next;

@@ -73,6 +73,7 @@ typedef struct s_multx
 	int i;
     int k;
     int j;
+	int count;
 }t_multx;
 
 typedef enum s_type {
