@@ -8,7 +8,7 @@ int	cmd_exe(t_token *token, t_env *env)
 	int flag;
 
 	cmd = readline("→ ");
-	if (!cmd || ft_strncmp(cmd ,"exit", 4) == 0)
+	if (!cmd)
 	{
 		printf("exit\n");
 		return 1;
