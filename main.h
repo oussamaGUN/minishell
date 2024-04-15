@@ -100,18 +100,7 @@ int	lstsize(t_token *lst);
 // parsing
 
 
-// execution
-typedef struct mini_s
-{
-	char	*cmd;
-	char	**args;
-	char	*path;
-	int		input;
-	int		fd[2];
-	char	**piped_command;
-	int		pid;
-	char	current_path[1024];
-}			mini_t;
+
 
 
 void	clear(t_token **lst, void (*del)(void *));

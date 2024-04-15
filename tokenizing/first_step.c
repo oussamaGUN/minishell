@@ -93,6 +93,5 @@ int tokenizer(char *str, t_token **token)
         ft_lstadd(token, node);
         i++;
     }
-    
     return 1;
 }
