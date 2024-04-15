@@ -142,20 +142,7 @@ int	cmd_exe(t_token *token, t_env *env)
 		return 0;
 	return 0;
 }
-int	programme(t_token *token, t_env *env)
-{
-	int flag;
 
-	flag = 0;
-	while (1)
-	{
-		flag = cmd_exe(token, env);
-		if (flag == 1)
-			break;
-	}
-	// rl_clear_history();
-	return 0;
-}
 void	list_for_env(t_env **lst, t_env *new)
 {
 	t_env	*ptr;
@@ -170,6 +157,7 @@ void	list_for_env(t_env **lst, t_env *new)
 	else if (lst)
 		*lst = new;
 }
+
 char *counter(int n)
 {
 	char *res = ft_itoa(n);
@@ -177,6 +165,7 @@ char *counter(int n)
 
 	return ft_itoa(num);
 }
+
 t_env *envir(char **envp)
 {
 	int		i;
@@ -205,10 +194,11 @@ t_env *envir(char **envp)
 }
 int	main(int ac, char *av[], char *envp[])
 {
-	t_token			token;
 	t_env			*env;
 
 	env = envir(envp);
-	exit_status = 0;
-	programme(&token, env);
+	// rl_clear_history();
+	while (!cmd_exe(NULL, env))
+		;
+	return (EXIT_SUCCESS);
 }
