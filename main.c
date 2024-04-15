@@ -177,7 +177,7 @@ char *counter(int n)
 
 	return ft_itoa(num);
 }
-t_env *envir(char **envp, int SHLVL)
+t_env *envir(char **envp)
 {
 	int		i;
 	char	**arr;
@@ -195,7 +195,7 @@ t_env *envir(char **envp, int SHLVL)
 			return NULL;
 		node->key = ft_strdup(arr[0]);
 		if (ft_strncmp(node->key, "SHLVL", 6) == 0)
-			node->value = ft_strdup(counter(SHLVL));
+			node->value = ft_strdup("2");
 		else
 			node->value = ft_strdup(arr[1]);
 		list_for_env(&env, node);
@@ -207,10 +207,8 @@ int	main(int ac, char *av[], char *envp[])
 {
 	t_token			token;
 	t_env			*env;
-	static int		SHLVL = 1;
 
-	SHLVL += 1;
-	env = envir(envp, SHLVL);
+	env = envir(envp);
 	exit_status = 0;
 	programme(&token, env);
 }
