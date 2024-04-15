@@ -28,13 +28,13 @@ int	cmd_exe(t_token *token, t_env *env)
 		return 0;
 	return 0;
 }
+
 int	main(int ac, char *av[], char *envp[])
 {
-	t_env			*env;
+	t_env	*env;
 
 	env = envir(envp);
 	while (!cmd_exe(NULL, env))
 		;
-	// rl_clear_history();
 	return (EXIT_SUCCESS);
 }

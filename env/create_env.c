@@ -14,6 +14,7 @@ void	list_for_env(t_env **lst, t_env *new)
 	else if (lst)
 		*lst = new;
 }
+
 t_env *envir(char **envp)
 {
 	int		i;
@@ -21,9 +22,9 @@ t_env *envir(char **envp)
 	t_env	*env;
 	t_env	*node;
 
-	i = 0;
+	i = -1;
 	env = NULL;
-	while (envp[i])
+	while (envp[++i])
 	{
 		node = malloc(sizeof(t_env));
 		node->next = NULL;
@@ -35,8 +36,10 @@ t_env *envir(char **envp)
 			node->value = ft_strdup("2");
 		else
 			node->value = ft_strdup(arr[1]);
+		// free(arr[0]);
+		// free(arr[1]);
+		// free(arr);
 		list_for_env(&env, node);
-		i++;
 	}
-	return env;
+	return (env);
 }
