@@ -22,22 +22,19 @@ char *normal_path(char *cmd, char **env)
 	char	**splited;
 	char	*path;
 	i = 0;
-
+    
 	while (env[i])
 	{
 		str = ft_split(env[i], '=');
-		if (ft_strncmp(str[0], "PATH", 4) == 0)
+		splited = ft_split(str[1], ':');
+		j = 0;
+		while (splited[j])
 		{
-			splited = ft_split(str[1], ':');
-			j = 0;
-			while (splited[j])
-			{
-				path = ft_strjoin(ft_strjoin(splited[j], "/"), cmd);
-				if (access(path, X_OK) == 0)
-					return (path);
-				free(path);
-				j++;
-			}
+			path = ft_strjoin(ft_strjoin(splited[j], "/"), cmd);
+			if (access(path, X_OK) == 0)
+				return (path);
+			free(path);
+			j++;
 		}
 		i++;
 	}
@@ -308,6 +305,7 @@ int normal(t_token *lst, t_env *env)
 
 int execution(t_token *lst, t_env *env)
 {
+    env = ft_update_pwd_env(env);
     if (lstsize(lst) == 1)
     {
         if (normal(lst, env) == 0)
