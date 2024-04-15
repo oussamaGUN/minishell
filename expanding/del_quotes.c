@@ -205,7 +205,7 @@ void conditions(t_multx *exp_vars, t_token *itter, t_env *env)
 }
 t_token *expanding(t_token *token, t_env *env)
 {
-    t_multx *exp_vars = malloc(sizeof(t_multx));
+    t_multx *exp_vars;
     t_token *itter;
 
     exp_vars = malloc(sizeof(t_multx));
