@@ -1,6 +1,6 @@
 CC = cc
 
-#CFLAGS = -Wall -Wextra -Werror
+# CFLAGS = -Wall -Wextra -Werror
 
 SRC = main.c  handle_signal.c tokenizing/first_step.c tokenizing/ft_ownsplit.c \
 	parsing/quotes_handle.c tools/tools.c parsing/syntax_error.c expanding/del_quotes.c  \
@@ -17,7 +17,7 @@ NAME = minishell
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LIBS) -fsanitize=address
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LIBS) 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 

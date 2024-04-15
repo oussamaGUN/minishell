@@ -15,9 +15,11 @@ char **env_arr(t_env *env)
         return NULL;
     int i = 0;
     t_env *itter = env;
-    char *s = "\0";
+    char *s;
     while (itter)
     {
+        s = malloc(1);
+        s = "\0";
         s = ft_strjoin(s, itter->key);
         s = ft_strjoin(s, "=");
         s = ft_strjoin(s, itter->value);
@@ -221,6 +223,7 @@ int normal(t_token *lst, t_env *env)
             if (lst->arr[0])
             {
                 char **envp = env_arr(env);
+
                 char *path;
                 path = ft_getpath(lst->arr[0], envp);
                 // #!/bin/bash
