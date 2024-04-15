@@ -76,7 +76,7 @@ typedef struct s_multx
 	int count;
 }t_multx;
 
-typedef enum s_type {
+typedef enum e_type {
 	WORD,
 	PIPE,
 	RED_OUTPUT,

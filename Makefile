@@ -17,7 +17,8 @@ NAME = minishell
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LIBS) 
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LIBS)
+
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
