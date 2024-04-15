@@ -144,7 +144,6 @@ int builtins(t_token *lst, t_env *env)
     }
     else if (ft_strncmp(lst->arr[0], "env", 4) == 0)
     {
-	    env = ft_update_pwd_env(env);
         if (!env_print(env))
             return 0;
     }
