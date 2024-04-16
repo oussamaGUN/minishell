@@ -70,7 +70,7 @@ void token_type(char *sp, t_tokenizer *vars, t_token *node)
 		}
 }
 
-int tokenizer(char *str, t_token **token)
+int tokenizer(char *cmd, t_token **token, t_env **env)
 {
 	t_token     *node;
 	t_tokenizer *vars;
@@ -78,11 +78,13 @@ int tokenizer(char *str, t_token **token)
 	int         i;
 
 	i = -1;
-	vars = malloc(sizeof(t_tokenizer));
+	vars = ft_malloc(sizeof(t_tokenizer), &((*env)->mem));
+	puts("ft_malloc1");
+	return (0);
 	if (!vars)
 		return (0);
-	sp = ft_ownsplit(str, ' ', vars);
-	free(str);
+	sp = ft_ownsplit(cmd, ' ', vars);
+	free(cmd);// refactor ??
 	if (!sp)
 		return (free(vars), 0);
 	vars->flag = 0;
@@ -96,6 +98,6 @@ int tokenizer(char *str, t_token **token)
 			f_open(vars, node);
 		ft_lstadd(token, node);
 	}
-	free(sp);
+	free2d(sp);
 	return 1;
 }
