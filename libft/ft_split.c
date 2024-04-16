@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 17:50:57 by ousabbar          #+#    #+#             */
-/*   Updated: 2023/11/01 17:51:05 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/16 10:44:06 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
+
 
 int	word(char *s, char c)
 {
@@ -86,7 +86,7 @@ char	**ft_split(char const *s, char c)
 	{
 		i = 0;
 		while (i < words_count)
-			free(arr[i]);
+			free(arr[i++]);
 		free(arr);
 		return (NULL);
 	}
