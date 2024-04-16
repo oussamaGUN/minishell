@@ -36,11 +36,18 @@ typedef struct s_token
 	pid_t pid;
 }	t_token;
 
+typedef	struct s_free
+{
+	void			*mem;
+	struct s_free	*next;
+}					t_free;
+
 typedef struct s_env
 {
 	char *key;
 	char *value;
-	struct s_env *next;
+	struct s_free	*mem;
+	struct s_env	*next;
 }t_env;
 
 
@@ -87,10 +94,6 @@ typedef enum e_type {
 	DELIMITER,
 }t_type;
 
-typedef struct s_free {
-	int *address;
-	struct s_free *next;
-}t_free;
 
 
 // list 
@@ -111,7 +114,7 @@ void del(void *s);
 
 
 
-int tokenizer(char *str, t_token **token);
+int tokenizer(char *str, t_token **token, t_env **env);
 char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars);
 t_token *ft_check_errors(t_token *token);
 int syntax_error(t_token *token);
@@ -132,4 +135,8 @@ t_env *envir(char **envp);
 void	list_for_env(t_env **lst, t_env *new);
 t_env *ft_update_pwd_env(t_env *env);
 void	env_clear(t_env **env);
+
+// garbage collector
+void	*ft_malloc(size_t	size, t_free **alloc);
+void	garbage_collector(t_free *alloc);
 #endif
