@@ -23,7 +23,7 @@ int pwd(t_token *lst, t_env *env)
     }
     else
     {
-	    lst->path = ft_strdup(path);
+	    lst->path = ft_malloc(0, &(env->mem), ft_strdup(path));
         printf("%s\n", lst->path);
     }
     return 1;
@@ -56,7 +56,7 @@ t_env *ft_update_pwd_env(t_env *env)
 	while (itter)
 	{
 		if (ft_strncmp(itter->key, "PWD", 4) == 0)
-			itter->value = ft_strdup(path);
+			itter->value = ft_malloc(0, &(env->mem), ft_strdup(path));
 		itter = itter->next;
 	}
 	return env;
@@ -72,7 +72,7 @@ t_env *ft_update_oldpwd_env(t_env *env)
 	while (itter)
 	{
 		if (ft_strncmp(itter->key, "OLDPWD", 7) == 0)
-			itter->value = ft_strdup(path);
+			itter->value = ft_malloc(0, &(env->mem), ft_strdup(path));
 		itter = itter->next;
 	}
 	return env;
