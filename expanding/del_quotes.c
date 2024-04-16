@@ -13,14 +13,18 @@ char *expand(char *s, t_env *envp)
 }
 void ft_exit_value(t_multx *exp_vars, char *s)
 {
+    char *str;
+
     exp_vars->i++;
-    char *str = ft_itoa(exit_status >> 8);
+    str = ft_itoa(exit_status >> 8);
     exp_vars->res = ft_strjoin(exp_vars->res, str);
     exp_vars->k = ft_strlen(exp_vars->res);
 }
 void ft_delemiter(t_multx *exp_vars, char *s)
 {
     exp_vars->res = malloc((ft_strlen(s) + 1) * 1);
+    if (!exp_vars->res)
+        return ;
     while (s[exp_vars->i])
     {
         if (s[exp_vars->i] != '\'' && s[exp_vars->i] != '\"')
@@ -212,6 +216,8 @@ t_token *expanding(t_token *token, t_env *env)
     if (!exp_vars)
         return NULL;
     exp_vars->inside_dquotes = malloc(ft_strlen(token->content));
+    if (!exp_vars)
+        return (free(exp_vars), NULL);
     itter = token;
     while (itter)
     {

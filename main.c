@@ -1,31 +1,44 @@
 #include "main.h"
 
+void free_token(t_token *token)
+{
+	int	i;
+	while (token)
+	{
+		free(token->content);
+		free(token);
+		if (token->arr)
+		{
+			i = 0;
+			while (token->arr[i])
+				free(token->arr[i++]);
+			free(token->arr);
+		}
+		token = token->next;
+	}
+}
 int	cmd_exe(t_token *token, t_env *env)
 {
-	t_token *new_token;
-	t_token *cmd_list;
-	char *cmd;
-	int flag;
+	t_token	*new_token;
+	t_token	*cmd_list;
+	char	*cmd;
 
-	cmd = readline("→ ");
+	cmd = readline("$ ");
 	if (!cmd)
-	{
-		printf("exit\n");
-		return 1;
-	}
+		return (printf("exit\n"), 1);
 	add_history(cmd);
-	token = NULL;
-	flag = tokenizer(cmd, &token);
-	if (!flag)
-		return 0;
+	if (!tokenizer(cmd, &token))
+		return (0);
 	if (!ft_check_errors(token))
-		return 0;
+		return (free_token(token), 0);
 	new_token = expanding(token, env);
+	if (!new_token)
+		return (free_token(new_token), 0);
 	cmd_list = ft_list(new_token, env);
 	if (!cmd_list)
-		return 0;
+		return (free_token(cmd_list),0);
 	if (!execution(cmd_list, env))
-		return 0;
+		return (free_token(cmd_list), 0);
 	return 0;
 }
 
@@ -36,5 +49,8 @@ int	main(int ac, char *av[], char *envp[])
 	env = envir(envp);
 	while (!cmd_exe(NULL, env))
 		;
+	env_clear(&env);
+	rl_clear_history();
+	// system("leaks minishell");
 	return (EXIT_SUCCESS);
 }

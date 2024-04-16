@@ -17,7 +17,7 @@ NAME = minishell
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LIBS)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LIBS) -L /Users/ousabbar/readline/lib
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -29,3 +29,5 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all
+
+# while (1); do leaks minishell; sleep 1; done 

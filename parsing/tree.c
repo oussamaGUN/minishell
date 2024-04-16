@@ -183,7 +183,17 @@ t_token *normy(t_token *token, t_env *env, t_token *node, t_multx *vars)
     }
     return token;
 }
+void free_node(t_token *node)
+{
+    int i;
 
+    i = 0;
+    while (node->arr[i])
+        free(node->arr[i++]);
+    free(node->arr);
+    free(node->content);
+    free(node);
+}
 t_token *ft_list(t_token *token, t_env *env)
 {
     t_token *lst;
@@ -192,17 +202,17 @@ t_token *ft_list(t_token *token, t_env *env)
 
     vars = malloc(sizeof(t_multx));
     if (!vars)
-        return NULL;
+        return (NULL);
     lst = NULL;
     while (token)
     {
         node = new(token->content);
         if (!little_norm(node, vars, token))
-            return NULL;
+            return (free_node(node), NULL);
         while (token && token->type != PIPE)
         {
             if (!normy(token, env, node, vars))
-                return NULL;
+                return (free_node(node), NULL);
             token = token->next;
         }
         node->arr[vars->i] = NULL;

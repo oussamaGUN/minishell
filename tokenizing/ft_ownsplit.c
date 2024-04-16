@@ -46,7 +46,6 @@ int	ft_len(char const *s, char c)
 	size_t	i;
 
 	i = 0;
-
     while (s[i] && s[i] != c)
 	{
 		if (s[i] == '\"' || s[i] == '\'')
@@ -131,14 +130,14 @@ int ft_count_res(int c1, int c2)
 	if (c1 % 2 == 1)
 	{
 		ft_putendl_fd("missing double quotes", 2);
-		return 0;
+		return (0);
 	}
 	if (c2 % 2 == 1)
 	{
 		ft_putendl_fd("missing single quotes", 2);
-		return 0;
+		return (0);
 	}
-	return 1;
+	return (1);
 }
 void ft_count_first(char const *s, t_tokenizer *vars)
 {
@@ -158,7 +157,7 @@ void ft_count_second(char const *s, t_tokenizer *vars)
 	if (s[vars->i] == '\'')
 		vars->count2++;
 }
-int ft_count_quotes(char const *s, t_tokenizer *vars)
+int	ft_count_quotes(char const *s, t_tokenizer *vars)
 {
 	vars->count1 = 0;
 	vars->count2 = 0;
@@ -172,12 +171,11 @@ int ft_count_quotes(char const *s, t_tokenizer *vars)
 		vars->i++;
 	}
 	if (!ft_count_res(vars->count1, vars->count2))
-		return 0;
-	return 1;
+		return (0);
+	return (1);
 }
 void first_minisplit(char const *s, t_tokenizer *vars)
 {
-
 	while (s[vars->i] != '\"' && s[vars->i] != '\''  && s[vars->i])
 	{
 		vars->res[vars->j++] = s[vars->i];
@@ -186,8 +184,8 @@ void first_minisplit(char const *s, t_tokenizer *vars)
 }
 void second_minisplit(char const *s, t_tokenizer *vars)
 {
-
-	if ((s[vars->i] == '>' && s[vars->i + 1] == '>') || (s[vars->i] == '<' && s[vars->i + 1] == '<'))
+	if ((s[vars->i] == '>' && s[vars->i + 1] == '>')
+		|| (s[vars->i] == '<' && s[vars->i + 1] == '<'))
 	{
 		if (s[vars->i - 1] != ' ')
 			vars->res[vars->j++] = ' ';
@@ -207,10 +205,11 @@ void second_minisplit(char const *s, t_tokenizer *vars)
 }
 char *minisplit(char const *s, t_tokenizer *vars)
 {
-	vars->flag = 1;
 	vars->i = 0;
 	vars->j = 0;
-	vars->res = malloc(sizeof(char) * (ft_strlen(s) + 20));
+	vars->res = malloc(sizeof(char) * (ft_strlen(s) * 2));
+	if (!vars->res)
+		return (NULL);
 	while (s[vars->i])
 	{
 		if (s[vars->i] == '\"' || s[vars->i] == '\'')
@@ -218,7 +217,6 @@ char *minisplit(char const *s, t_tokenizer *vars)
 			vars->res[vars->j++] = s[vars->i];
 			vars->i++;
 			first_minisplit(s, vars);
-			
 		}
 		if (s[vars->i] == '|' || s[vars->i] == '>' || s[vars->i] == '<')
 		{
@@ -228,47 +226,34 @@ char *minisplit(char const *s, t_tokenizer *vars)
 		vars->res[vars->j++] = s[vars->i];
 		vars->i++;
 	}
-	vars->flag = 1;
 	vars->res[vars->j] = '\0';
 	return vars->res;
 }
 char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars)
 {
-	t_tokenizer *trim;
+	t_tokenizer		*trim;
 	size_t			words_count;
 	char			**arr;
 	unsigned int	i;
 
+	if (s == NULL)
+		return (NULL);
 	trim = malloc(sizeof(t_tokenizer));
 	if (!trim)
 		return NULL;
-	if (s == NULL)
-		return (NULL);
 	s = minisplit(s, vars);
 	if (!s)
-		return (NULL);
-	if (ft_count_quotes(s, vars) == 0)	
-		return (NULL);
+		return (free(trim), NULL);
+	if (!ft_count_quotes(s, vars))	
+		return (free(trim), free((char *)s), NULL);
 	trim->words_count = ft_word((char *)s, c, vars);
 	trim->arr = (char **) malloc(sizeof(char *) * (trim->words_count + 1));
 	if (!trim->arr)
-		return (NULL);
+		return (free(trim), free((char *)s), NULL);
 	trim->arr = ft_trim((char *)s, c, trim);
+	if (!trim->arr)
+		return (free(trim), free((char *)s) ,NULL);
 	trim->arr[trim->words_count] = NULL;
+	free((char *)s);
 	return (trim->arr);
 }
-
-
- 
-
-//  int main(int argc, char const *argv[])
-//  {
-
-//     char **l = ft_ownsplit(argv[1], ' ');
-// 	if (!l)
-// 		return 1;
-//     for (int i = 0;l[i];i++)
-//         printf("%s %ld\n", l[i], ft_strlen(l[i]));
-//     return 0;
-//  }
- 

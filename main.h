@@ -4,8 +4,6 @@
 # include "libft/libft.h"
 # include <dirent.h>
 # include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -15,9 +13,10 @@
 # include <termios.h>
 # include <sys/stat.h>
 
-// ANSI color escape codes
-# define ANSI_COLOR_YELLOW "\x1b[33m"
-# define ANSI_COLOR_RESET "\x1b[0m"
+
+# define READLINE_LIBRARY
+# include "/Users/ousabbar/readline/include/readline/history.h"
+# include "/Users/ousabbar/readline/include/readline/readline.h"
 
 
 // tokenize
@@ -88,8 +87,10 @@ typedef enum e_type {
 	DELIMITER,
 }t_type;
 
-
-
+typedef struct s_free {
+	int *address;
+	struct s_free *next;
+}t_free;
 
 
 // list 
@@ -130,4 +131,5 @@ char *ft_env(t_env *env, char *s);
 t_env *envir(char **envp);
 void	list_for_env(t_env **lst, t_env *new);
 t_env *ft_update_pwd_env(t_env *env);
+void	env_clear(t_env **env);
 #endif
