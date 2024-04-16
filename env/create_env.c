@@ -45,14 +45,14 @@ t_env	*envir(char	**envp)
 	env = NULL;
 	while (envp[++i])
 	{
-		arr = ft_split(envp[i], '=');
+		arr = ft_split(envp[i], '='); // change with melfersi's libft :?
 		if (!arr)
 			return (NULL);
 		node = malloc(sizeof(t_env));
 		if (!node)
-			return (NULL);
+			return (ft_free_env(arr), NULL);
 		node->next = NULL;
-		node->key = ft_strdup(arr[0]);
+		node->key = ft_strdup(arr[0], node);
 		if (ft_strncmp(node->key, "SHLVL", 6) == 0)
 			node->value = ft_strdup("2");
 		else
