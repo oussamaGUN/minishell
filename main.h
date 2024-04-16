@@ -15,8 +15,8 @@
 
 
 # define READLINE_LIBRARY
-# include "/Users/ousabbar/readline/include/readline/history.h"
-# include "/Users/ousabbar/readline/include/readline/readline.h"
+# include "/Users/melfersi/readline/include/readline/history.h"
+# include "/Users/melfersi/readline/include/readline/readline.h"
 
 
 // tokenize
@@ -97,7 +97,7 @@ typedef enum e_type {
 
 
 // list 
-t_token	*new(void *content);
+t_token	*add_token(void *content, t_free **alloc);
 void	ft_lstadd(t_token **lst, t_token *new);
 int	lstsize(t_token *lst);
 // parsing
@@ -137,6 +137,8 @@ t_env *ft_update_pwd_env(t_env *env);
 void	env_clear(t_env **env);
 
 // garbage collector
-void	*ft_malloc(size_t	size, t_free **alloc);
-void	garbage_collector(t_free *alloc);
+void	*ft_malloc(size_t	size, t_free **alloc, void *mem);
+void	garbage_collector(t_free **alloc);
+void	add_front_mem(t_free **alloc, t_free *new);
+
 #endif
