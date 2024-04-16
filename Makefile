@@ -19,7 +19,7 @@ NAME = minishell
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LIBS) -L /Users/melfersi/readline/lib
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LIBS) -L /Users/$(USER)/readline/lib
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

@@ -34,7 +34,7 @@ void here_doc_expand_norm(t_multx *vars, char *s, t_env *env)
         vars->res = ft_malloc(0, &(env->mem), ft_strjoin(vars->res, ""));
     vars->i--;
 }
-void here_doc_expand_norm_two(t_multx *vars, char *s, t_free *env)
+void here_doc_expand_norm_two(t_multx *vars, char *s, t_env *env)
 {
     if (s[vars->i] == '$' && ft_isdigit(s[vars->i + 1]))
         vars->i++;
