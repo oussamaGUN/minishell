@@ -1,19 +1,19 @@
 #include "../main.h"
 
-t_token	*new(void *content)
+t_token	*add_token(void *content, t_free **alloc)
 {
-	t_token	*new;
+	t_token	*buff;
 
-	new = malloc(sizeof(t_token));
-	if (!new)
+	buff = ft_malloc(sizeof(t_token), alloc, NULL);
+	if (!buff)
 		return (NULL);
 	if (!content)
-		new->content = NULL;
+		buff->content = NULL;
 	else
-		new->content = (void *)content;
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
+		buff->content = (void *)content;
+	buff->next = NULL;
+	buff->prev = NULL;
+	return (buff);
 }
 void	ft_lstadd(t_token **lst, t_token *new)
 {
@@ -78,19 +78,17 @@ int tokenizer(char *cmd, t_token **token, t_env **env)
 	int         i;
 
 	i = -1;
-	vars = ft_malloc(sizeof(t_tokenizer), &((*env)->mem));
-	puts("ft_malloc1");
-	return (0);
+	vars = ft_malloc(sizeof(t_tokenizer), &((*env)->mem), NULL);
 	if (!vars)
 		return (0);
 	sp = ft_ownsplit(cmd, ' ', vars);
 	free(cmd);// refactor ??
 	if (!sp)
-		return (free(vars), 0);
+		return (0);
 	vars->flag = 0;
 	while (sp[++i])
 	{
-		node = new(sp[i]);
+		node = add_token(sp[i], &((*env)->mem));
 		if (ft_strncmp(sp[i], "|", 1) == 0 || ft_strncmp(sp[i], ">>", 2) == 0
 			|| ft_strncmp(sp[i], ">", 1) == 0 || ft_strncmp(sp[i], "<", 1) == 0)
 			token_type(sp[i], vars, node);
@@ -98,6 +96,5 @@ int tokenizer(char *cmd, t_token **token, t_env **env)
 			f_open(vars, node);
 		ft_lstadd(token, node);
 	}
-	free2d(sp);
-	return 1;
+	return (1);
 }

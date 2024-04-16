@@ -15,7 +15,8 @@ int ft_words(t_token *token)
 void here_doc_expand_norm(t_multx *vars, char *s, t_env *env)
 {
     vars->i++;
-    while (s[vars->i] != ' ' && s[vars->i] && ft_isalnum(s[vars->i]))
+    while (s[vars->i] != ' '
+        && s[vars->i] && ft_isalnum(s[vars->i]))
     {
         vars->inside_dquotes[vars->j] = s[vars->i];
         vars->i++;
@@ -25,40 +26,42 @@ void here_doc_expand_norm(t_multx *vars, char *s, t_env *env)
     vars->exp = expand(vars->inside_dquotes, env);
     if (vars->exp)
     {
-        vars->res = ft_strjoin(vars->res, vars->exp);
+        vars->res = ft_malloc(0, &(env->mem),
+                    ft_strjoin(vars->res, vars->exp));
         vars->k = ft_strlen(vars->res);
     }
     else
-        vars->res = ft_strjoin(vars->res, "");
+        vars->res = ft_malloc(0, &(env->mem), ft_strjoin(vars->res, ""));
     vars->i--;
 }
-void here_doc_expand_norm_two(t_multx *vars, char *s)
+void here_doc_expand_norm_two(t_multx *vars, char *s, t_free *env)
 {
     if (s[vars->i] == '$' && ft_isdigit(s[vars->i + 1]))
         vars->i++;
     else
-        vars->res = ft_strjoin(vars->res, &s[vars->i]);
+        vars->res = ft_malloc(0 ,&(env->mem) ,
+                    ft_strjoin(vars->res, &s[vars->i]));
 }
 char *here_doc_expand(char *s, t_env *env)
 {
     t_multx *vars;
     
-    vars = malloc(sizeof(t_multx));
-    vars->inside_dquotes = malloc(ft_strlen(s));
-    vars->res = malloc(ft_strlen(s) * 1);
+    vars = ft_malloc(sizeof(t_multx), &(env->mem), NULL);
+    vars->inside_dquotes = ft_malloc(ft_strlen(s), &(env->mem), NULL);
+    vars->res = ft_malloc(ft_strlen(s), &(env->mem), NULL);
     if (!vars || !vars->inside_dquotes || !vars->res)
-        return NULL;
+        return (NULL);
     vars->res[0] = '\0';
     vars->k = 0;
     vars->i = 0;
     while (s[vars->i])
     {
         vars->j = 0;
-        if (s[vars->i] == '$' && s[vars->i + 1] != ' ' 
+        if (s[vars->i] == '$' && s[vars->i + 1] != ' '
         && s[vars->i + 1] && !ft_isdigit(s[vars->i + 1]))
             here_doc_expand_norm(vars, s, env);
         else
-            here_doc_expand_norm_two(vars, s);
+            here_doc_expand_norm_two(vars, s, env);
         if (vars->res[vars->k])
             vars->k++;
         if (s[vars->i])
@@ -159,11 +162,11 @@ t_token *ft_openning_files(t_token *token, t_token *node)
     }
     return token;
 }
-t_token *little_norm(t_token *node, t_multx *vars, t_token *token)
+t_token *little_norm(t_token *node, t_multx *vars, t_token *token, t_free **mem)
 {
     vars->count = ft_words(token);
     vars->i = 0;
-    node->arr = malloc(sizeof(char *) * (vars->count + 1));
+    node->arr = ft_malloc(sizeof(char *) * (vars->count + 1), mem, NULL);
     if (!node->arr)
         return NULL;
     node->output_file = -1;
@@ -173,13 +176,14 @@ t_token *little_norm(t_token *node, t_multx *vars, t_token *token)
 t_token *normy(t_token *token, t_env *env, t_token *node, t_multx *vars)
 {
     if (token->type == WORD)
-        node->arr[vars->i++] = ft_strdup(token->content);
+        node->arr[vars->i++] = ft_malloc(0, &(env->mem),
+                                ft_strdup(token->content));
     else if (!ft_openning_files(token, node))
-        return NULL;
+        return (NULL);
     else if (token->type == DELIMITER)
     {
         if (!here_doc_implement(token, node, env))
-            return NULL;
+            return (NULL);
     }
     return token;
 }
@@ -200,19 +204,19 @@ t_token *ft_list(t_token *token, t_env *env)
     t_token *node;
     t_multx *vars;
 
-    vars = malloc(sizeof(t_multx));
+    vars = ft_malloc(sizeof(t_multx), &(env->mem), NULL);
     if (!vars)
         return (NULL);
     lst = NULL;
     while (token)
     {
-        node = new(token->content);
-        if (!little_norm(node, vars, token))
-            return (free_node(node), NULL);
+        node = add_token(token->content, &(env->mem));
+        if (!little_norm(node, vars, token, &(env->mem)))
+            return (NULL);
         while (token && token->type != PIPE)
         {
             if (!normy(token, env, node, vars))
-                return (free_node(node), NULL);
+                return (NULL);
             token = token->next;
         }
         node->arr[vars->i] = NULL;
