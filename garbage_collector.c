@@ -1,31 +1,40 @@
 #include "main.h"
 
-void *ft_malloc(size_t	size, t_free **alloc)
+void *ft_malloc(size_t	size, t_free **alloc, void *mem)
 {
-	void	*mem;
-	t_free	*buff;
+	t_free	*new;
 
-	buff = (t_free *)malloc(sizeof(t_free));
-	if (!buff)
+	new = (t_free *)malloc(sizeof(t_free));
+	if (!new)
 		return (NULL);
-	buff->mem = malloc(size);
-	if (!(buff->mem))
-		return (NULL);
-	buff->next = *alloc;
-	*alloc = buff;
-	printf("addr: {%p} alllocated!\n",buff->mem);
-	system("leaks a.out");
-	return (buff->mem);
+	if (!mem)
+		new->mem = malloc(size);
+	else
+		new->mem = mem;
+	if (!(new->mem))
+		return (free(new), NULL);
+	add_front_mem(alloc, new);
+	return (new->mem);
 }
 
-void	garbage_collector(t_free *alloc)
+void	add_front_mem(t_free **alloc, t_free *new)
 {
-	while (alloc)
+	new->next = *alloc;
+	*alloc = new;
+}
+void	garbage_collector(t_free **alloc)
+{
+	t_free	*holder;
+
+	holder = *alloc;
+	while (holder)
 	{
-		printf("addr: {%p} it's free!\n",alloc->mem);
-		free(alloc->mem);
-		alloc = alloc->next;
+		// printf("addr: {%p} it's free!\n",holder->mem);
+		free(holder->mem);
+		holder = holder->next;
 	}
+	free(*alloc);
+	*alloc = NULL;
 }
 
 
