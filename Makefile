@@ -4,7 +4,9 @@ CC = cc
 
 SRC = main.c  handle_signal.c tokenizing/first_step.c tokenizing/ft_ownsplit.c \
 	parsing/quotes_handle.c tools/tools.c parsing/syntax_error.c expanding/del_quotes.c  \
-	files/here_doc.c parsing/tree.c execution/execution.c builtins/builtins.c env/create_env.c
+	files/here_doc.c parsing/tree.c execution/execution.c builtins/builtins.c env/create_env.c \
+	garbage_collector.c	
+	
 
 LIBFT = libft/libft.a
 
@@ -17,7 +19,7 @@ NAME = minishell
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LIBS) -L /Users/ousabbar/readline/lib
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LIBS) -L /Users/melfersi/readline/lib
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
