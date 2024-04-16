@@ -17,7 +17,7 @@ void free_token(t_token *token)
 		token = token->next;
 	}
 }
-int	cmd_exe(t_token *token, t_env *env)
+int	cmd_exe(t_token *token, t_env **env)
 {
 	t_token	*new_token;
 	t_token	*cmd_list;
@@ -27,7 +27,7 @@ int	cmd_exe(t_token *token, t_env *env)
 	if (!cmd)
 		return (printf("exit\n"), 1);
 	add_history(cmd);
-	if (!tokenizer(cmd, &token))
+	if (!tokenizer(cmd, &token, env))
 		return (0);
 	if (!ft_check_errors(token))
 		return (free_token(token), 0);
@@ -47,7 +47,9 @@ int	main(int ac, char *av[], char *envp[])
 	t_env	*env;
 
 	env = envir(envp);
-	while (!cmd_exe(NULL, env))
+	if (!env)
+		return (printf("exit\n"), EXIT_FAILURE);
+	while (!cmd_exe(NULL, &env))
 		;
 	env_clear(&env);
 	rl_clear_history();
