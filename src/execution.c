@@ -305,6 +305,8 @@ int normal(t_token *lst, t_env *env)
 
 int execution(t_token *lst, t_env *env)
 {
+    exec(lst, env);
+    return (0);
     env = ft_update_pwd_env(env);
     if (lstsize(lst) == 1)
     {
