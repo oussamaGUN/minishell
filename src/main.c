@@ -37,6 +37,12 @@ int	cmd_exe(t_token *token, t_env *env)
 	cmd_list = ft_list(new_token, env);
 	if (!cmd_list)
 		return (0);
+	t_token *itter = cmd_list;
+	while (itter)
+	{
+		itter->path = ft_getpath(itter->arr[0], env->envp);
+		itter = itter->next;
+	}
 	if (!execution(cmd_list, env))
 		return (0);
 	return 0;
@@ -49,6 +55,7 @@ int	main(int ac, char *av[], char *envp[])
 	if (ac)
 		av = NULL;
 	env = envir(envp);
+	env->envp = envp; 
 	if (!env)
 		return (printf("exit\n"), EXIT_FAILURE);
 	env->mem = NULL;
