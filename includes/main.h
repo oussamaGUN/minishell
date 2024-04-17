@@ -44,8 +44,9 @@ typedef	struct s_free
 
 typedef struct s_env
 {
-	char *key;
-	char *value;
+	char			*key;
+	char			*value;
+	char			**envp;
 	struct s_free	*mem;
 	struct s_env	*next;
 }t_env;
@@ -53,18 +54,18 @@ typedef struct s_env
 
 typedef struct s_tokenizer
 {
-	size_t			words_count;
-	size_t word_len;
-	char			**arr;
-	int flag;
-	int i;
-	int j;
-	int k;
-	char const *s;
-	char *res;
-	int count1;
-	int count2;
-}t_tokenizer;
+	size_t		words_count;
+	size_t		word_len;
+	char		**arr;
+	int 		flag;
+	int			i;
+	int			j;
+	int			k;
+	char const	*s;
+	char 		*res;
+	int 		count1;
+	int 		count2;
+}				t_tokenizer;
 
 
 typedef struct s_multx
@@ -82,7 +83,7 @@ typedef struct s_multx
 }t_multx;
 
 typedef enum e_type {
-	WORD,
+	CMD,
 	PIPE,
 	RED_OUTPUT,
 	RED_INPUT,

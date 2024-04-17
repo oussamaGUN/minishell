@@ -6,10 +6,10 @@ int pipe_error(t_token *s)
         return 0;
     if (!s->prev)
         return 0;
-    if (s->prev->type != WORD && s->prev->type != FILE_OUT 
+    if (s->prev->type != CMD && s->prev->type != FILE_OUT 
     && s->prev->type != FILE_IN && s->prev->type != FILE_APP && s->prev->type != DELIMITER)
         return 0;
-    if (s->next->type != WORD && s->next->type != RED_OUTPUT)
+    if (s->next->type != CMD && s->next->type != RED_OUTPUT)
         return 0;
     return 1;
 }
@@ -18,7 +18,7 @@ int red_output_error(t_token *s)
     if (!s->next)
         return 0;
     if (s->prev)
-        if (s->prev->type != WORD && s->prev->type != FILE_OUT && s->prev->type != PIPE
+        if (s->prev->type != CMD && s->prev->type != FILE_OUT && s->prev->type != PIPE
         && s->prev->type != FILE_IN && s->prev->type != FILE_APP && s->prev->type != DELIMITER)
             return 0;
     if (s->next->type != FILE_OUT)
@@ -30,7 +30,7 @@ int red_input_error(t_token *s)
     if (!s->next)
         return 0;
     if (s->prev)
-        if (s->prev->type != WORD && s->prev->type != FILE_OUT 
+        if (s->prev->type != CMD && s->prev->type != FILE_OUT 
         && s->prev->type != FILE_IN && s->prev->type != FILE_APP && s->prev->type != DELIMITER)
             return 0;
     if (s->next->type != FILE_IN)
@@ -43,7 +43,7 @@ int red_append_error(t_token *s)
         return 0;
     if (!s->prev)
         return 0;
-    if (s->prev->type != WORD && s->prev->type != FILE_OUT 
+    if (s->prev->type != CMD && s->prev->type != FILE_OUT 
     && s->prev->type != FILE_IN && s->prev->type != FILE_APP && s->prev->type != DELIMITER)
         return 0;
     if (s->next->type != FILE_APP)
@@ -55,7 +55,7 @@ int here_doc_error(t_token *s)
     if (!s->next)
         return 0;
     if (s->prev)
-        if (s->prev->type != WORD && s->prev->type != FILE_OUT 
+        if (s->prev->type != CMD && s->prev->type != FILE_OUT 
         && s->prev->type != FILE_IN && s->prev->type != FILE_APP && s->prev->type != DELIMITER)
             return 0;
     if (s->next->type != DELIMITER)

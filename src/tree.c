@@ -6,7 +6,7 @@ int ft_words(t_token *token)
     t_token *itter = token;
     while (itter && itter->type != PIPE)
     {
-        if (itter->type == WORD)
+        if (itter->type == CMD)
             count++;
         itter = itter->next;
     }
@@ -175,7 +175,7 @@ t_token *little_norm(t_token *node, t_multx *vars, t_token *token, t_free **mem)
 }
 t_token *normy(t_token *token, t_env *env, t_token *node, t_multx *vars)
 {
-    if (token->type == WORD)
+    if (token->type == CMD)
         node->arr[vars->i++] = ft_malloc(0, &(env->mem),
                                 ft_strdup(token->content));
     else if (!ft_openning_files(token, node))

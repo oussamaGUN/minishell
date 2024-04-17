@@ -41,7 +41,7 @@ void f_open(t_tokenizer *vars, t_token *node)
 	else if (vars->flag == 4)
 		node->type = DELIMITER;
 	else
-		node->type = WORD;
+		node->type = CMD;
 	vars->flag = 0;
 }
 void token_type(char *sp, t_tokenizer *vars, t_token *node)
