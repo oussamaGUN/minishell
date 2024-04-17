@@ -40,6 +40,8 @@ int	cmd_exe(t_token *token, t_env *env)
 	t_token *itter = cmd_list;
 	while (itter)
 	{
+		if (!itter->arr[0])
+			return 0;
 		itter->path = ft_getpath(itter->arr[0], env->envp);
 		itter = itter->next;
 	}

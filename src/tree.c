@@ -210,7 +210,7 @@ t_token *ft_list(t_token *token, t_env *env)
     lst = NULL;
     while (token)
     {
-        node = add_token(token->content, &(env->mem));
+        node = add_token(NULL, &(env->mem));
         if (!little_norm(node, vars, token, &(env->mem)))
             return (NULL);
         while (token && token->type != PIPE)

@@ -11,8 +11,5 @@ t_token *ft_check_errors(t_token *token)
     }
     else if (flag == 2)
         return NULL;
-    else if (flag == 3)
-        return token;
-    
     return token;
 }

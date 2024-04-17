@@ -176,6 +176,8 @@ int	ft_count_quotes(char const *s, t_tokenizer *vars)
 }
 void first_minisplit(char const *s, t_tokenizer *vars)
 {
+
+	vars->res[vars->j++] = s[vars->i++];
 	while (s[vars->i] != '\"' && s[vars->i] != '\''  && s[vars->i])
 	{
 		vars->res[vars->j++] = s[vars->i];
@@ -194,7 +196,7 @@ void second_minisplit(char const *s, t_tokenizer *vars)
 		if (s[vars->i + 1] != ' ')
 			vars->res[vars->j++] = ' ';
 	}
-	else
+	else 
 	{
 		if (s[vars->i - 1] != ' ')
 			vars->res[vars->j++] = ' ';
@@ -203,6 +205,7 @@ void second_minisplit(char const *s, t_tokenizer *vars)
 			vars->res[vars->j++] = ' ';
 	}
 }
+
 char *minisplit(char const *s, t_tokenizer *vars)
 {
 	vars->i = 0;
@@ -213,18 +216,14 @@ char *minisplit(char const *s, t_tokenizer *vars)
 	while (s[vars->i])
 	{
 		if (s[vars->i] == '\"' || s[vars->i] == '\'')
-		{
-			vars->res[vars->j++] = s[vars->i];
-			vars->i++;
 			first_minisplit(s, vars);
-		}
 		if (s[vars->i] == '|' || s[vars->i] == '>' || s[vars->i] == '<')
 		{
 			second_minisplit(s, vars);
 			vars->i++;
 		}
-		vars->res[vars->j++] = s[vars->i];
-		vars->i++;
+		if (s[vars->i] != '>' && s[vars->i] != '<' && s[vars->i] != '|')
+			vars->res[vars->j++] = s[vars->i++];
 	}
 	vars->res[vars->j] = '\0';
 	return vars->res;
@@ -242,6 +241,7 @@ char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars)
 	if (!trim)
 		return NULL;
 	s = minisplit(s, vars);
+	puts(s);
 	if (!s)
 		return (free(trim), NULL);
 	if (!ft_count_quotes(s, vars))	

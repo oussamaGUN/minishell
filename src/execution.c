@@ -47,8 +47,6 @@ char	*ft_getpath(char *cmd, char **env)
 	{
 		if (access(cmd, X_OK) == 0)
 			return (cmd);
-		else
-			return (NULL);
 	}
 	else
 	{
@@ -56,7 +54,7 @@ char	*ft_getpath(char *cmd, char **env)
 		if (str)
 			return str;
 		else
-			return NULL;
+			return cmd;
 	}
 	return (NULL);
 }
@@ -261,6 +259,7 @@ int multiple_cmd(t_token *lst, t_env *env)
 }
 int normal(t_token *lst, t_env *env)
 {
+
     if (lst->arr[0] && (ft_strncmp(lst->arr[0], "cd", 3) == 0 
         || ft_strncmp(lst->arr[0], "pwd", 4) == 0
         || ft_strncmp(lst->arr[0], "env", 4) == 0
@@ -305,8 +304,18 @@ int normal(t_token *lst, t_env *env)
 
 int execution(t_token *lst, t_env *env)
 {
-    exec(lst, env);
-    return (0);
+    // exec(lst, env);
+    while (lst)
+    {
+        for (int i = 0;lst->arr[i];i++)
+        {
+            printf("%s\n", lst->arr[i]);
+        }
+        printf("%s %d %d\n", lst->path, lst->input_file, lst->output_file);
+        printf("-------\n");
+        lst = lst->next;
+    }
+    exit(1);
     env = ft_update_pwd_env(env);
     if (lstsize(lst) == 1)
     {
