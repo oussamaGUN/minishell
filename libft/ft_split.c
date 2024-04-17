@@ -6,10 +6,11 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 17:50:57 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/16 10:44:06 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/04/16 21:19:20 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 
 int	word(char *s, char c)
 {
