@@ -13,18 +13,19 @@ char *ft_env(t_env *env, char *s)
 }
 int pwd(t_token *lst, t_env *env)
 {
-    char buff[4096];
 	char *path;
-	path = getcwd(buff, 4096);
+	path = getcwd(NULL, 0);
     if (!path)
     {
         printf("bash: No such file or directory\n");
+        free(path);
         return 0;
     }
     else
     {
 	    lst->path = ft_malloc(0, &(env->mem), ft_strdup(path));
         printf("%s\n", lst->path);
+        free(lst->path);
     }
     return 1;
 }
