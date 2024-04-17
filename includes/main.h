@@ -126,6 +126,7 @@ char *expand(char *s, t_env *envp);
 
 // execution
 char	*ft_getpath(char *cmd, char **env);
+int exec(t_token *lst, t_env *env);
 int execution(t_token *lst, t_env *env);
 int builtins(t_token *lst, t_env *env);
 char *ft_env(t_env *env, char *s);
