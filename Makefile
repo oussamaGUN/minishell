@@ -1,35 +1,46 @@
-CC = cc
 
-# CFLAGS = -Wall -Wextra -Werror
+#______command and their flags______#
+RM = rm -rf
+CFLAGS = -Wall -Wextra -Werror -w -lreadline -L /Users/$(USER)/readline/lib 
+INCLUDES = includes
 
-SRC = main.c  handle_signal.c tokenizing/first_step.c tokenizing/ft_ownsplit.c \
-	parsing/quotes_handle.c tools/tools.c parsing/syntax_error.c expanding/del_quotes.c  \
-	files/here_doc.c parsing/tree.c execution/execution.c builtins/builtins.c env/create_env.c \
-	garbage_collector.c	
-	
+#______directories______#
+OBJ_DIR = obj
+SRC_DIR = src
+INCLUDES = includes
+LIB_INCLUDES = libft
 
-LIBFT = libft/libft.a
+#______mandatory and bonus files______#
+FILES = main.c handle_signal.c first_step.c ft_ownsplit.c quotes_handle.c tools.c syntax_error.c\
+		del_quotes.c here_doc.c tree.c execution.c create_env.c garbage_collector.c builtins.c
+#______patterns and substitutions______#
+SOURCES = $(FILES:%.c=$(SRC_DIR)/%.c)
+OBJECTS = $(SOURCES:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
-LIBS = -lreadline
-
-OBJ = $(SRC:.c=.o)
-
+#______static library name______#
 NAME = minishell
+LIB = libft
 
-all: $(NAME)
+#______________Rules______________#
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LIBS) -L /Users/$(USER)/readline/lib
+$(NAME): $(OBJECTS) $(LIB)/libft.a
+	$(CC) $(CFLAGS) $^ -I$(INCLUDES) -I$(LIB_INCLUDES) -o $@
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+# impicit rule for mandatory
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -I$(INCLUDES) -I$(LIB_INCLUDES) -c $< -o $@
 
-clean:
-	rm -rf $(OBJ)
-
-fclean: clean
-	rm -rf $(NAME)
+$(LIB)/%.a:
+	$(MAKE) all -C $(LIB)
 
 re: fclean all
 
-# while (1); do leaks minishell; sleep 1; done 
+all: $(NAME)
+
+#______cleaning______#
+clean:
+	$(RM) $(OBJ_DIR)
+	$(MAKE) -C $(LIB) fclean
+fclean: clean
+	$(RM) $(NAME)
