@@ -241,7 +241,6 @@ char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars)
 	if (!trim)
 		return NULL;
 	s = minisplit(s, vars);
-	puts(s);
 	if (!s)
 		return (free(trim), NULL);
 	if (!ft_count_quotes(s, vars))	
