@@ -47,12 +47,10 @@ int	exec_cmd(t_token *lst, t_env *env)
 {
 
 	set_io(lst);
-	for (int i = 0; lst->arr[i];i++)
-		puts(lst->arr[i]);
 	if (lst->path)
 		if ((-1) == execve(lst->path, lst->arr, env->envp));
 			printf("mini: %s: command not found\n",lst->path);
-	return (127);
+	exit(127);
 }
 
 int exec(t_token *lst, t_env *env)
@@ -67,6 +65,7 @@ int exec(t_token *lst, t_env *env)
 		if (!cmdlist->pid)
 			exit(exec_cmd(cmdlist, env));
 		wait(&(cmdlist->exit_status));
+		exit_status = cmdlist->exit_status;
 		if (cmdlist->next)
 			close(cmdlist->fd[STDOUT_FILENO]);
 		cmdlist = cmdlist->next;

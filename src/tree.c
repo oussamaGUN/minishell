@@ -107,7 +107,7 @@ int here_doc_mininorm(t_token *token)
 {
     if (!ft_here_doc_count(token))
     {
-        perror("bash: maximum here-document count exceeded");
+        perror("mini: maximum here-document count exceeded");
         return -1;
     }
     if (pipe(token->fd) == -1)
@@ -132,7 +132,7 @@ t_token *here_doc_implement(t_token *token, t_token *node, t_env *env)
     node->input_file = token->fd[0];
     if (node->input_file == -1)
     {
-        printf("bash: %s: No such file or directory\n", token->content);
+        printf("mini: %s: No such file or directory\n", token->content);
         return NULL;
     }
     return token;
@@ -150,7 +150,7 @@ t_token *ft_openning_files(t_token *token, t_token *node)
         node->input_file = open(token->content, O_RDONLY);
         if (node->input_file == -1)
         {
-            printf("bash: %s: No such file or directory\n", token->content);
+            printf("mini: %s: No such file or directory\n", token->content);
             return NULL;
         }
     }
