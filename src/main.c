@@ -24,9 +24,8 @@ void ft_path(t_token *cmd_list, char **env)
 	itter = cmd_list;
 	while (itter)
 	{
-		if (!itter->arr[0])
-			return ;
-		itter->path = ft_getpath(itter->arr[0], env);
+		if (itter->arr[0])
+			itter->path = ft_getpath(itter->arr[0], env);
 		itter = itter->next;
 	}
 	return ;
@@ -52,7 +51,6 @@ int	cmd_exe(t_token *token, t_env *env)
 	if (!cmd_list)
 		return (0);
 	ft_path(cmd_list, env->envp);
-	puts("hello");
 	if (!execution(cmd_list, env))
 		return (0);
 	return 0;

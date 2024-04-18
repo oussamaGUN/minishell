@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   first_step.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/18 09:15:00 by ousabbar          #+#    #+#             */
+/*   Updated: 2024/04/18 09:16:00 by ousabbar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 
 t_token	*add_token(void *content, t_free **alloc)
@@ -15,9 +27,10 @@ t_token	*add_token(void *content, t_free **alloc)
 	buff->prev = NULL;
 	return (buff);
 }
+
 void	ft_lstadd(t_token **lst, t_token *new)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	if (lst == NULL || (*lst) == NULL)
 		*lst = new;
@@ -30,7 +43,8 @@ void	ft_lstadd(t_token **lst, t_token *new)
 		new->prev = tmp;
 	}
 }
-void f_open(t_tokenizer *vars, t_token *node)
+
+void	f_open(t_tokenizer *vars, t_token *node)
 {
 	if (vars->flag == 1)
 		node->type = FILE_APP;
@@ -44,38 +58,39 @@ void f_open(t_tokenizer *vars, t_token *node)
 		node->type = CMD;
 	vars->flag = 0;
 }
-void token_type(char *sp, t_tokenizer *vars, t_token *node)
+
+void	token_type(char *sp, t_tokenizer *vars, t_token *node)
 {
-		if (ft_strncmp(sp, "|", 1) == 0)
-			node->type = PIPE;
-		else if (ft_strncmp(sp, ">>", 2) == 0)
-		{
-			vars->flag = 1;
-			node->type = RED_APPEND;
-		}
-		else if (ft_strncmp(sp, ">", 1) == 0)
-		{
-			vars->flag = 2;
-			node->type = RED_OUTPUT;
-		}
-		else if (ft_strncmp(sp, "<", ft_strlen(sp)) == 0)
-		{
-			vars->flag = 3;            
-			node->type = RED_INPUT;
-		}
-		else if (ft_strncmp(sp, "<<", ft_strlen(sp)) == 0)
-		{
-			vars->flag = 4;
-			node->type = HERE_DOC;
-		}
+	if (ft_strncmp(sp, "|", 1) == 0)
+		node->type = PIPE;
+	else if (ft_strncmp(sp, ">>", 2) == 0)
+	{
+		vars->flag = 1;
+		node->type = RED_APPEND;
+	}
+	else if (ft_strncmp(sp, ">", 1) == 0)
+	{
+		vars->flag = 2;
+		node->type = RED_OUTPUT;
+	}
+	else if (ft_strncmp(sp, "<", ft_strlen(sp)) == 0)
+	{
+		vars->flag = 3;
+		node->type = RED_INPUT;
+	}
+	else if (ft_strncmp(sp, "<<", ft_strlen(sp)) == 0)
+	{
+		vars->flag = 4;
+		node->type = HERE_DOC;
+	}
 }
 
 int tokenizer(char *cmd, t_token **token, t_env **env)
 {
-	t_token     *node;
-	t_tokenizer *vars;
-	char        **sp;
-	int         i;
+	t_token		*node;
+	t_tokenizer	*vars;
+	char		**sp;
+	int			i;
 
 	i = -1;
 	vars = ft_malloc(sizeof(t_tokenizer), &((*env)->mem), NULL);
