@@ -5,7 +5,7 @@ char	*get_value(t_env *env, char *key)
 	while (env)
 	{
 		if (ft_strncmp(env->key, key, ft_strlen(key)) == 0)
-			return env->value;
+			return (env->value);
 		env = env->next;
 	}
 	return (NULL);
@@ -29,8 +29,10 @@ int pwd(t_token *lst, t_env *env)
 int cd(char **arr, t_env *env)
 {
 	if (!arr[1])
+	{
 		if (chdir(get_value(env, "HOME")) == -1)
 			return (perror("mini"), 0);
+	}
 	else if (chdir(arr[1]) == -1)
 		return (perror("mini"), 0);
 	return 1;
