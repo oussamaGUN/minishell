@@ -17,6 +17,20 @@ void free_token(t_token *token)
 		token = token->next;
 	}
 }
+void ft_path(t_token *cmd_list, char **env)
+{
+	t_token *itter;
+	
+	itter = cmd_list;
+	while (itter)
+	{
+		if (!itter->arr[0])
+			return ;
+		itter->path = ft_getpath(itter->arr[0], env);
+		itter = itter->next;
+	}
+	return ;
+}
 int	cmd_exe(t_token *token, t_env *env)
 {
 	t_token	*new_token;
@@ -37,14 +51,8 @@ int	cmd_exe(t_token *token, t_env *env)
 	cmd_list = ft_list(new_token, env);
 	if (!cmd_list)
 		return (0);
-	t_token *itter = cmd_list;
-	while (itter)
-	{
-		if (!itter->arr[0])
-			return 0;
-		itter->path = ft_getpath(itter->arr[0], env->envp);
-		itter = itter->next;
-	}
+	ft_path(cmd_list, env->envp);
+	puts("hello");
 	if (!execution(cmd_list, env))
 		return (0);
 	return 0;
