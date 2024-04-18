@@ -65,6 +65,6 @@ int	main(int ac, char *av[], char *envp[])
 		garbage_collector(&(env->mem));
 	env_clear(&env);
 	rl_clear_history();
-	system("leaks minishell");
+	// system("leaks minishell");
 	return (EXIT_SUCCESS);
 }

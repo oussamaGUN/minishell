@@ -304,18 +304,19 @@ int normal(t_token *lst, t_env *env)
 
 int execution(t_token *lst, t_env *env)
 {
-    // exec(lst, env);
-    while (lst)
-    {
-        for (int i = 0;lst->arr[i];i++)
-        {
-            printf("%s\n", lst->arr[i]);
-        }
-        printf("%s %d %d\n", lst->path, lst->input_file, lst->output_file);
-        printf("-------\n");
-        lst = lst->next;
-    }
-    exit(1);
+    exec(lst, env);
+	return(1);
+    // while (lst)
+    // {
+    //     for (int i = 0;lst->arr[i];i++)
+    //     {
+    //         printf("%s\n", lst->arr[i]);
+    //     }
+    //     printf("%s %d %d\n", lst->path, lst->input_file, lst->output_file);
+    //     printf("-------\n");
+    //     lst = lst->next;
+    // }
+    // exit(1);
     env = ft_update_pwd_env(env);
     if (lstsize(lst) == 1)
     {

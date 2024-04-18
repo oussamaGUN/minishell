@@ -12,6 +12,7 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <sys/stat.h>
+# include <errno.h>
 
 
 # define READLINE_LIBRARY
@@ -23,7 +24,7 @@
 int exit_status;
 typedef struct s_token
 {
-	int type;
+	int	type;
 	char *content;
 	char **arr;
 	int output_file;
