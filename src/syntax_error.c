@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:43:58 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/18 08:47:48 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:14:40 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	file_errors(t_token *s)
 	if (s->type == FILE_IN)
 	{
 		if (!s->prev->prev && !s->next)
-			return (2);
+			return (1);
 	}
 	return (1);
 }
@@ -69,9 +69,11 @@ int	errors(t_token *s)
 	int	flag;
 
 	if (s->type == PIPE)
+	{
 		if (!pipe_error(s))
 			return (0);
-	if (s->type == RED_OUTPUT || s->type == RED_INPUT
+	}
+	else if (s->type == RED_OUTPUT || s->type == RED_INPUT
 		|| s->type == RED_APPEND)
 	{
 		flag = redirections_error(s);
@@ -81,8 +83,10 @@ int	errors(t_token *s)
 			return (2);
 	}
 	else if (s->type == HERE_DOC)
+	{
 		if (!here_doc_error(s))
 			return (0);
+	}
 	else if (s->type == FILE_IN)
 	{
 		flag = file_errors(s);
