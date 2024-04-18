@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 09:15:00 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/18 09:16:00 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/18 09:33:27 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	token_type(char *sp, t_tokenizer *vars, t_token *node)
 	}
 }
 
-int tokenizer(char *cmd, t_token **token, t_env **env)
+int	tokenizer(char *cmd, t_token **token, t_env **env)
 {
 	t_token		*node;
 	t_tokenizer	*vars;
