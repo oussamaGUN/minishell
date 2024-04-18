@@ -1,25 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/18 11:36:30 by ousabbar          #+#    #+#             */
+/*   Updated: 2024/04/18 11:38:35 by ousabbar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 
-void free_token(t_token *token)
+void	ft_path(t_token *cmd_list, char **env)
 {
-	int	i;
-	while (token)
-	{
-		free(token->content);
-		if (token->arr)
-		{
-			i = 0;
-			while (token->arr[i])
-				free(token->arr[i++]);
-			free(token->arr);
-		}
-		free(token);
-		token = token->next;
-	}
-}
-void ft_path(t_token *cmd_list, char **env)
-{
-	t_token *itter;
+	t_token	*itter;
 	
 	itter = cmd_list;
 	while (itter)
@@ -30,6 +25,7 @@ void ft_path(t_token *cmd_list, char **env)
 	}
 	return ;
 }
+
 int	cmd_exe(t_token *token, t_env *env)
 {
 	t_token	*new_token;
@@ -53,7 +49,7 @@ int	cmd_exe(t_token *token, t_env *env)
 	ft_path(cmd_list, env->envp);
 	if (!execution(cmd_list, env))
 		return (0);
-	return 0;
+	return (0);
 }
 
 int	main(int ac, char *av[], char *envp[])
