@@ -1,4 +1,18 @@
 #include "main.h"
+void	print_token(t_token *lst)
+{
+	printf("\t\t>>arr<<\n");
+	for (int i = 0; lst->arr[i];i++)
+		puts(lst->arr[i]);
+	printf("fd[0] = %d -- fd[1] == %d\n",lst->fd[0],lst->fd[1]);
+	printf("input_file %d\n",lst->input_file);
+	printf("output_file %d\n",lst->output_file);
+	printf("%s\n",lst->path);
+	lst->next ? puts("next : √"):puts("next : x");
+	lst->prev ? puts("prev : √"):puts("prev : x");
+}
+
+
 
 
 
@@ -13,6 +27,7 @@ void	set_io(t_token *lst)
 	{
 		close(STDIN_FILENO);
 		dup2(lst->prev->fd[STDIN_FILENO], STDIN_FILENO);
+		close(lst->prev->fd[STDOUT_FILENO]);
 	}
 	if (lst->output_file != (-1))
 	{
@@ -23,13 +38,21 @@ void	set_io(t_token *lst)
 	{
 		close(STDOUT_FILENO);
 		dup2(lst->fd[STDOUT_FILENO], STDOUT_FILENO);
+		close(lst->fd[STDIN_FILENO]);
 	}
 }
 
-void	exec_cmd(t_token *lst, t_env *env)
+
+int	exec_cmd(t_token *lst, t_env *env)
 {
+
 	set_io(lst);
-	execve(lst->arr[0], lst->arr, env->envp);
+	for (int i = 0; lst->arr[i];i++)
+		puts(lst->arr[i]);
+	if (lst->path)
+		if ((-1) == execve(lst->path, lst->arr, env->envp));
+			printf("mini: %s: command not found\n",lst->path);
+	return (127);
 }
 
 int exec(t_token *lst, t_env *env)
@@ -38,12 +61,14 @@ int exec(t_token *lst, t_env *env)
 
 	while (cmdlist)
 	{
+		if (cmdlist->next)
+			pipe(cmdlist->fd);
 		cmdlist->pid = fork();
 		if (!cmdlist->pid)
-		{
-			exec_cmd(lst, env);
-		}
+			exit(exec_cmd(cmdlist, env));
 		wait(&(cmdlist->exit_status));
+		if (cmdlist->next)
+			close(cmdlist->fd[STDOUT_FILENO]);
 		cmdlist = cmdlist->next;
 	}
 }
