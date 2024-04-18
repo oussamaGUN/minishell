@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:44:23 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/18 08:48:11 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/18 14:51:44 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,12 @@ int	red_output_error(t_token *s)
 	if (!s->prev)
 		return (1);
 	if (s->prev)
+	{
 		if (s->prev->type != CMD && s->prev->type != FILE_OUT
 			&& s->prev->type != PIPE && s->prev->type != FILE_IN
 			&& s->prev->type != FILE_APP && s->prev->type != DELIMITER)
 			return (0);
+	}
 	if (s->next->type != FILE_OUT)
 		return (0);
 	return (1);
