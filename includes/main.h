@@ -123,7 +123,10 @@ t_token *ft_list(t_token *token, t_env *env);
 t_token *expanding(t_token *token, t_env *env);
 int here_doc(t_token *token);
 char *expand(char *s, t_env *envp);
-
+int	pipe_error(t_token *s);
+int	red_output_error(t_token *s);
+int	red_input_error(t_token *s);
+int	red_append_error(t_token *s);
 // execution
 char	*ft_getpath(char *cmd, char **env);
 int exec(t_token *lst, t_env *env);

@@ -14,7 +14,7 @@ LIB_INCLUDES = libft
 
 #______mandatory and bonus files______#
 FILES = main.c handle_signal.c first_step.c ft_ownsplit.c quotes_handle.c tools.c syntax_error.c\
-		del_quotes.c here_doc.c tree.c execution.c create_env.c garbage_collector.c builtins.c exec.c
+		del_quotes.c here_doc.c tree.c execution.c create_env.c garbage_collector.c builtins.c exec.c syntax_error_norm.c
 #______patterns and substitutions______#
 SOURCES = $(FILES:%.c=$(SRC_DIR)/%.c)
 OBJECTS = $(SOURCES:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
