@@ -15,8 +15,8 @@
 
 
 # define READLINE_LIBRARY
-# include "/Users/ousabbar/readline/include/readline/history.h"
-# include "/Users/ousabbar/readline/include/readline/readline.h"
+# include "history.h"
+# include "readline.h"
 
 
 // tokenize
