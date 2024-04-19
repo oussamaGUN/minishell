@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:36:30 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/18 11:38:35 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/19 08:16:00 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	ft_path(t_token *cmd_list, char **env)
 		itter = itter->next;
 	}
 	return ;
-}
-
+	}
+	
 int	cmd_exe(t_token *token, t_env *env)
 {
 	t_token	*new_token;
@@ -67,6 +67,5 @@ int	main(int ac, char *av[], char *envp[])
 		garbage_collector(&(env->mem));
 	env_clear(&env);
 	rl_clear_history();
-	// system("leaks minishell");
 	return (EXIT_SUCCESS);
 }
