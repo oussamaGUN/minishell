@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:43:58 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/19 21:17:32 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/19 21:20:36 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,12 @@ int	errors(t_token *s)
 int	syntax_error(t_token *token)
 {
 	t_token	*s;
-	int		flag;
 
 	s = token;
 	while (s)
 	{
-		flag = errors(s);
-		if (!flag)
+		if (!errors(s))
 			return (0);
-		else if (flag == 2)
-			return (2);
 		s = s->next;
 	}
 	return (1);
