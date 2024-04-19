@@ -1,0 +1,10 @@
+#			In Parsing 
+bash :
+bash-3.2$ < lkdf > out2
+bash: lkdf: No such file or directory
+				note : without create out2
+mini :
+$ < ldkf > out1
+mini: ldkf: No such file or directory
+				note : out1 created
+--------------------------------------------------
