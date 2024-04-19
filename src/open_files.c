@@ -3,26 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   open_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:06:36 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/19 10:12:55 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/04/19 16:25:31 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+t_token *file_out(t_token *token, t_token *node)
+{
+	if (access(token->content, W_OK | R_OK) == -1)
+	{
+		perror("mini");
+		return (NULL);
+	}
+	node->output_file = open(token->content,
+			O_TRUNC | O_CREAT | O_WRONLY, 0644);
+	if (node->output_file == -1)
+	{
+		perror("mini");
+		return (NULL);
+	}
+	return (token);
+}
+t_token *file_append(t_token *token, t_token *node)
+{
+	if (access(token->content, W_OK | R_OK) == -1)
+	{
+		perror("mini");
+		return (NULL);
+	}
+	node->output_file = open(token->content,
+			O_APPEND | O_CREAT | O_WRONLY, 0644);
+	if (node->output_file == -1)
+	{
+		perror("mini");
+		return (NULL);
+	}
+	return (token);
+}
+
 t_token	*ft_openning_files(t_token *token, t_token *node)
 {
 	if (token->type == FILE_OUT && node->exit_status != (1))
 	{
-		node->output_file = open(token->content,
-				O_TRUNC | O_CREAT | O_WRONLY, 0644);
-		if (node->output_file == -1)
-		{
-			perror("mini");
+		if (!file_out(token, node))
 			return (NULL);
-		}
 	}
 	else if (token->type == FILE_IN)
 	{
@@ -37,9 +65,7 @@ t_token	*ft_openning_files(t_token *token, t_token *node)
 	}
 	else if (token->type == FILE_APP && node->exit_status != (1))
 	{
-		node->output_file = open(token->content,
-				O_APPEND | O_CREAT | O_WRONLY, 0644);
-		if (node->output_file == -1)
+		if (!file_append)
 			return (NULL);
 	}
 	return (token);
