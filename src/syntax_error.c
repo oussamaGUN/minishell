@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:43:58 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/18 15:14:40 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/19 21:17:32 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,10 @@ int	here_doc_error(t_token *s)
 
 int	redirections_error(t_token *s)
 {
-	int	flag;
-
 	if (s->type == RED_OUTPUT)
 	{
-		flag = red_output_error(s);
-		if (!flag)
+		if (!red_output_error(s))
 			return (0);
-		else if (flag == 2)
-			return (2);
 	}
 	else if (s->type == RED_INPUT)
 	{
@@ -45,11 +40,8 @@ int	redirections_error(t_token *s)
 	}
 	else if (s->type == RED_APPEND)
 	{
-		flag = red_append_error(s);
-		if (!flag)
+		if (!red_append_error(s))
 			return (0);
-		else if (flag == 2)
-			return (2);
 	}
 	return (1);
 }
@@ -57,17 +49,13 @@ int	redirections_error(t_token *s)
 int	file_errors(t_token *s)
 {
 	if (s->type == FILE_IN)
-	{
 		if (!s->prev->prev && !s->next)
 			return (1);
-	}
 	return (1);
 }
 
 int	errors(t_token *s)
 {
-	int	flag;
-
 	if (s->type == PIPE)
 	{
 		if (!pipe_error(s))
@@ -76,11 +64,8 @@ int	errors(t_token *s)
 	else if (s->type == RED_OUTPUT || s->type == RED_INPUT
 		|| s->type == RED_APPEND)
 	{
-		flag = redirections_error(s);
-		if (!flag)
+		if (!redirections_error(s))
 			return (0);
-		else if (flag == 2)
-			return (2);
 	}
 	else if (s->type == HERE_DOC)
 	{
@@ -89,9 +74,8 @@ int	errors(t_token *s)
 	}
 	else if (s->type == FILE_IN)
 	{
-		flag = file_errors(s);
-		if (flag == 2)
-			return (2);
+		if (!file_errors(s))
+			return (0);
 	}
 	return (1);
 }
