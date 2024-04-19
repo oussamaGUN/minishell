@@ -24,6 +24,7 @@
 int exit_status;
 typedef struct s_token
 {
+	pid_t pid;
 	int	type;
 	char *content;
 	char **arr;
@@ -34,7 +35,6 @@ typedef struct s_token
 	char *path;
 	struct s_token *next;
 	struct s_token *prev;
-	pid_t pid;
 }	t_token;
 
 typedef	struct s_free
@@ -143,6 +143,11 @@ int	ft_words(t_token *token);
 t_token	*here_doc_implement(t_token *token, t_token *node, t_env *env);
 void	here_doc_expand_norm(t_multx *vars, char *s, t_env *env);
 void	here_doc_expand_norm_two(t_multx *vars, char *s, t_env *env);
+char	*minisplit(char const *s, t_tokenizer *vars);
+int	ft_count_quotes(char const *s, t_tokenizer *vars);
+int	ft_word(char *s, char c, t_tokenizer *vars);
+void	first_ft_word(char *s, t_tokenizer *vars);
+int	ft_len(char const *s, char c);
 // execution
 char	*ft_getpath(char *cmd, char **env);
 int exec(t_token *lst, t_env *env);
