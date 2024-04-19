@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:06:36 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/18 22:38:48 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/04/19 10:12:55 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_token	*ft_openning_files(t_token *token, t_token *node)
 {
-	if (token->type == FILE_OUT)
+	if (token->type == FILE_OUT && node->exit_status != (1))
 	{
 		node->output_file = open(token->content,
 				O_TRUNC | O_CREAT | O_WRONLY, 0644);
@@ -35,7 +35,7 @@ t_token	*ft_openning_files(t_token *token, t_token *node)
 			return (token);
 		}
 	}
-	else if (token->type == FILE_APP)
+	else if (token->type == FILE_APP && node->exit_status != (1))
 	{
 		node->output_file = open(token->content,
 				O_APPEND | O_CREAT | O_WRONLY, 0644);
