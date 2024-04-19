@@ -35,10 +35,17 @@ int	exec_cmd(t_token *lst, t_env *env)
 {
 	if (lst->exit_status)
 		exit (1);
+	if (!lst->arr[0])
+		exit(0);
 	set_io(lst);
 	if (lst->path)
+	{
 		if ((-1) == execve(lst->path, lst->arr, env->envp))
+		{
+			dup2(STDERR_FILENO, STDOUT_FILENO);
 			printf("mini: %s: command not found\n",lst->path);
+		}
+	}
 	exit(127);
 }
 
