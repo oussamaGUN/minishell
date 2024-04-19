@@ -10,18 +10,15 @@ char	*get_value(t_env *env, char *key)
 	}
 	return (NULL);
 }
-int pwd(t_token *lst, t_env *env)
+int	pwd(t_token *lst, t_env *env)
 {
 	char *path;
 	path = getcwd(NULL, 0);
 	if (!path)
-		return (perror("mini"), 0);
+		perror("mini");
 	else
-	{
-		lst->path = ft_malloc(0, &(env->mem), ft_strdup(path));
-		printf("%s\n", lst->path);
-	}
-	return (1);
+		puts(ft_malloc(0, &(env->mem), path));
+	return (0);
 }
 int cd(char **arr, t_env *env)
 {
@@ -105,7 +102,7 @@ int ft_dashn(char *s)
 	}
 	return 1;
 }
-int echo(t_token *lst)
+int	echo(t_token *lst)
 {
 	int i;
 	if (!lst->arr[1])
@@ -128,30 +125,25 @@ int echo(t_token *lst)
 		}
 		ft_putstr_fd("\n", 1);
 	}
-	return 1;
+	return (0);
 }
 int builtins(t_token *lst, t_env *env)
 {
-	if (!(lst->arr[0]))
-		return (1);
-	if (ft_strncmp(lst->arr[0], "cd", 3) == 0 || ft_strncmp(lst->arr[0], "CD", 3) == 0)
+	if (!ft_strcmp(lst->arr[0], "cd") || !ft_strcmp(lst->arr[0], "CD"))
 	{
 		if (!cd(lst->arr, env))
 			return (0);
 	}
-	else if (ft_strncmp(lst->arr[0], "pwd", 3) == 0 || ft_strncmp(lst->arr[0], "PWD", 3) == 0)
+	else if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
 	{
-		if (!pwd(lst, env))
-			return (0);
+		return(pwd(lst, env));
 	}
-	else if (ft_strncmp(lst->arr[0], "env", 4) == 0)
+	else if (!ft_strcmp(lst->arr[0], "env"))
 	{
 		if (!print_env(env))
 			return (0);
 	}
-	else if (ft_strncmp(lst->arr[0], "echo", 5) == 0 || ft_strncmp(lst->arr[0], "echo", 5) == 0)
-		if (!echo(lst))
-			return (0);
+	else if (!ft_strcmp(lst->arr[0], "echo") || !ft_strcmp(lst->arr[0], "ECHO"))
+			return (echo(lst));
 	return (1);
 }
-
