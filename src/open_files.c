@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:06:36 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/19 16:25:31 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/19 17:46:20 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 t_token *file_out(t_token *token, t_token *node)
 {
-	if (access(token->content, W_OK | R_OK) == -1)
-	{
-		perror("mini");
-		return (NULL);
-	}
+	// if (access(token->content, W_OK | R_OK) == -1)
+	// {
+	// 	perror("mini");
+	// 	return (NULL);
+	// }
 	node->output_file = open(token->content,
 			O_TRUNC | O_CREAT | O_WRONLY, 0644);
 	if (node->output_file == -1)
@@ -65,7 +65,7 @@ t_token	*ft_openning_files(t_token *token, t_token *node)
 	}
 	else if (token->type == FILE_APP && node->exit_status != (1))
 	{
-		if (!file_append)
+		if (!file_append(token, node))
 			return (NULL);
 	}
 	return (token);
