@@ -38,6 +38,7 @@ int	exec_cmd(t_token *lst, t_env *env)
 	if (!lst->arr[0])
 		exit(0);
 	set_io(lst);
+	builtins(lst, env);
 	if (lst->path)
 	{
 		if ((-1) == execve(lst->path, lst->arr, env->envp))
@@ -51,13 +52,20 @@ int	exec_cmd(t_token *lst, t_env *env)
 
 int exec(t_token *lst, t_env *env)
 {
-	t_token	*cmdlist = lst;		
+	t_token	*cmdlist = lst;
 
+	env = ft_update_pwd_env(env);
+	if (!(cmdlist->next))
+		if (!single_builtins(lst, env))
+			return (0);
 	while (cmdlist)
 	{
 		if (cmdlist->next)
-			pipe(cmdlist->fd); // NEED TO PROTECT
+			if ((-1) == pipe(cmdlist->fd))
+				return (perror("pipe"), 0); // NEED TO PROTECT
 		cmdlist->pid = fork();
+		if ((-1) == cmdlist->pid)
+			return (perror("fork"), 0);
 		if (!cmdlist->pid)
 			exec_cmd(cmdlist, env);
 		wait(&(cmdlist->exit_status));
@@ -66,4 +74,5 @@ int exec(t_token *lst, t_env *env)
 			close(cmdlist->fd[STDOUT_FILENO]);
 		cmdlist = cmdlist->next;
 	}
+	return (1);
 }
