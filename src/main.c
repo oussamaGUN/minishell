@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:36:30 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/20 10:46:43 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/20 16:57:43 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ int	cmd_exe(t_token *token, t_env *env)
 	if (!cmd_list)
 		return (0);
 	ft_path(cmd_list, env->envp);
-	if (!exec(cmd_list, env))
-		return (0);
-	return (0);
+	exec(cmd_list, env);
 }
 
 int	main(int ac, char *av[], char *envp[])
