@@ -12,11 +12,7 @@ char	*get_value(t_env *env, char *key)
 }
 int	pwd(t_token *lst, t_env *env)
 {
-	char *path;
-	path = getcwd(NULL, 0);
-	if (!path)
-		return (perror("mini"), 1);
-	printf("%s\n", ft_malloc(0, &(env->mem), path));
+	printf("%s\n", ft_malloc(0, &(env->mem), ft_strdup(get_value(env, "PWD"))));
 	return (0);
 }
 int cd(char **arr, t_env *env)
@@ -45,19 +41,20 @@ int cd(char **arr, t_env *env)
 }
 t_env *ft_update_pwd_env(t_env *env)
 {
-	char buff[4096];
-	char *path;
-	path = getcwd(buff, 4096);
-	if (!path)
+	char	*cwd;
+	t_env	*p_env;;
+
+	cwd = ft_malloc(0, &(env->mem), getcwd(NULL, 0));
+	if (!cwd)
 		return env;
-	t_env *itter = env;
-	while (itter)
+	p_env = env;
+	while (p_env)
 	{
-		if (ft_strncmp(itter->key, "PWD", 4) == 0)
-			itter->value = ft_malloc(0, &(env->mem), ft_strdup(path));
-		itter = itter->next;
+		if (ft_strncmp(p_env->key, "PWD", 4) == 0)
+			p_env->value = cwd;
+		p_env = p_env->next;
 	}
-	return env;
+	return (env);
 }
 t_env *ft_update_oldpwd_env(t_env *env)
 {
@@ -130,7 +127,7 @@ bool	check_valid_identifier(char *s)
 	return (true);
 }
 
-int	set(t_token	*lst, t_env	*env, char *key, char *value)
+t_env *set(t_token	*lst, t_env	*env, char *key, char *value)
 {
 	t_env	*envp;
 	t_env	*tmp = env;
@@ -149,16 +146,15 @@ int	set(t_token	*lst, t_env	*env, char *key, char *value)
 	envp->key = key;
 	envp->value = value;
 	envp->next = NULL;
-	while (env->next)
-		env = env->next;
-	env->next = envp;
-	while (tmp)
+	list_for_env(&env, envp);
+	tmp = env;
+	while (tmp) 
 	{
 		printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 	
-	return (0);
+	return (env);
 } 
 int	export(t_token *lst, t_env *env)
 {
@@ -177,13 +173,14 @@ int	export(t_token *lst, t_env *env)
 		if (!check_valid_identifier(key))
 			return (printf("mini: export: `%s': not a valid identifier\n",
 				*(lst->arr)), 1);
-		set(lst, env, key, value);
+		env = set(lst, env, key, value);
 	}
 	return (0);
 }
 
 void	builtins(t_token *lst, t_env *env)
 {
+	puts("builtins");
 	if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
 		exit(pwd(lst, env));
 	if (!ft_strcmp(lst->arr[0], "echo") || !ft_strcmp(lst->arr[0], "ECHO"))
@@ -194,4 +191,20 @@ void	builtins(t_token *lst, t_env *env)
 		exit(print_env(env));
 	if (!ft_strcmp(lst->arr[0], "export"))
 		exit(export(lst, env));
+}
+
+int	single_builtins(t_token *lst, t_env *env)
+{
+	puts("single_builtins");
+	if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
+		return (pwd(lst, env));
+	if (!ft_strcmp(lst->arr[0], "echo") || !ft_strcmp(lst->arr[0], "ECHO"))
+		return (echo(lst));
+	if (!ft_strcmp(lst->arr[0], "cd") || !ft_strcmp(lst->arr[0], "CD"))
+		return (cd(lst->arr, env));
+	if (!ft_strcmp(lst->arr[0], "env"))
+		return (print_env(env));
+	if (!ft_strcmp(lst->arr[0], "export"))
+		return (export(lst, env));
+	return (1);
 }
