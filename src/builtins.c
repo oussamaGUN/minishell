@@ -184,6 +184,7 @@ int	export(t_token *lst, t_env *env)
 
 void	builtins(t_token *lst, t_env *env)
 {
+<<<<<<< HEAD
 	if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
 		exit(pwd(lst, env));
 	if (!ft_strcmp(lst->arr[0], "echo") || !ft_strcmp(lst->arr[0], "ECHO"))
@@ -194,4 +195,17 @@ void	builtins(t_token *lst, t_env *env)
 		exit(print_env(env));
 	if (!ft_strcmp(lst->arr[0], "export"))
 		exit(export(lst, env));
+=======
+	// if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
+	// 	return(pwd(lst, env));
+	// if (!ft_strcmp(lst->arr[0], "echo") || !ft_strcmp(lst->arr[0], "ECHO"))
+	// 	return (echo(lst));
+	// if (!ft_strcmp(lst->arr[0], "cd") || !ft_strcmp(lst->arr[0], "CD"))
+	// 	return (cd(lst->arr, env));
+	// if (!ft_strcmp(lst->arr[0], "env"))
+	// 	return (print_env(env));
+	// if (!ft_strcmp(lst->arr[0], "export"))
+	// 	return (export(lst, env));
+	return (1);
+>>>>>>> refs/remotes/origin/master
 }

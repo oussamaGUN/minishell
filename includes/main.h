@@ -33,6 +33,7 @@ typedef struct s_token
 	int input_file;
 	int fd[2];
 	int exit_status;
+	int status;
 	char *path;
 	struct s_token *next;
 	struct s_token *prev;
@@ -138,7 +139,7 @@ void	ft_expand_single_in_multiple(t_multx *exp_vars, char *s, t_env *env);
 void	ft_exit_value(t_multx *exp_vars, char *s, t_env *env);
 void	ft_delemiter(t_multx *exp_vars, char *s, t_free **mem);
 char	*expand(char *s, t_env *envp);
-t_token	*norm1(t_token *node, t_multx *vars, t_token *token, t_free **mem);
+t_token	*init(t_token *node, t_multx *vars, t_token *token, t_free **mem);
 t_token	*norm2(t_token *token, t_env *env, t_token *node, t_multx *vars);
 t_token	*ft_openning_files(t_token *token, t_token *node);
 int	ft_words(t_token *token);

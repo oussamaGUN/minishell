@@ -3,21 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   list_of_cmds.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 10:54:54 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/19 08:09:44 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/04/20 10:32:48 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+t_token	*ft_list_loop(t_token *token, t_env *env, t_token *node, t_multx *vars)
+{
+	while (token && token->type != PIPE)
+	{
+		if (!norm2(token, env, node, vars))
+			return (NULL);
+		token = token->next;
+	}
+	return (token);
+}
 
 t_token	*ft_list(t_token *token, t_env *env)
 {
 	t_token	*lst;
 	t_token	*node;
 	t_multx	*vars;
-	static int	status;
 
 	vars = ft_malloc(sizeof(t_multx), &(env->mem), NULL);
 	if (!vars)
@@ -26,20 +36,12 @@ t_token	*ft_list(t_token *token, t_env *env)
 	while (token)
 	{
 		node = add_token(NULL, &(env->mem));
-		node->exit_status = 0;
-		if (!norm1(node, vars, token, &(env->mem)))
+		if (!init(node, vars, token, &(env->mem)))
 			return (NULL);
-		while (token && token->type != PIPE)
-		{
-			if (!norm2(token, env, node, vars))
-				return (NULL);
-			if (node->exit_status == 1)
-				status = 1;
-			token = token->next;
-		}
-		node->exit_status = status;
-		status = 0;
+		token = ft_list_loop(token, env, node, vars);
+		node->exit_status = node->status;
 		node->arr[vars->i] = NULL;
+		node->status = 0;
 		ft_lstadd(&lst, node);
 		if (token)
 			token = token->next;
