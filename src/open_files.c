@@ -6,13 +6,13 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:06:36 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/19 18:30:55 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/19 22:28:31 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-t_token *file_out(t_token *token, t_token *node)
+t_token	*file_out(t_token *token, t_token *node)
 {
 	node->output_file = open(token->content,
 			O_TRUNC | O_CREAT | O_WRONLY, 0644);

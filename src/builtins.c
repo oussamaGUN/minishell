@@ -139,15 +139,15 @@ int	echo(t_token *lst)
 
 int builtins(t_token *lst, t_env *env)
 {
-	if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
-		return(pwd(lst, env));
-	if (!ft_strcmp(lst->arr[0], "echo") || !ft_strcmp(lst->arr[0], "ECHO"))
-		return (echo(lst));
-	if (!ft_strcmp(lst->arr[0], "cd") || !ft_strcmp(lst->arr[0], "CD"))
-		return (cd(lst->arr, env));
-	if (!ft_strcmp(lst->arr[0], "env"))
-		return (print_env(env));
-	if (!ft_strcmp(lst->arr[0], "export"))
-		return (export(lst, env));
+	// if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
+	// 	return(pwd(lst, env));
+	// if (!ft_strcmp(lst->arr[0], "echo") || !ft_strcmp(lst->arr[0], "ECHO"))
+	// 	return (echo(lst));
+	// if (!ft_strcmp(lst->arr[0], "cd") || !ft_strcmp(lst->arr[0], "CD"))
+	// 	return (cd(lst->arr, env));
+	// if (!ft_strcmp(lst->arr[0], "env"))
+	// 	return (print_env(env));
+	// if (!ft_strcmp(lst->arr[0], "export"))
+	// 	return (export(lst, env));
 	return (1);
 }
