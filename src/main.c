@@ -6,13 +6,10 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:36:30 by ousabbar          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/04/20 09:00:37 by melfersi         ###   ########.fr       */
-=======
-/*   Updated: 2024/04/19 18:44:33 by ousabbar         ###   ########.fr       */
->>>>>>> refs/remotes/origin/master
+/*   Updated: 2024/04/20 10:46:43 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "main.h"
 
