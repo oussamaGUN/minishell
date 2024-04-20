@@ -13,6 +13,7 @@
 # include <termios.h>
 # include <sys/stat.h>
 # include <errno.h>
+# include <stdbool.h>
 
 
 # define READLINE_LIBRARY
@@ -50,6 +51,7 @@ typedef struct s_env
 	char			**envp;
 	struct s_free	*mem;
 	struct s_env	*next;
+	struct s_env	**selfaddr;
 }t_env;
 
 
@@ -152,7 +154,7 @@ int	ft_len(char const *s, char c);
 char	*ft_getpath(char *cmd, char **env);
 int exec(t_token *lst, t_env *env);
 int execution(t_token *lst, t_env *env);
-int builtins(t_token *lst, t_env *env);
+void	builtins(t_token *lst, t_env *env);
 char *ft_env(t_env *env, char *s);
 
 

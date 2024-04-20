@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:36:30 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/19 08:16:00 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/04/20 09:00:37 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_path(t_token *cmd_list, char **env)
 		itter = itter->next;
 	}
 	return ;
-	}
+}
 	
 int	cmd_exe(t_token *token, t_env *env)
 {
@@ -47,7 +47,7 @@ int	cmd_exe(t_token *token, t_env *env)
 	if (!cmd_list)
 		return (0);
 	ft_path(cmd_list, env->envp);
-	if (!execution(cmd_list, env))
+	if (!exec(cmd_list, env))
 		return (0);
 	return (0);
 }
