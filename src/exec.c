@@ -62,10 +62,10 @@ int exec(t_token *lst, t_env *env)
 	{
 		if (cmdlist->next)
 			if ((-1) == pipe(cmdlist->fd))
-				return (perror("pipe"), 0); // NEED TO PROTECT
+				return (perror("pipe"), 1); // NEED TO PROTECT
 		cmdlist->pid = fork();
 		if ((-1) == cmdlist->pid)
-			return (perror("fork"), 0);
+			return (perror("fork"), 1);
 		if (!cmdlist->pid)
 			exec_cmd(cmdlist, env);
 		wait(&(cmdlist->exit_status));
@@ -74,5 +74,5 @@ int exec(t_token *lst, t_env *env)
 			close(cmdlist->fd[STDOUT_FILENO]);
 		cmdlist = cmdlist->next;
 	}
-	return (1);
+	return (0);
 }
