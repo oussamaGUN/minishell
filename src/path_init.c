@@ -1,4 +1,4 @@
-#include "main.c"
+#include "main.h"
 
 char *normal_path(char *cmd, char **env)
 {
