@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:14:05 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/19 21:14:06 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/20 11:03:12 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ void	list_for_env(t_env **lst, t_env *new)
 		ptr->next = new;
 	}
 	else if (lst)
+	{
 		*lst = new;
+	}
 }
 void ft_free_env(char **arr)
 {
@@ -58,7 +60,7 @@ t_env	*envir(char	**envp)
 	env = NULL;
 	while (envp[++i])
 	{
-		arr = ft_split(envp[i], '='); // change with melfersi's libft :?
+		arr = ft_split(envp[i], '=');
 		if (!arr)
 			return (NULL);
 		node = malloc(sizeof(t_env));
