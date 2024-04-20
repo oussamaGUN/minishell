@@ -52,7 +52,6 @@ typedef struct s_env
 	char			**envp;
 	struct s_free	*mem;
 	struct s_env	*next;
-	struct s_env	**selfaddr;
 }t_env;
 
 
@@ -156,6 +155,7 @@ char	*ft_getpath(char *cmd, char **env);
 int exec(t_token *lst, t_env *env);
 int execution(t_token *lst, t_env *env);
 void	builtins(t_token *lst, t_env *env);
+int		single_builtins(t_token *lst, t_env *env);
 char *ft_env(t_env *env, char *s);
 
 
