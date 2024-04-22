@@ -53,7 +53,8 @@ int	exec_cmd(t_token *lst, t_env *env)
 int exec(t_token *lst, t_env *env)
 {
 	t_token	*cmdlist = lst;
-
+	signal(SIGINT, SIG_DFL);
+	signals_for_child();
 	env = ft_update_pwd_env(env);
 	if (!(cmdlist->next))
 		if (!single_builtins(lst, env))
