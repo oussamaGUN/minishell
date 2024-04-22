@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_norm_two.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 10:17:33 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/18 10:36:50 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:13:24 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*expand(char *s, t_env *envp)
 	return (NULL);
 }
 
-void	ft_exit_value(t_multx *exp_vars, char *s, t_env *env)
+void	ft_exit_value(t_multx *exp_vars, t_env *env)
 {
 	exp_vars->i++;
 	exp_vars->res = ft_malloc(0, &(env->mem), ft_strjoin(exp_vars->res,

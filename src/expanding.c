@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 10:09:10 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/18 10:36:20 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:21:40 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_expand_double_in_multiple(t_multx *exp_vars, char *s, t_env *env)
 	{
 		exp_vars->j = 0;
 		if (s[exp_vars->i] == '$' && s[exp_vars->i + 1] == '?')
-			ft_exit_value(exp_vars, s, env);
+			ft_exit_value(exp_vars, env);
 		else if (s[exp_vars->i] == '$' && s[exp_vars->i + 1] != ' '
 			&& s[exp_vars->i + 1] != '\'' && s[exp_vars->i + 1] != '\"'
 			&& s[exp_vars->i + 1] && !ft_isdigit(s[exp_vars->i + 1]))
@@ -58,7 +58,7 @@ void	ft_mulitquotes(t_multx *exp_vars, char *s, t_env *env)
 	{
 		exp_vars->j = 0;
 		if (s[exp_vars->i] == '$' && s[exp_vars->i + 1] == '?')
-			ft_exit_value(exp_vars, s, env);
+			ft_exit_value(exp_vars, env);
 		else if (s[exp_vars->i] == '$' && s[exp_vars->i + 1] != ' '
 			&& s[exp_vars->i + 1] != '\'' && s[exp_vars->i + 1] != '\"'
 			&& s[exp_vars->i + 1] && !ft_isdigit(s[exp_vars->i + 1]))
@@ -104,7 +104,7 @@ t_token	*expanding(t_token *token, t_env *env)
 	t_multx	*exp_vars;
 	t_token	*itter;
 
-	exp_vars = ft_malloc(sizeof(t_multx), &(env->mem), NULL);
+	exp_vars = (t_multx *)ft_malloc(sizeof(t_multx), &(env->mem), NULL);
 	if (!exp_vars)
 		return (NULL);
 	exp_vars->inside_dquotes = ft_malloc(ft_strlen(token->content),

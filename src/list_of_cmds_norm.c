@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_of_cmds_norm.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:03:32 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/20 10:16:28 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:22:44 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_token	*init(t_token *node, t_multx *vars, t_token *token, t_free **mem)
 		return (NULL);
 	vars->count = ft_words(token);
 	vars->i = 0;
-	node->arr = ft_malloc(sizeof(char *) * (vars->count + 1), mem, NULL);
+	node->arr = (char **)ft_malloc(sizeof(char *) * (vars->count + 1), mem, NULL);
 	if (!node->arr)
 		return (NULL);
 	node->output_file = -1;

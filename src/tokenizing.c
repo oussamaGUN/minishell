@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 09:15:00 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/19 22:21:06 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:19:45 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*add_token(void *content, t_free **alloc)
 {
 	t_token	*buff;
 
-	buff = ft_malloc(sizeof(t_token), alloc, NULL);
+	buff = (t_token *)ft_malloc(sizeof(t_token), alloc, NULL);
 	if (!buff)
 		return (NULL);
 	if (!content)
@@ -93,7 +93,7 @@ int	tokenizer(char *cmd, t_token **token, t_env **env)
 	int			i;
 
 	i = -1;
-	vars = ft_malloc(sizeof(t_tokenizer), &((*env)->mem), NULL);
+	vars = (t_tokenizer *)ft_malloc(sizeof(t_tokenizer), &((*env)->mem), NULL);
 	if (!vars)
 		return (0);
 	sp = ft_ownsplit(cmd, ' ', vars);

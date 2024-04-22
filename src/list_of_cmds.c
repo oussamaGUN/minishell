@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_of_cmds.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 10:54:54 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/20 10:32:48 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:22:28 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token	*ft_list(t_token *token, t_env *env)
 	t_token	*node;
 	t_multx	*vars;
 
-	vars = ft_malloc(sizeof(t_multx), &(env->mem), NULL);
+	vars = (t_multx *)ft_malloc(sizeof(t_multx), &(env->mem), NULL);
 	if (!vars)
 		return (NULL);
 	lst = NULL;

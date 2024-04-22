@@ -10,7 +10,7 @@ char	*get_value(t_env *env, char *key)
 	}
 	return (NULL);
 }
-int	pwd(t_token *lst, t_env *env)
+int	pwd(t_env *env)
 {
 	printf("%s\n", ft_malloc(0, &(env->mem), ft_strdup(get_value(env, "PWD"))));
 	return (0);
@@ -43,14 +43,13 @@ t_env *ft_update_pwd_env(t_env *env)
 {
 	char	*cwd;
 	t_env	*p_env;;
-
 	cwd = ft_malloc(0, &(env->mem), getcwd(NULL, 0));
 	if (!cwd)
 		return env;
 	p_env = env;
 	while (p_env)
 	{
-		if (ft_strncmp(p_env->key, "PWD", 4) == 0)
+		if (!ft_strcmp(p_env->key, "PWD"))
 			p_env->value = cwd;
 		p_env = p_env->next;
 	}
@@ -85,7 +84,7 @@ int	 check_dash_n(char *s)
 {
 	if (*s != '-')
 		return 0;
-	*s++;
+	s++;
 	while (*s)
 		if (*s++ != 'n')
 			return 0;
@@ -127,10 +126,9 @@ bool	check_valid_identifier(char *s)
 	return (true);
 }
 
-t_env *set(t_token	*lst, t_env	*env, char *key, char *value)
+bool	set(t_env	*env, char *key, char *value)
 {
 	t_env	*envp;
-	t_env	*tmp = env;
 
 	envp = env;
 	while (envp && key)
@@ -142,20 +140,15 @@ t_env *set(t_token	*lst, t_env	*env, char *key, char *value)
 		}
 		envp = envp->next;
 	}
-	envp = ft_malloc(sizeof(t_env), &(env->mem), NULL);
+	envp = (t_env *)ft_malloc(sizeof(t_env), &(env->mem), NULL);
+	if (!envp)
+		return (1);
 	envp->key = key;
 	envp->value = value;
 	envp->next = NULL;
 	list_for_env(&env, envp);
-	tmp = env;
-	while (tmp) 
-	{
-		printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
-		tmp = tmp->next;
-	}
-	
-	return (env);
-} 
+	return (0);
+}
 int	export(t_token *lst, t_env *env)
 {
 	char *key;
@@ -164,25 +157,25 @@ int	export(t_token *lst, t_env *env)
 
 	while (*(++(lst->arr)))
 	{
-		sp = ft_malloc(0, &(env->mem), ft_split(*(lst->arr), '='));
+		sp = (char **)ft_malloc(0, &(env->mem), ft_split(*(lst->arr), '='));
 		key = ft_malloc(0, &(env->mem), sp[0]);
 		if (!sp[1])
 			value = ft_malloc(0, &(env->mem), ft_strdup(""));
 		else
 			value = ft_malloc(0, &(env->mem), sp[1]);
-		if (!check_valid_identifier(key))
+		if (!check_valid_identifier(key) || lst->arr[0][0] == '=')
 			return (printf("mini: export: `%s': not a valid identifier\n",
 				*(lst->arr)), 1);
-		env = set(lst, env, key, value);
+		if (set(env, key, value))
+			return (perror(NULL), 1);
 	}
 	return (0);
 }
 
 void	builtins(t_token *lst, t_env *env)
 {
-	puts("builtins");
 	if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
-		exit(pwd(lst, env));
+		exit(pwd(env));
 	if (!ft_strcmp(lst->arr[0], "echo") || !ft_strcmp(lst->arr[0], "ECHO"))
 		exit(echo(lst));
 	if (!ft_strcmp(lst->arr[0], "cd") || !ft_strcmp(lst->arr[0], "CD"))
@@ -195,9 +188,8 @@ void	builtins(t_token *lst, t_env *env)
 
 int	single_builtins(t_token *lst, t_env *env)
 {
-	puts("single_builtins");
 	if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
-		return (pwd(lst, env));
+		return (pwd(env));
 	if (!ft_strcmp(lst->arr[0], "echo") || !ft_strcmp(lst->arr[0], "ECHO"))
 		return (echo(lst));
 	if (!ft_strcmp(lst->arr[0], "cd") || !ft_strcmp(lst->arr[0], "CD"))
