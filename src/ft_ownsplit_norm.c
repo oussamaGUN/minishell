@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:03:23 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/19 21:12:31 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:03:46 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ void	second_minisplit(char const *s, t_tokenizer *vars)
 	if ((s[vars->i] == '>' && s[vars->i + 1] == '>')
 		|| (s[vars->i] == '<' && s[vars->i + 1] == '<'))
 	{
-		if (s[vars->i - 1] != ' ')
-			vars->res[vars->j++] = ' ';
+		if (vars->i - 1 > 0)
+			if (s[vars->i - 1] != ' ')
+				vars->res[vars->j++] = ' ';
 		vars->res[vars->j++] = s[vars->i++];
 		vars->res[vars->j++] = s[vars->i];
 		if (s[vars->i + 1] != ' ')
@@ -34,8 +35,11 @@ void	second_minisplit(char const *s, t_tokenizer *vars)
 	}
 	else
 	{
-		if (s[vars->i - 1] != ' ')
-			vars->res[vars->j++] = ' ';
+		// printf("addr s={%p}\n",s);
+		// printf("addr var->res={%p}\n",vars->res);
+		if (vars->i - 1 > 0)
+			if (s[vars->i - 1] != ' ')
+				vars->res[vars->j++] = ' ';
 		vars->res[vars->j++] = s[vars->i];
 		if (s[vars->i + 1] != ' ')
 			vars->res[vars->j++] = ' ';
@@ -47,6 +51,8 @@ char	*minisplit(char const *s, t_tokenizer *vars)
 	vars->i = 0;
 	vars->j = 0;
 	vars->res = malloc(sizeof(char) * (ft_strlen(s) * 2));
+	// printf("addr s={%p}\n",s);
+	// printf("addr var->res={%p}\n",vars->res);
 	if (!vars->res)
 		return (NULL);
 	while (s[vars->i])

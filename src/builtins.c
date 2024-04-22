@@ -174,8 +174,9 @@ int	export(t_token *lst, t_env *env)
 
 void	builtins(t_token *lst, t_env *env)
 {
+
 	if (!lst->arr[0])
-		return ;
+		exit(1);
 	if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
 		exit(pwd(env));
 	if (!ft_strcmp(lst->arr[0], "echo") || !ft_strcmp(lst->arr[0], "ECHO"))

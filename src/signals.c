@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 15:43:56 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/22 12:24:34 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:30:49 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void signal_for_heredoc()
 
 void sig_handler(int signum)
 {
+	(void)signum;
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -42,8 +43,9 @@ void sig_quit(int signum)
 	exit_status = 131 << 8;
 }
 
-void sig_handler_for_process(int signum)
+void	sig_handler_for_process(int signum)
 {
+	(void)signum;
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);

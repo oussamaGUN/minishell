@@ -17,7 +17,7 @@
 
 
 # define READLINE_LIBRARY
-# include "history.h"
+// # include "history.h"
 # include "readline.h"
 
 extern int	exit_status;
@@ -150,10 +150,10 @@ int		ft_count_quotes(char const *s, t_tokenizer *vars);
 int		ft_word(char *s, char c, t_tokenizer *vars);
 void	first_ft_word(char *s, t_tokenizer *vars);
 int		ft_len(char const *s, char c);
-void	signals_for_parent();
-void	signals_for_child();
+void	signals_for_parent(void);
+void	signals_for_child(void);
 void	sig_handler_for_process(int signum);
-void	signal_for_heredoc();
+void	signal_for_heredoc(void);
 void	sig_quit(int signum);
 int		ft_len(char const *s, char c);
 
@@ -163,7 +163,7 @@ int		exec(t_token *lst, t_env *env);
 int		execution(t_token *lst, t_env *env);
 void	builtins(t_token *lst, t_env *env);
 int		single_builtins(t_token *lst, t_env *env);
-// char	*ft_env(t_env *env, char *s);
+char	*ft_env(t_env *env, char *s);
 
 
 //env
@@ -173,7 +173,7 @@ t_env	*ft_update_pwd_env(t_env *env);
 void	env_clear(t_env **env);
 
 // garbage collector
-char	*ft_malloc(size_t	size, t_free **alloc, void *mem);
+void	*ft_malloc(size_t	size, t_free **alloc, void *mem);
 void	garbage_collector(t_free **alloc);
 void	add_front_mem(t_free **alloc, t_free *new);
 
