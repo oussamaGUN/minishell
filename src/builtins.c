@@ -180,7 +180,8 @@ int	export(t_token *lst, t_env *env)
 
 void	builtins(t_token *lst, t_env *env)
 {
-	puts("builtins");
+	if (!lst->arr[0])
+		return ;
 	if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
 		exit(pwd(lst, env));
 	if (!ft_strcmp(lst->arr[0], "echo") || !ft_strcmp(lst->arr[0], "ECHO"))
@@ -195,7 +196,8 @@ void	builtins(t_token *lst, t_env *env)
 
 int	single_builtins(t_token *lst, t_env *env)
 {
-	puts("single_builtins");
+	if (!lst->arr[0])
+		return 1;
 	if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
 		return (pwd(lst, env));
 	if (!ft_strcmp(lst->arr[0], "echo") || !ft_strcmp(lst->arr[0], "ECHO"))
