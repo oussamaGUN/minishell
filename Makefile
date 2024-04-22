@@ -13,7 +13,7 @@ LIB_INCLUDES = libft/includes
 
 
 #______mandatory and bonus files______#
-FILES = main.c handle_signal.c tokenizing.c ft_ownsplit.c check_errors.c tools.c syntax_error.c\
+FILES = main.c handle_signal.c tokenizing.c ft_ownsplit.c check_errors.c signals.c syntax_error.c\
 		expanding.c here_doc.c here_doc_norm.c list_of_cmds.c list_of_cmds_norm.c create_env.c garbage_collector.c builtins.c exec.c syntax_error_norm.c\
 		expanding_norm.c expanding_norm_two.c open_files.c ft_ownsplit.c ft_ownsplit_norm.c ft_ownsplit_count.c\
 		ft_ownsplit_tools.c path_init.c

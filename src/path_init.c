@@ -42,7 +42,7 @@ char	*ft_getpath(char *cmd, char **env)
 		if (str)
 			return str;
 		else
-			return NULL;
+			return cmd;
 	}
-	return (NULL);
+	return (cmd);
 }

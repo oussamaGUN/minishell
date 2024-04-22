@@ -6,11 +6,12 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 09:33:54 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/19 21:20:20 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/21 18:07:55 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
 
 t_token	*ft_check_errors(t_token *token)
 {
