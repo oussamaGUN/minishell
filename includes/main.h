@@ -22,7 +22,9 @@
 
 
 // tokenize
+
 int exit_status;
+
 typedef struct s_token
 {
 	pid_t pid;
@@ -150,6 +152,11 @@ int	ft_count_quotes(char const *s, t_tokenizer *vars);
 int	ft_word(char *s, char c, t_tokenizer *vars);
 void	first_ft_word(char *s, t_tokenizer *vars);
 int	ft_len(char const *s, char c);
+void signals_for_parent();
+void signals_for_child();
+void sig_handler_for_process(int signum);
+void signal_for_heredoc();
+void sig_quit(int signum);
 // execution
 char	*ft_getpath(char *cmd, char **env);
 int exec(t_token *lst, t_env *env);
