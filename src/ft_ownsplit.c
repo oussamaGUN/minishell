@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ownsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:57:28 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/19 21:09:52 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:00:25 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,6 @@ char	**ft_trim(char *s, char c, t_tokenizer *trim)
 char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars)
 {
 	t_tokenizer		*trim;
-	size_t			words_count;
-	char			**arr;
-	unsigned int	i;
 
 	if (s == NULL)
 		return (NULL);

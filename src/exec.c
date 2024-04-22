@@ -63,7 +63,7 @@ int exec(t_token *lst, t_env *env)
 	{
 		if (cmdlist->next)
 			if ((-1) == pipe(cmdlist->fd))
-				return (perror("pipe"), 1); // NEED TO PROTECT
+				return (perror("pipe"), 1);
 		cmdlist->pid = fork();
 		if ((-1) == cmdlist->pid)
 			return (perror("fork"), 1);

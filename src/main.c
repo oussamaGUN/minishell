@@ -6,17 +6,20 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:36:30 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/21 22:28:28 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:22:11 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
+
 #include "main.h"
+
+int	exit_status;
 
 void	ft_path(t_token *cmd_list, char **env)
 {
 	t_token	*itter;
-	
+
 	itter = cmd_list;
 	while (itter)
 	{
@@ -26,7 +29,7 @@ void	ft_path(t_token *cmd_list, char **env)
 	}
 	return ;
 }
-	
+
 int	cmd_exe(t_token *token, t_env *env)
 {
 	t_token	*new_token;
@@ -58,10 +61,10 @@ int	main(int ac, char *av[], char *envp[])
 {
 	t_env	*env;
 
-	if (ac)
+	if (ac || av)
 		av = NULL;
 	env = envir(envp);
-	env->envp = envp; 
+	env->envp = envp;
 	if (!env)
 		return (printf("exit\n"), EXIT_FAILURE);
 	env->mem = NULL;

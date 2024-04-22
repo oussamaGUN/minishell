@@ -6,9 +6,10 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:35:41 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/21 22:27:36 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:21:34 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "main.h"
 
@@ -16,7 +17,7 @@ char	*here_doc_expand(char *s, t_env *env)
 {
 	t_multx	*vars;
 
-	vars = ft_malloc(sizeof(t_multx), &(env->mem), NULL);
+	vars = (t_multx *)ft_malloc(sizeof(t_multx), &(env->mem), NULL);
 	vars->inside_dquotes = ft_malloc(ft_strlen(s), &(env->mem), NULL);
 	vars->res = ft_malloc(1, &(env->mem), NULL);
 	if (!vars || !vars->inside_dquotes || !vars->res)
@@ -60,8 +61,7 @@ int	ft_here_doc_count(t_token *token)
 	return (count);
 }
 
-t_token	*child_process_for_heredoc(t_token *token,
-	t_token *node, t_env *env, int file)
+t_token	*child_process_for_heredoc(t_token *token, t_env *env, int file)
 {
 	char	*s;
 	char	*new;
@@ -110,7 +110,7 @@ t_token	*here_doc_implement(t_token *token, t_token *node, t_env *env)
 	if (id == -1)
 		return (NULL);
 	else if (id == 0)
-		child_process_for_heredoc(token, node, env, file);
+		child_process_for_heredoc(token, env, file);
 	close(token->fd[1]);
 	wait(&exit_status);
 	node->input_file = token->fd[0];

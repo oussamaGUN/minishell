@@ -6,9 +6,10 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 10:17:33 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/21 16:17:32 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:21:19 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "main.h"
 
@@ -26,7 +27,7 @@ char	*expand(char *s, t_env *envp)
 	return (NULL);
 }
 
-void	ft_exit_value(t_multx *exp_vars, char *s, t_env *env)
+void	ft_exit_value(t_multx *exp_vars, t_env *env)
 {
 	exp_vars->i++;
 	exp_vars->res = ft_malloc(0, &(env->mem), ft_strjoin(exp_vars->res,

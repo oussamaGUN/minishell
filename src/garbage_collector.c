@@ -1,6 +1,6 @@
 #include "main.h"
 
-void *ft_malloc(size_t	size, t_free **alloc, void *mem)
+char	*ft_malloc(size_t	size, t_free **alloc, void *mem)
 {
 	t_free	*new;
 
@@ -65,7 +65,7 @@ void	garbage_collector(t_free **alloc)
 // 	*number = 12;
 // 	strcpy(name, "mustapha");
 // 	*grade = 18.38;
-	
+
 // 	printf("number\t: %d\n",*number);
 // 	printf("name\t: %s\n",name);
 // 	printf("grade\t: %.2lf\n",*grade);

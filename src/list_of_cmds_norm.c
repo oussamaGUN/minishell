@@ -6,9 +6,10 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:03:32 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/21 16:17:19 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:21:45 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "main.h"
 
@@ -18,7 +19,7 @@ t_token	*init(t_token *node, t_multx *vars, t_token *token, t_free **mem)
 		return (NULL);
 	vars->count = ft_words(token);
 	vars->i = 0;
-	node->arr = ft_malloc(sizeof(char *) * (vars->count + 1), mem, NULL);
+	node->arr = (char **)ft_malloc(sizeof(char *) * (vars->count + 1), mem, NULL);
 	if (!node->arr)
 		return (NULL);
 	node->output_file = -1;

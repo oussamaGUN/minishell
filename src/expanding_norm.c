@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_norm.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 10:13:46 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/18 10:36:35 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:22:57 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_double_quotes_expand(t_multx *exp_vars, char *s, t_env *env)
 	{
 		exp_vars->j = 0;
 		if (s[exp_vars->i] == '$' && s[exp_vars->i + 1] == '?')
-			ft_exit_value(exp_vars, s, env);
+			ft_exit_value(exp_vars, env);
 		else if (s[exp_vars->i] == '$' && s[exp_vars->i + 1] != ' '
 			&& s[exp_vars->i + 1] != '\'' && s[exp_vars->i + 1] != '\"'
 			&& s[exp_vars->i + 1] && !ft_isdigit(s[exp_vars->i + 1]))
