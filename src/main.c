@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:36:30 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/20 18:27:34 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/04/21 22:28:28 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	cmd_exe(t_token *token, t_env *env)
 	t_token	*new_token;
 	t_token	*cmd_list;
 	char	*cmd;
-
+	
+	signals_for_parent();
 	cmd = readline("$ ");
 	if (!cmd)
 		return (printf("exit\n"), 1);
