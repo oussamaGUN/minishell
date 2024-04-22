@@ -6,7 +6,7 @@
 #    By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/01 10:12:32 by melfersi          #+#    #+#              #
-#    Updated: 2024/04/20 08:54:16 by melfersi         ###   ########.fr        #
+#    Updated: 2024/04/22 09:48:07 by melfersi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,13 +54,13 @@ bonus: $(BONUS_OBJECTS)
 
 $(OBJ_DIR)/%.o:$(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -I$(INCLUDES) -o $@
-	$(AR) $(NAME) $@
+	@$(CC) $(CFLAGS) -c $< -I$(INCLUDES) -o $@
+	@$(AR) $(NAME) $@
 
 $(BDIR_OB)/%.o:$(BNS_DIR)/%.c
 	@mkdir -p $(BDIR_OB)
-	$(CC) $(CFLAGS) -c $< -I$(INCLUDES) -o $@
-	$(AR) $(NAME) $@
+	@$(CC) $(CFLAGS) -c $< -I$(INCLUDES) -o $@
+	@$(AR) $(NAME) $@
 
 clean:
 	$(RM) $(OBJ_DIR)
