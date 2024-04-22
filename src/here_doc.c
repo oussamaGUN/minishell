@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:35:41 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/18 11:35:56 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/21 22:27:36 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,12 @@ t_token	*child_process_for_heredoc(t_token *token,
 
 	while (1)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal_for_heredoc();
 		s = readline("> ");
 		if (!s)
 			break ;
-		if (ft_strncmp(s, "\n", ft_strlen(s)) == 1
-			&& ft_strncmp(s, token->content, ft_strlen(token->content)) == 0)
+		if (ft_strcmp(s, token->content) == 0)
 			break ;
 		new = here_doc_expand(s, env);
 		if (!new)
@@ -100,6 +101,8 @@ t_token	*here_doc_implement(t_token *token, t_token *node, t_env *env)
 	int		file;
 	pid_t	id;
 
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	file = here_doc_mininorm(token);
 	if (file < 0)
 		return (NULL);
@@ -109,7 +112,7 @@ t_token	*here_doc_implement(t_token *token, t_token *node, t_env *env)
 	else if (id == 0)
 		child_process_for_heredoc(token, node, env, file);
 	close(token->fd[1]);
-	wait(NULL);
+	wait(&exit_status);
 	node->input_file = token->fd[0];
 	if (node->input_file == -1)
 	{
