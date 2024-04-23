@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ownsplit_count.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:06:55 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/19 21:12:42 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:17:34 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,10 @@ int	ft_count_quotes(char const *s, t_tokenizer *vars)
 			ft_count_first(s, vars);
 		else if (s[vars->i] == '\'')
 			ft_count_second(s, vars);
-		vars->i++;
+		if (s[vars->i])
+			vars->i++;
 	}
+
 	if (!ft_count_res(vars->count1, vars->count2))
 		return (0);
 	return (1);
