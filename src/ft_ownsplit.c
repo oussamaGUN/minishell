@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:57:28 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/22 15:57:27 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:24:53 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,11 @@ char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars)
 	trim = malloc(sizeof(t_tokenizer));
 	if (!trim)
 		return (NULL);
+	if (!ft_count_quotes(s, vars))
+		return (NULL);
 	s = minisplit(s, vars);
 	if (!s)
 		return (free(trim), NULL);
-	if (!ft_count_quotes(s, vars))
-		return (free(trim), free((char *)s), NULL);
 	trim->words_count = ft_word((char *)s, c, vars);
 	trim->arr = (char **) malloc(sizeof(char *) * (trim->words_count + 1));
 	if (!trim->arr)
