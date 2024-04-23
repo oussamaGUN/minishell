@@ -8,7 +8,10 @@ char *normal_path(char *cmd, char **env)
 	char	**splited;
 	char	*path;
 	i = 0;
-    
+
+
+	if (!ft_strlen(cmd))
+		return (NULL);
 	while (env[i])
 	{
 		str = ft_split(env[i], '=');
