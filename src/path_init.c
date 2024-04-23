@@ -9,7 +9,7 @@ char *normal_path(char *cmd, char **env)
 	char	*path;
 	i = 0;
 
-	if (!cmd)
+	if (!ft_strlen(cmd))
 		return (NULL);
 	while (env[i])
 	{
