@@ -1,14 +1,15 @@
 
 #______command and their flags______#
 RM = rm -rf
-CFLAGS = -Wall -Wextra -Werror -w -L$(HOME)/readline/lib -fsanitize=address
-INCLUDES = -I$(RDLDIR)/include/readline -Iincludes -Ilibft/includes
-RDLLIB = -L$(RDLDIR)/lib -lreadline
+CFLAGS = -Wall -Wextra -Werror -w -lreadline -L /Users/$(USER)/readline/lib 
+INCLUDES = includes
 
 #______directories______#
 OBJ_DIR = obj
 SRC_DIR = src
-RDLDIR=$(HOME)/readline
+INCLUDES = includes
+INC = /Users/$(USER)/readline/include/readline/
+LIB_INCLUDES = libft/includes
 
 
 #______mandatory and bonus files______#
@@ -27,12 +28,12 @@ LIB = libft
 #______________Rules______________#
 
 $(NAME): $(OBJECTS) $(LIB)/libft.a
-	$(CC) $(CFLAGS) $^ $(INCLUDES) $(RDLLIB) -o $@
+	$(CC) $(CFLAGS) $^ -I$(INCLUDES) -I$(LIB_INCLUDES) -I$(INC) -o $@ -fsanitize=address
 
 # impicit rule for mandatory
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $< $(INCLUDES) $(RDLLIB) -c -o $@
+	$(CC) $(CFLAGS) -I$(INCLUDES) -I$(LIB_INCLUDES) -I$(INC) -c $< -o $@
 
 $(LIB)/%.a:
 	$(MAKE) all -C $(LIB)
