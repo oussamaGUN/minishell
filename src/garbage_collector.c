@@ -1,6 +1,6 @@
 #include "main.h"
 
-char	*ft_malloc(size_t	size, t_free **alloc, void *mem)
+void	*ft_malloc(size_t	size, t_free **alloc, void *mem)
 {
 	t_free	*new;
 
