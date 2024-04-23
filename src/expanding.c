@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 10:09:10 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/22 10:21:40 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:56:36 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,13 +107,13 @@ t_token	*expanding(t_token *token, t_env *env)
 	exp_vars = (t_multx *)ft_malloc(sizeof(t_multx), &(env->mem), NULL);
 	if (!exp_vars)
 		return (NULL);
-	exp_vars->inside_dquotes = ft_malloc(ft_strlen(token->content),
-			&(env->mem), NULL);
-	if (!exp_vars)
-		return (NULL);
 	itter = token;
 	while (itter)
 	{
+		exp_vars->inside_dquotes = ft_malloc(ft_strlen(itter->content) ,
+				&(env->mem), NULL);
+		if (!exp_vars)
+			return (NULL);
 		exp_vars->i = 0;
 		exp_vars->k = 0;
 		conditions(exp_vars, itter, env);
