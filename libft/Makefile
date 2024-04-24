@@ -6,7 +6,7 @@
 #    By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/01 10:12:32 by melfersi          #+#    #+#              #
-#    Updated: 2024/04/22 09:48:07 by melfersi         ###   ########.fr        #
+#    Updated: 2024/04/24 10:03:48 by melfersi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,11 +63,11 @@ $(BDIR_OB)/%.o:$(BNS_DIR)/%.c
 	@$(AR) $(NAME) $@
 
 clean:
-	$(RM) $(OBJ_DIR)
-	$(RM) $(BDIR_OB)
+	@$(RM) $(OBJ_DIR)
+	@$(RM) $(BDIR_OB)
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 all: $(NAME) bonus
 
