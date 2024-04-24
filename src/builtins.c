@@ -126,29 +126,29 @@ bool	check_valid_identifier(char *s)
 	return (true);
 }
 
-bool	set(t_env	*env, char *key, char *value)
+int	set(t_env	*env, char *key, char *value)
 {
-	t_env	*envp;
-
-	envp = env;
-	while (envp && key)
+	t_env *tmp = env;
+	while (tmp)
 	{
-		if (!ft_strcmp(envp->key, key))
+		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
 		{
-			envp->value = value;
+			tmp->value = value;
 			return (0);
 		}
-		envp = envp->next;
+		tmp = tmp->next;
 	}
-	envp = (t_env *)ft_malloc(sizeof(t_env), &(env->mem), NULL);
-	if (!envp)
+	t_env *new = malloc(sizeof(t_env));
+	if (!new)
 		return (1);
-	envp->key = key;
-	envp->value = value;
-	envp->next = NULL;
-	list_for_env(&env, envp);
+	new->key = key;
+	new->value = value;
+	new->next = env->next;
+	env->next = new;
 	return (0);
 }
+
+
 int	export(t_token *lst, t_env *env)
 {
 	char *key;
@@ -158,16 +158,60 @@ int	export(t_token *lst, t_env *env)
 	while (*(++(lst->arr)))
 	{
 		sp = (char **)ft_malloc(0, &(env->mem), ft_split(*(lst->arr), '='));
-		key = ft_malloc(0, &(env->mem), sp[0]);
+		key = ft_strdup(sp[0]);
 		if (!sp[1])
-			value = ft_malloc(0, &(env->mem), ft_strdup(""));
+			value = ft_strdup("");
 		else
-			value = ft_malloc(0, &(env->mem), sp[1]);
-		if (!check_valid_identifier(key) || lst->arr[0][0] == '=')
+			value = ft_strdup(sp[1]);
+		if (!check_valid_identifier(key) || **(lst->arr) == '=')
+		{
+			if (key)
+				free(key);
+			if (value)
+				free(value);
+			if (sp)
+				free(sp);
 			return (printf("mini: export: `%s': not a valid identifier\n",
 				*(lst->arr)), 1);
-		if (set(env, key, value))
-			return (perror(NULL), 1);
+		}
+		set(env, key, value);
+	}
+	return (0);
+}
+
+
+
+int	unset(t_token *lst, t_env *env)
+{
+	t_env *tmp;
+	t_env *prev;
+	t_env *next;
+	while (*(++(lst->arr)))
+	{
+		tmp = env;
+		prev = NULL;
+		while (tmp)
+		{
+			if (!ft_strcmp(tmp->key, *(lst->arr)))
+			{
+				if (prev)
+					prev->next = tmp->next;
+				else
+					env = tmp->next;
+				next = tmp->next;
+				if (tmp->key)
+					free(tmp->key);
+				if (tmp->value)
+					free(tmp->value);
+				free(tmp);
+				tmp = next;
+			}
+			else
+			{
+				prev = tmp;
+				tmp = tmp->next;
+			}
+		}
 	}
 	return (0);
 }
@@ -187,6 +231,8 @@ void	builtins(t_token *lst, t_env *env)
 		exit(print_env(env));
 	if (!ft_strcmp(lst->arr[0], "export"))
 		exit(export(lst, env));
+	if (!ft_strcmp(lst->arr[0], "unset"))
+		exit(unset(lst, env));
 }
 
 int	single_builtins(t_token *lst, t_env *env)
