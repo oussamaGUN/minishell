@@ -17,7 +17,7 @@
 
 
 # define READLINE_LIBRARY
-// # include "history.h"
+# include "history.h"
 # include "readline.h"
 
 extern int	exit_status;
