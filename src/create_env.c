@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:14:05 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/20 11:03:12 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/04/22 19:52:40 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,17 @@
 
 void	env_clear(t_env **env)
 {
-	if (*env)
+	t_env	*tmp;
+
+	while (*env)
 	{
-		free((*env)->key);
-		free((*env)->value);
-		free(*env);
-		(*env) = (*env)->next;
+		tmp = *env;
+		*env = (*env)->next;
+		if (tmp->key)
+			free(tmp->key);
+		if (tmp->value)
+			free(tmp->value);
+		free(tmp);
 	}
 }
 
