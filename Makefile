@@ -7,7 +7,7 @@ CFLAGS = -Wall -Wextra -Werror
 OBJ_DIR = obj
 SRC_DIR = src
 INCLUDES = -Iincludes
-INC = -lreadline -I/Users/melfersi/readline/include/readline -L/Users/melfersi/readline/lib
+INC = -lreadline -I$(HOME)/readline/include/readline -L$(HOME)/readline/lib
 INCP = -I/Users/melfersi/readline/include/readline
 LIB_INCLUDES = -Ilibft/includes
 
