@@ -43,7 +43,7 @@ t_env *ft_update_pwd_env(t_env *env)
 {
 	char	*cwd;
 	t_env	*p_env;;
-	cwd = ft_malloc(0, &(env->mem), getcwd(NULL, 0));
+	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return env;
 	p_env = env;
