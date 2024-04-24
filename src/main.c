@@ -1,17 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 11:36:30 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/22 15:22:11 by ousabbar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-
-
 #include "main.h"
 
 int	exit_status;
@@ -35,7 +21,7 @@ int	cmd_exe(t_token *token, t_env *env)
 	t_token	*new_token;
 	t_token	*cmd_list;
 	char	*cmd;
-	
+
 	signals_for_parent();
 	cmd = readline("$ ");
 	if (!cmd)

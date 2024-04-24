@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   open_files.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 11:06:36 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/21 16:17:32 by ousabbar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "main.h"
 
 t_token	*file_out(t_token *token, t_token *node)
@@ -48,7 +36,7 @@ t_token	*ft_openning_files(t_token *token, t_token *node)
 		{
 			node->exit_status = 1;
 			exit_status = 1 << 8;
-		}	
+		}
 		node->input_file = open(token->content, O_RDONLY);
 		if (node->input_file == -1)
 		{
