@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ownsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:57:28 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/23 18:11:36 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:24:53 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars)
 	trim = malloc(sizeof(t_tokenizer));
 	if (!trim)
 		return (NULL);
-		puts("------");
 	if (!ft_count_quotes(s, vars))
 		return (NULL);
 	s = minisplit(s, vars);

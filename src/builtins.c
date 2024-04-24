@@ -92,7 +92,7 @@ int	 check_dash_n(char *s)
 }
 int	echo(t_token *lst)
 {
-	if (!(*(++lst->arr)))
+	if (!*(lst->arr)++)
 		printf("\n");
 	else if (check_dash_n(*(lst->arr)++))
 	{

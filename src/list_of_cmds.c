@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 10:54:54 by ousabbar          #+#    #+#             */
-/*   Updated: 2024/04/22 15:22:04 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:06:00 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_token	*ft_list(t_token *token, t_env *env)
 	lst = NULL;
 	while (token)
 	{
-		node = add_token(NULL, &(env->mem));
+		node = add_token(token->content, &(env->mem));
 		if (!init(node, vars, token, &(env->mem)))
 			return (NULL);
 		token = ft_list_loop(token, env, node, vars);
