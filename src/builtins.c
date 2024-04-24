@@ -17,26 +17,26 @@ int	pwd(t_env *env)
 }
 int cd(char **arr, t_env *env)
 {
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
 	if (!arr[1])
 	{
 		if (chdir(get_value(env, "HOME")) == (-1))
 			return(perror("mini"), 1);
+		set(env, ft_strdup("OLDPWD"), cwd);
+		return (0);
 	}
-	else if (ft_strncmp(arr[1], "-", 1) == 0)
-	{
+	if (!ft_strcmp(arr[1], "-"))
 		if (chdir(get_value(env, "OLDPWD")) == (-1))
 			return(perror("mini"), 1);
-	}
-	else if (ft_strncmp(arr[1], "~", 1) == 0)
-	{
+	if (!ft_strcmp(arr[1], "~"))
 		if (chdir(get_value(env, "HOME")) == (-1))
 			return(perror("mini"), 1);
-	}
-	else
-	{
+	if (ft_strncmp(arr[1], "~", 1) && ft_strncmp(arr[1], "-", 1))
 		if (chdir(arr[1]) == (-1))
 			return (perror("mini"), 1);
-	}
+	set(env, ft_strdup("OLDPWD"), cwd);
 	return (0);
 }
 t_env *ft_update_pwd_env(t_env *env)
@@ -55,22 +55,7 @@ t_env *ft_update_pwd_env(t_env *env)
 	}
 	return (env);
 }
-t_env *ft_update_oldpwd_env(t_env *env)
-{
-	char buff[4096];
-	char *path;
-	path = getcwd(buff, 4096);
-	if (!path)
-		return env;
-	t_env *itter = env;
-	while (itter)
-	{
-		if (ft_strncmp(itter->key, "OLDPWD", 7) == 0)
-			itter->value = ft_malloc(0, &(env->mem), ft_strdup(path));
-		itter = itter->next;
-	}
-	return env;
-}
+
 int	print_env(t_env *env)
 {
 	while (env)
@@ -133,6 +118,8 @@ int	set(t_env	*env, char *key, char *value)
 	{
 		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
 		{
+			if (tmp->value)
+				free(tmp->value);
 			tmp->value = value;
 			return (0);
 		}
