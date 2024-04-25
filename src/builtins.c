@@ -77,7 +77,7 @@ int	 check_dash_n(char *s)
 }
 int	echo(t_token *lst)
 {
-	if (!*(lst->arr)++)
+	if (!(*++(lst->arr)))
 		printf("\n");
 	else if (check_dash_n(*(lst->arr)++))
 	{
@@ -205,7 +205,6 @@ int	unset(t_token *lst, t_env *env)
 
 void	builtins(t_token *lst, t_env *env)
 {
-
 	if (!lst->arr[0])
 		exit(1);
 	if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
@@ -222,19 +221,31 @@ void	builtins(t_token *lst, t_env *env)
 		exit(unset(lst, env));
 }
 
+int	reset_io(t_token *lst)
+{
+	dup2(lst->fd[0], STDIN_FILENO);
+	dup2(lst->fd[1], STDOUT_FILENO);
+	close(lst->fd[0]);
+	close(lst->fd[1]);
+	return (0);
+}
+
 int	single_builtins(t_token *lst, t_env *env)
 {
+	lst->fd[0] = dup(STDIN_FILENO);
+	lst->fd[1] = dup(STDOUT_FILENO);
+	set_io(lst);
 	if (!lst->arr[0])
-		return 1;
+		return (reset_io(lst), 1);
 	if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
-		return (pwd(env));
+		return (pwd(env), reset_io(lst));
 	if (!ft_strcmp(lst->arr[0], "echo") || !ft_strcmp(lst->arr[0], "ECHO"))
-		return (echo(lst));
+		return (echo(lst), reset_io(lst));
 	if (!ft_strcmp(lst->arr[0], "cd") || !ft_strcmp(lst->arr[0], "CD"))
-		return (cd(lst->arr, env));
+		return (cd(lst->arr, env), reset_io(lst));
 	if (!ft_strcmp(lst->arr[0], "env"))
-		return (print_env(env));
+		return (print_env(env), reset_io(lst));
 	if (!ft_strcmp(lst->arr[0], "export"))
-		return (export(lst, env));
-	return (1);
+		return (export(lst, env), reset_io(lst));
+	return (reset_io(lst), 1);
 }
