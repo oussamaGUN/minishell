@@ -119,6 +119,7 @@ void	del(void *s);
 
 
 int		set(t_env	*env, char *key, char *value);
+void	set_io(t_token *lst);
 int		tokenizer(char *str, t_token **token, t_env **env);
 char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars);
 t_token	*ft_check_errors(t_token *token);
