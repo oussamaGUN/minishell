@@ -33,6 +33,7 @@ void	set_io(t_token *lst)
 
 int	exec_cmd(t_token *lst, t_env *env)
 {
+	signals_for_child();
 	if (lst->exit_status)
 		exit (1);
 	if (!lst->arr[0])
@@ -50,15 +51,29 @@ int	exec_cmd(t_token *lst, t_env *env)
 	exit(127);
 }
 
+void	exit_status_value(pid_t pid, int32_t *status)
+{
+	waitpid(pid, status, 0);
+	if (WIFEXITED(*status))
+		*status = WEXITSTATUS(*status);
+	if (WIFSIGNALED(*status))
+	{
+		*status = WTERMSIG(*status);
+		if (*status == 2)
+			*status = 130;
+		if (*status == 3)
+			*status = 131;
+	}
+}
+
 int exec(t_token *lst, t_env *env)
 {
 	t_token	*cmdlist = lst;
-	signal(SIGINT, SIG_DFL);
-	signals_for_child();
 	env = ft_update_pwd_env(env);
 	if (!(cmdlist->next))
-		if (!single_builtins(lst, env))
-			return (0);
+		exit_status = single_builtins(lst, env);
+	if (!(exit_status) && !(cmdlist->next))
+		return (0);
 	while (cmdlist)
 	{
 		if (cmdlist->next)
@@ -69,8 +84,7 @@ int exec(t_token *lst, t_env *env)
 			return (perror("fork"), 1);
 		if (!cmdlist->pid)
 			exec_cmd(cmdlist, env);
-		wait(&(cmdlist->exit_status));
-		exit_status = cmdlist->exit_status;
+		exit_status_value(cmdlist->pid, &(cmdlist->exit_status));
 		if (cmdlist->next)
 			close(cmdlist->fd[STDOUT_FILENO]);
 		cmdlist = cmdlist->next;
