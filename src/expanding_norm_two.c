@@ -18,7 +18,7 @@ void	ft_exit_value(t_multx *exp_vars, t_env *env)
 {
 	exp_vars->i++;
 	exp_vars->res = ft_malloc(0, &(env->mem), ft_strjoin(exp_vars->res,
-				ft_malloc(0, &(env->mem), ft_itoa(exit_status >> 8))));
+				ft_malloc(0, &(env->mem), ft_itoa(exit_status))));
 	exp_vars->k = ft_strlen(exp_vars->res);
 }
 
