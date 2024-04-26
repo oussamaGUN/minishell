@@ -117,7 +117,7 @@ void	del(void *s);
 // t_list		*ft_lst_creat_env(mini_t *mini, char **env);
 
 
-
+void	exit_status_value(pid_t pid, int32_t *status);
 int		set(t_env	*env, char *key, char *value);
 void	set_io(t_token *lst);
 int		tokenizer(char *str, t_token **token, t_env **env);
