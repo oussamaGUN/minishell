@@ -38,9 +38,7 @@ int	cmd_exe(t_token *token, t_env *env)
 	if (!cmd_list)
 		return (0);
 	ft_path(cmd_list, env->envp);
-	if (exec(cmd_list, env))
-		return (1);
-	return (0);
+	return (exec(cmd_list, env));
 }
 
 int	main(int ac, char *av[], char *envp[])
