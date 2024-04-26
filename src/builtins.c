@@ -135,6 +135,58 @@ int	set(t_env	*env, char *key, char *value)
 	return (0);
 }
 
+void	ft_sort(char **arr)
+{
+	int i = 0;
+	int j = 0;
+	char *tmp;
+	while (arr[i])
+	{
+		j = i + 1;
+		while (arr[j])
+		{
+			if (ft_strcmp(arr[i], arr[j]) > 0)
+			{
+				tmp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+void	print_sorted_export(t_env *env)
+{
+	t_env *tmp = env;
+	char **arr;
+	int i = 0;
+	while (tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	arr = malloc(sizeof(char *) * (i + 1));
+	if (!arr)
+		return ;
+	i = 0;
+	tmp = env;
+	while (tmp)
+	{
+		arr[i++] = tmp->key;
+		tmp = tmp->next;
+	}
+	arr[i] = NULL;
+	ft_sort(arr);
+	i = 0;
+	while (arr[i])
+	{
+		printf("declare -x %s=\"%s\"\n", arr[i], get_value(env, arr[i]));
+		i++;
+	}
+	free(arr);
+}
 
 int	export(t_token *lst, t_env *env)
 {
