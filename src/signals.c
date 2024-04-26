@@ -15,29 +15,19 @@ void signal_for_heredoc()
 
 void sig_handler(int signum)
 {
-	(void)signum;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	exit_status = 1 << 8;
-}
-
-void sig_quit(int signum)
-{
-	printf("Quit: %d\n", signum);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	exit_status = 131 << 8;
-}
-
-void	sig_handler_for_process(int signum)
-{
-	(void)signum;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	exit_status = 131 << 8;
+	if (signum == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		exit_status = 1;
+	}
+	if (signum == SIGQUIT)
+	{
+		printf("Quit: %d\n", SIGQUIT);
+		exit(131);
+	}
 }
 
 void signals_for_parent()
@@ -47,6 +37,6 @@ void signals_for_parent()
 }
 void signals_for_child()
 {
-	signal(SIGINT, sig_handler_for_process);
-	signal(SIGQUIT, sig_quit);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT,sig_handler);
 }
