@@ -12,7 +12,8 @@ char	*get_value(t_env *env, char *key)
 }
 int	pwd(t_env *env)
 {
-	printf("%s\n", ft_malloc(0, &(env->mem), ft_strdup(get_value(env, "PWD"))));
+	printf("%s\n", (char *)ft_malloc(0, &(env->mem),
+			ft_strdup(get_value(env, "PWD"))));
 	return (0);
 }
 int cd(char **arr, t_env *env)
@@ -135,65 +136,27 @@ int	set(t_env	*env, char *key, char *value)
 	return (0);
 }
 
-void	ft_sort(char **arr)
+int	print_sorted_export(t_env *env)
 {
-	int i = 0;
-	int j = 0;
-	char *tmp;
-	while (arr[i])
+	while (env)
 	{
-		j = i + 1;
-		while (arr[j])
-		{
-			if (ft_strcmp(arr[i], arr[j]) > 0)
-			{
-				tmp = arr[i];
-				arr[i] = arr[j];
-				arr[j] = tmp;
-			}
-			j++;
-		}
-		i++;
+		printf("declare -x %s", env->key);
+		if (env->value)
+			printf("=\"%s\"", env->value);
+		printf("\n");
+		env = env->next;
 	}
-}
-
-void	print_sorted_export(t_env *env)
-{
-	t_env *tmp = env;
-	char **arr;
-	int i = 0;
-	while (tmp)
-	{
-		i++;
-		tmp = tmp->next;
-	}
-	arr = malloc(sizeof(char *) * (i + 1));
-	if (!arr)
-		return ;
-	i = 0;
-	tmp = env;
-	while (tmp)
-	{
-		arr[i++] = tmp->key;
-		tmp = tmp->next;
-	}
-	arr[i] = NULL;
-	ft_sort(arr);
-	i = 0;
-	while (arr[i])
-	{
-		printf("declare -x %s=\"%s\"\n", arr[i], get_value(env, arr[i]));
-		i++;
-	}
-	free(arr);
+	return (0);
 }
 
 int	export(t_token *lst, t_env *env)
 {
-	char *key;
-	char *value;
-	char **sp;
+	char	*key;
+	char	*value;
+	char	**sp;
 
+	if (!*(lst->arr + 1))
+		return (print_sorted_export(env));
 	while (*(++(lst->arr)))
 	{
 		sp = (char **)ft_malloc(0, &(env->mem), ft_split(*(lst->arr), '='));
@@ -222,34 +185,39 @@ int	export(t_token *lst, t_env *env)
 
 int	unset(t_token *lst, t_env *env)
 {
-	t_env *tmp;
-	t_env *prev;
-	t_env *next;
+	t_env	*tmp;
+	t_env	*prev;
+
 	while (*(++(lst->arr)))
 	{
+		puts("unset");
 		tmp = env;
-		prev = NULL;
+		prev = env;
+		while (prev)
+		{
+			printf("prev->key: %s\n", prev->key);
+			if (prev->value)
+				printf("prev->value: %s\n", prev->value);
+			prev = prev->next;
+		}
+
 		while (tmp)
 		{
 			if (!ft_strcmp(tmp->key, *(lst->arr)))
 			{
-				if (prev)
-					prev->next = tmp->next;
+				if (tmp == env)
+					env = env->next;
 				else
-					env = tmp->next;
-				next = tmp->next;
-				if (tmp->key)
-					free(tmp->key);
-				if (tmp->value)
-					free(tmp->value);
+					prev->next = tmp->next;
+				printf("key: %s\n", tmp->key);
+				printf("value: %s\n", tmp->value);
+				free(tmp->key);
+				free(tmp->value);
 				free(tmp);
-				tmp = next;
+				break ;
 			}
-			else
-			{
-				prev = tmp;
-				tmp = tmp->next;
-			}
+			prev = tmp;
+			tmp = tmp->next;
 		}
 	}
 	return (0);
@@ -271,6 +239,8 @@ void	builtins(t_token *lst, t_env *env)
 		exit(export(lst, env));
 	if (!ft_strcmp(lst->arr[0], "unset"))
 		exit(unset(lst, env));
+	if (!ft_strcmp(lst->arr[0], "exit"))
+		exit(exit_status);
 }
 
 int	reset_io(t_token *lst)
@@ -299,5 +269,7 @@ int	single_builtins(t_token *lst, t_env *env)
 		return (print_env(env), reset_io(lst));
 	if (!ft_strcmp(lst->arr[0], "export"))
 		return (export(lst, env), reset_io(lst));
+	if (!ft_strcmp(lst->arr[0], "exit"))
+		exit(exit_status);
 	return (reset_io(lst), 1);
 }
