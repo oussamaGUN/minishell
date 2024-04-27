@@ -1,4 +1,4 @@
-
+#macos
 #______command and their flags______#
 RM = rm -rf
 CFLAGS = -Wall -Wextra -Werror
