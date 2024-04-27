@@ -190,17 +190,7 @@ int	unset(t_token *lst, t_env *env)
 
 	while (*(++(lst->arr)))
 	{
-		puts("unset");
 		tmp = env;
-		prev = env;
-		while (prev)
-		{
-			printf("prev->key: %s\n", prev->key);
-			if (prev->value)
-				printf("prev->value: %s\n", prev->value);
-			prev = prev->next;
-		}
-
 		while (tmp)
 		{
 			if (!ft_strcmp(tmp->key, *(lst->arr)))
@@ -209,8 +199,6 @@ int	unset(t_token *lst, t_env *env)
 					env = env->next;
 				else
 					prev->next = tmp->next;
-				printf("key: %s\n", tmp->key);
-				printf("value: %s\n", tmp->value);
 				free(tmp->key);
 				free(tmp->value);
 				free(tmp);
@@ -240,7 +228,7 @@ void	builtins(t_token *lst, t_env *env)
 	if (!ft_strcmp(lst->arr[0], "unset"))
 		exit(unset(lst, env));
 	if (!ft_strcmp(lst->arr[0], "exit"))
-		exit(exit_status);
+		exit(exiting(lst));
 }
 
 int	reset_io(t_token *lst)
@@ -250,6 +238,27 @@ int	reset_io(t_token *lst)
 	close(lst->fd[0]);
 	close(lst->fd[1]);
 	return (0);
+}
+int	exiting(t_token *lst)
+{
+	int	i;
+
+	i = 0;
+	printf("exit\n");
+	if (lst->arr[1])
+	{
+		while (lst->arr[1][i])
+			if (!ft_isdigit(lst->arr[1][i++]))
+			{
+				printf("mini: exit: %s: numeric argument required\n",
+					lst->arr[1]);
+				exit(255);
+			}
+		if (lst->arr[2])
+			return (printf("mini: exit: too many arguments\n"), 1);
+		exit_status = ft_atoi(lst->arr[1]);
+	}
+	exit(exit_status % 256);
 }
 
 int	single_builtins(t_token *lst, t_env *env)
@@ -269,7 +278,9 @@ int	single_builtins(t_token *lst, t_env *env)
 		return (print_env(env), reset_io(lst));
 	if (!ft_strcmp(lst->arr[0], "export"))
 		return (export(lst, env), reset_io(lst));
+	if (!ft_strcmp(lst->arr[0], "unset"))
+		return (unset(lst, env), reset_io(lst));
 	if (!ft_strcmp(lst->arr[0], "exit"))
-		exit(exit_status);
+		return (exiting(lst));
 	return (reset_io(lst), 1);
 }
