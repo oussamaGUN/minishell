@@ -14,3 +14,28 @@ fach ghadi ikoun chi variable matexpandach ghadi i return newline handle it
 
 
 MATB9ACH TKHDEM BETERMINAL DYAL VSCODE A SI OSTORA
+
+
+
+
+IMPORTANT!!!!!!!!!!!
+---------------------------
+exit function value should not be bigger than 9999999999999999999;
+
+this command is not working properly:
+touch out
+chmod 000 out
+ls > out 
+or any command it print the perssion denied and then print the ouput of the command
+and also if i try to print the out file it print no such file or directory instead of persmision denied
+
+
+
+found segfault when the list is empty waaaa some cases like > out or >> out or anything lma kaywslekch fiha walo kaywslek list empty khassek thr protectiha zid her if (!lst->arr[0]) fdkhela dyal execution ola chof kitdir liha olmohim ana khadm biha bach n7iyid aliya segfault kaymered
+
+
+
+andek muchkila dyal wait madertich dik l3yba ligelt like katjme3 processes id fwa7d linked list 7tal lkher o katwaiti the reason alach khassek dirhom flinked list 7tal lkher o waiti alihom kamlin 
+wa7d lcases b7al hadi cat | cat | ls {BASH} kay executi ls hiya lwla 3ad kay3tik linput but dyalna kaysbe9 linput hiya lowla 3ad kayexectui ls 7itach nta katwaiti ola process bo7do khassek 7ta lkher o waiti alihom kamlin bach isbe9 line
+lcommand lighadi itexcuta omatssnach linput!!!!!!!!
+
