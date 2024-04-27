@@ -2,7 +2,7 @@
 
 int	exit_status;
 
-void	ft_path(t_token *cmd_list, char **env)
+void	ft_path(t_token *cmd_list, t_env *env)
 {
 	t_token	*itter;
 
@@ -16,6 +16,16 @@ void	ft_path(t_token *cmd_list, char **env)
 	return ;
 }
 
+char	*prompt(void)
+{
+	char	*cmd;
+
+	cmd = readline("$ ");
+	if (!cmd)
+		return (NULL);
+	add_history(cmd);
+	return (cmd);
+}
 int	cmd_exe(t_token *token, t_env *env)
 {
 	t_token	*new_token;
@@ -23,10 +33,9 @@ int	cmd_exe(t_token *token, t_env *env)
 	char	*cmd;
 
 	signals_for_parent();
-	cmd = readline("$ ");
+	cmd = prompt();
 	if (!cmd)
 		return (printf("exit\n"), 1);
-	add_history(cmd);
 	if (!tokenizer(cmd, &token, &env))
 		return (0);
 	if (!ft_check_errors(token))
@@ -37,7 +46,7 @@ int	cmd_exe(t_token *token, t_env *env)
 	cmd_list = ft_list(new_token, env);
 	if (!cmd_list)
 		return (0);
-	ft_path(cmd_list, env->envp);
+	ft_path(cmd_list, env);
 	return (exec(cmd_list, env));
 }
 
