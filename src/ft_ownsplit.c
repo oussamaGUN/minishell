@@ -73,8 +73,6 @@ char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars)
 {
 	t_tokenizer		*trim;
 
-	if (s == NULL)
-		return (NULL);
 	trim = malloc(sizeof(t_tokenizer));
 	if (!trim)
 		return (NULL);
