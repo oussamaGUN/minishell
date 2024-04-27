@@ -1,19 +1,4 @@
 #include "main.h"
-void	print_token(t_token *lst)
-{
-	printf("\t\t>>arr<<\n");
-	for (int i = 0; lst->arr[i];i++)
-		puts(lst->arr[i]);
-	printf("fd[0] = %d -- fd[1] == %d\n",lst->fd[0],lst->fd[1]);
-	printf("input_file %d\n",lst->input_file);
-	printf("output_file %d\n",lst->output_file);
-	printf("%s\n",lst->path);
-	lst->next ? puts("next : √"):puts("next : x");
-	lst->prev ? puts("prev : √"):puts("prev : x");
-}
-
-
-
 
 
 void	set_io(t_token *lst)
@@ -33,7 +18,6 @@ void	set_io(t_token *lst)
 
 int	exec_cmd(t_token *lst, t_env *env)
 {
-	signals_for_child();
 	if (lst->exit_status)
 		exit (1);
 	if (!lst->arr[0])
@@ -51,24 +35,27 @@ void	exit_status_value(pid_t pid, int32_t *status)
 {
 	waitpid(pid, status, 0);
 	if (WIFEXITED(*status))
-		*status = WEXITSTATUS(*status);
+		exit_status = WEXITSTATUS(*status);
 	if (WIFSIGNALED(*status))
 	{
 		*status = WTERMSIG(*status);
 		if (*status == 2)
-			*status = 130;
+			exit_status = 130;
 		if (*status == 3)
-			*status = 131;
+			exit_status = 131;
 	}
 }
 
+
 int exec(t_token *lst, t_env *env)
 {
+	signals_for_child();
 	t_token	*cmdlist = lst;
 	env = ft_update_pwd_env(env);
 	if (!(cmdlist->next))
 		exit_status = single_builtins(lst, env);
-	if (!(exit_status) && !(cmdlist->next))
+	if ((!(exit_status) && !(cmdlist->next))
+		|| !ft_strcmp(cmdlist->arr[0], "exit"))
 		return (0);
 	while (cmdlist)
 	{
