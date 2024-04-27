@@ -1,20 +1,16 @@
 #include "main.h"
 
-char *normal_path(char *cmd, char **env)
+char *normal_path(char *cmd, t_env *env)
 {
-	int		i;
 	int		j;
-	char	**str;
 	char	**splited;
 	char	*path;
-	i = 0;
 
 	if (!ft_strlen(cmd))
 		return (NULL);
-	while (env[i])
+	while (env)
 	{
-		str = ft_split(env[i], '=');
-		splited = ft_split(str[1], ':');
+		splited = ft_split(env->value, ':');
 		j = 0;
 		while (splited[j])
 		{
@@ -24,11 +20,11 @@ char *normal_path(char *cmd, char **env)
 			free(path);
 			j++;
 		}
-		i++;
+		env = env->next;
 	}
-	return NULL;
+	return (NULL);
 }
-char	*ft_getpath(char *cmd, char **env)
+char	*ft_getpath(char *cmd, t_env *env)
 {
 	char *str;
 	if (cmd[0] == '/')
