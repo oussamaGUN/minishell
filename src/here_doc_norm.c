@@ -2,6 +2,11 @@
 
 void	here_doc_expand_norm(t_multx *vars, char *s, t_env *env)
 {
+	if (s[vars->i] == '$' && s[vars->i + 1] == '?')
+	{
+		ft_exit_value(vars, env);
+		return ;
+	}
 	vars->i++;
 	while (s[vars->i] != ' '
 		&& s[vars->i] && ft_isalnum(s[vars->i]))
@@ -25,6 +30,7 @@ void	here_doc_expand_norm(t_multx *vars, char *s, t_env *env)
 
 void	here_doc_expand_norm_two(t_multx *vars, char *s, t_env *env)
 {
+
 	if (s[vars->i] == '$' && ft_isdigit(s[vars->i + 1]))
 		vars->i++;
 	else
