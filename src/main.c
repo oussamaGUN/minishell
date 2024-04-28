@@ -16,6 +16,21 @@ void	ft_path(t_token *cmd_list, t_env *env)
 	return ;
 }
 
+char **create_new_env(void)
+{
+	char **envp;
+
+	envp = NULL;
+	envp = malloc(sizeof(char *) * 3);
+	if (!envp)
+		return (NULL);
+	envp[0] = ft_strdup(ft_strjoin("PWD=", getcwd(NULL, 0)));
+	envp[1] = ft_strdup("PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
+	envp[2] = ft_strdup("SHLVL=0");
+	envp[3] = NULL;
+	return (envp);
+}
+
 int	cmd_exe(t_token *token, t_env *env)
 {
 	t_token	*new_token;
@@ -47,6 +62,8 @@ int	main(int ac, char *av[], char *envp[])
 
 	if (ac || av)
 		av = NULL;
+	if (!(*envp))
+		envp = create_new_env();
 	env = envir(envp);
 	env->envp = envp;
 	if (!env)
