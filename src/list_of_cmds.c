@@ -29,7 +29,6 @@ t_token	*ft_list(t_token *token, t_env *env)
 		token = ft_list_loop(token, env, node, vars);
 		node->exit_status = node->status;
 		node->arr[vars->i] = NULL;
-		node->status = 0;
 		ft_lstadd(&lst, node);
 		if (token)
 			token = token->next;
