@@ -60,8 +60,8 @@ t_env	*envir(char	**envp)
 			return (ft_free_env(arr), NULL);
 		node->next = NULL;
 		node->key = ft_strdup(arr[0]);
-		if (ft_strncmp(node->key, "SHLVL", 6) == 0)
-			node->value = ft_itoa(atoi(arr[1]) + 1);
+		if (ft_strcmp(node->key, "SHLVL") == 0)
+			node->value = ft_itoa(ft_atoi(arr[1]) + 1);
 		else
 			node->value = ft_strdup(arr[1]);
 		ft_free_env(arr);
