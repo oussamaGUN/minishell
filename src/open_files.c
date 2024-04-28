@@ -35,7 +35,7 @@ t_token	*ft_openning_files(t_token *token, t_token *node)
 		if (access(token->content, F_OK | R_OK) == -1)
 		{
 			node->exit_status = 1;
-			exit_status = 1 << 8;
+			exit_status = 1;
 		}
 		node->input_file = open(token->content, O_RDONLY);
 		if (node->input_file == -1)
