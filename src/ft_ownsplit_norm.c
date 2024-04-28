@@ -23,8 +23,6 @@ void	second_minisplit(char const *s, t_tokenizer *vars)
 	}
 	else
 	{
-		// printf("addr s={%p}\n",s);
-		// printf("addr var->res={%p}\n",vars->res);
 		if (vars->i - 1 > 0)
 			if (s[vars->i - 1] != ' ')
 				vars->res[vars->j++] = ' ';
