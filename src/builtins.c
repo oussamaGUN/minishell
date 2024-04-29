@@ -265,7 +265,8 @@ int	single_builtins(t_token *lst, t_env *env)
 {
 	lst->fd[0] = dup(STDIN_FILENO);
 	lst->fd[1] = dup(STDOUT_FILENO);
-	set_io(lst);
+	if (set_io(lst))
+		return (reset_io(lst), 127);
 	if (!lst->arr[0])
 		return (reset_io(lst), 1);
 	if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))

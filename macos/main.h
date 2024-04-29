@@ -96,6 +96,7 @@ typedef enum e_type {
 	FILE_OUT,
 	FILE_IN,
 	DELIMITER,
+	NO_ACCESS,
 }t_type;
 
 
@@ -119,7 +120,7 @@ void	del(void *s);
 
 void	exit_status_value(pid_t pid, int32_t *status);
 int		set(t_env	*env, char *key, char *value);
-void	set_io(t_token *lst);
+int		set_io(t_token *lst);
 int		tokenizer(char *str, t_token **token, t_env **env);
 char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars);
 t_token	*ft_check_errors(t_token *token);
@@ -157,15 +158,17 @@ void	signals_for_child(void);
 void	sig_handler_for_process(int signum);
 void	signal_for_heredoc(void);
 void	sig_quit(int signum);
+void	ignore_exit_signal();
 int		ft_len(char const *s, char c);
 
 // execution
-char	*ft_getpath(char *cmd, char **env);
+char	*ft_getpath(char *cmd, t_env *env);
 int		exec(t_token *lst, t_env *env);
 int		execution(t_token *lst, t_env *env);
 void	builtins(t_token *lst, t_env *env);
 int		single_builtins(t_token *lst, t_env *env);
 char	*ft_env(t_env *env, char *s);
+int		exiting(t_token *lst);
 
 
 //env

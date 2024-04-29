@@ -1,8 +1,10 @@
 #include "main.h"
 
 
-void	set_io(t_token *lst)
+int	set_io(t_token *lst)
 {
+	if (lst->input_file == (-2) || lst->output_file == (-2))
+		return (-2);
 	if (lst->input_file != (-1))
 		dup2(lst->input_file, STDIN_FILENO);
 	else if (lst->prev)
@@ -14,6 +16,36 @@ void	set_io(t_token *lst)
 		dup2(lst->fd[STDOUT_FILENO], STDOUT_FILENO);
 		close(lst->fd[STDIN_FILENO]);
 	}
+	return (0);
+}
+
+char	**env_to_arr(t_env *env)
+{
+	t_env	*tmp;
+	char	**arr;
+	int		i;
+
+	tmp = env;
+	i = 0;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	arr = ft_malloc(sizeof(char *) * (i + 1), &(env->mem), NULL);
+	if (!arr)
+		return (NULL);
+	i = 0;
+	tmp = env;
+	while (tmp)
+	{
+		arr[i] = ft_malloc(0, &(env->mem), ft_strjoin(tmp->key, "="));
+		arr[i] = ft_malloc(0, &(env->mem), ft_strjoin(arr[i], tmp->value));
+		i++;
+		tmp = tmp->next;
+	}
+	arr[i] = NULL;
+	return (arr);
 }
 
 int	exec_cmd(t_token *lst, t_env *env)
@@ -22,10 +54,12 @@ int	exec_cmd(t_token *lst, t_env *env)
 		exit (1);
 	if (!lst->arr[0])
 		exit(0);
-	set_io(lst);
+	if (set_io(lst))
+		exit(127);
 	builtins(lst, env);
+
 	if (lst->path)
-		execve(lst->path, lst->arr, env->envp);
+		execve(lst->path, lst->arr, env_to_arr(env));
 	dup2(STDERR_FILENO, STDOUT_FILENO);
 	printf("mini: %s: command not found\n",lst->path);
 	exit(127);
@@ -51,9 +85,12 @@ int exec(t_token *lst, t_env *env)
 {
 	signals_for_child();
 	t_token	*cmdlist = lst;
+	t_token	*tmp = lst;
 	env = ft_update_pwd_env(env);
 	if (!(cmdlist->next))
 		exit_status = single_builtins(lst, env);
+	if (!cmdlist->arr[0])
+		return (0);
 	if ((!(exit_status) && !(cmdlist->next))
 		|| !ft_strcmp(cmdlist->arr[0], "exit"))
 		return (0);
@@ -67,10 +104,14 @@ int exec(t_token *lst, t_env *env)
 			return (perror("fork"), 1);
 		if (!cmdlist->pid)
 			exec_cmd(cmdlist, env);
-		exit_status_value(cmdlist->pid, &(cmdlist->exit_status));
 		if (cmdlist->next)
 			close(cmdlist->fd[STDOUT_FILENO]);
 		cmdlist = cmdlist->next;
+	}
+	while (tmp)
+	{
+		exit_status_value(tmp->pid, &tmp->exit_status);
+		tmp = tmp->next;
 	}
 	return (0);
 }
