@@ -10,10 +10,15 @@ char	*get_value(t_env *env, char *key)
 	}
 	return (NULL);
 }
-int	pwd(t_env *env)
+int	pwd(void)
 {
-	printf("%s\n", (char *)ft_malloc(0, &(env->mem),
-			ft_strdup(get_value(env, "PWD"))));
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (perror("mini"), 1);
+	printf("%s\n", pwd);
+	free(pwd);
 	return (0);
 }
 int cd(char **arr, t_env *env)
@@ -159,7 +164,7 @@ int	export(t_token *lst, t_env *env)
 		return (print_sorted_export(env));
 	while (*(++(lst->arr)))
 	{
-		sp = (char **)ft_malloc(0, &(env->mem), ft_split(*(lst->arr), '='));
+		sp = ft_split(*(lst->arr), '=');
 		key = ft_strdup(sp[0]);
 		if (!sp[1])
 			value = ft_strdup("");
@@ -216,7 +221,7 @@ void	builtins(t_token *lst, t_env *env)
 	if (!lst->arr[0])
 		exit(1);
 	if (!ft_strcmp(lst->arr[0], "pwd"))
-		exit(pwd(env));
+		exit(pwd());
 	if (!ft_strcmp(lst->arr[0], "echo"))
 		exit(echo(lst));
 	if (!ft_strcmp(lst->arr[0], "cd"))
@@ -272,7 +277,7 @@ int	single_builtins(t_token *lst, t_env *env)
 	if (!lst->arr[0])
 		return (reset_io(lst), 1);
 	if (!ft_strcmp(lst->arr[0], "pwd"))
-		return (pwd(env), reset_io(lst));
+		return (pwd(), reset_io(lst));
 	if (!ft_strcmp(lst->arr[0], "echo"))
 		return (echo(lst), reset_io(lst));
 	if (!ft_strcmp(lst->arr[0], "cd"))
