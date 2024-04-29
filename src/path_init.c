@@ -24,29 +24,37 @@ char *normal_path(char *cmd, t_env *env)
 	}
 	return (NULL);
 }
+
+char *get_path_dir(char *cmd)
+{
+	struct stat info;
+
+	if (access(cmd, F_OK) == -1)
+	{
+		ft_putendl_fd("No such file or directory", STDERR_FILENO);
+		return (exit_status = 127, cmd);
+	}
+	stat(cmd, &info);
+	if (S_ISDIR(info.st_mode))
+	{
+		ft_putendl_fd("Is a directory", STDERR_FILENO);
+		return (exit_status = 126, NULL);
+	}
+	if (access(cmd, R_OK | X_OK) == -1)
+	{
+		ft_putendl_fd("Permission denied", STDERR_FILENO);
+		return (exit_status = 126, cmd);
+	}
+	return (cmd);
+}
 char	*ft_getpath(char *cmd, t_env *env)
 {
 	char *str;
-	struct stat info;
 
 	if (cmd[0] == '/' || cmd[0] == '.')
 	{
-		if (access(cmd, F_OK) == -1)
-		{
-			ft_putendl_fd("No such file or directory", STDERR_FILENO);
-			return (exit_status = 127, cmd);
-		}
-		stat(cmd, &info);
-		if (S_ISDIR(info.st_mode))
-		{
-			ft_putendl_fd("Is a directory", STDERR_FILENO);
-			return (exit_status = 126, NULL);
-		}
-		if (access(cmd, R_OK | X_OK) == -1)
-		{
-			ft_putendl_fd("Permission denied", STDERR_FILENO);
-			return (exit_status = 126, cmd);
-		}
+		if (!get_path_dir(cmd))
+			return (NULL);
 	}
 	else
 	{
@@ -58,3 +66,4 @@ char	*ft_getpath(char *cmd, t_env *env)
 	}
 	return (cmd);
 }
+
