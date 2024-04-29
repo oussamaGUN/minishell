@@ -62,7 +62,10 @@ t_token	*child_process_for_heredoc(t_token *token, t_env *env, int file)
 			break ;
 		if (ft_strcmp(s, token->content) == 0)
 			break ;
-		new = here_doc_expand(s, env);
+		if (token->here_doc_check)
+			new = here_doc_expand(s, env);
+		else
+			new = ft_strdup(s);
 		if (!new)
 			return (NULL);
 		ft_putendl_fd(new, file);
