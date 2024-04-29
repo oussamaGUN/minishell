@@ -55,7 +55,7 @@ int	exec_cmd(t_token *lst, t_env *env)
 	if (!lst->arr[0])
 		exit(0);
 	if (set_io(lst))
-		exit(127);
+		exit(1);
 	builtins(lst, env);
 
 	if (lst->path)
