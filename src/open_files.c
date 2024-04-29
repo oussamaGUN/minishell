@@ -6,7 +6,7 @@ t_token	*file_out(t_token *token, t_token *node)
 			O_TRUNC | O_CREAT | O_WRONLY, 0644);
 	if (node->output_file == -1)
 	{
-		node->exit_status = -2;
+		node->output_file = -2;
 		perror("mini");
 		return (NULL);
 	}
@@ -18,7 +18,7 @@ t_token *file_append(t_token *token, t_token *node)
 			O_APPEND | O_CREAT | O_WRONLY, 0644);
 	if (node->output_file == -1)
 	{
-		node->exit_status = -2;
+		node->output_file = -2;
 		perror("mini");
 		return (NULL);
 	}
