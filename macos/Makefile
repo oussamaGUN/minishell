@@ -1,5 +1,6 @@
 #macos
 #______command and their flags______#
+CC = gcc
 RM = rm -rf
 CFLAGS = -Wall -Wextra -Werror
 
@@ -7,8 +8,7 @@ CFLAGS = -Wall -Wextra -Werror
 OBJ_DIR = obj
 SRC_DIR = src
 INCLUDES = -Iincludes
-INC = -lreadline -I$(HOME)/readline/include/readline -L$(HOME)/readline/lib
-INCP = -I/Users/melfersi/readline/include/readline
+INC = -L/usr/local/lib -I/usr/local/include -lreadline
 LIB_INCLUDES = -Ilibft/includes
 
 
@@ -36,13 +36,13 @@ LIB = libft
 #______________Rules______________#
 
 $(NAME): $(OBJECTS) $(LIB)/libft.a
-	@$(CC) $(CFLAGS) $^ $(INCLUDES) $(LIB_INCLUDES) $(INC) -o $@ -fsanitize=address
+	@$(CC) $(CFLAGS) $^ $(INCLUDES) $(LIB_INCLUDES) $(INC) -o $@
 	@echo "${GREEN}${BOLD}minishell is ready ✅${NC}"
 
 # impicit rule for mandatory
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -c $< $(INCLUDES) $(LIB_INCLUDES)  $(INC) -o $@ 2> /dev/null || $(CC) $(CFLAGS) -c $< $(INCLUDES) $(LIB_INCLUDES) $(INCP) -o $@
+	@$(CC) $(CFLAGS) -c $< $(INCLUDES) $(LIB_INCLUDES) $(INC) -o $@
 	@echo "${GREEN}compiling ...⏳ ${RED}{${CYAN}$<${RED}}${NC}"
 
 $(LIB)/%.a:
