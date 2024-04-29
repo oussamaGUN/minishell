@@ -10,6 +10,7 @@
 # include <string.h>
 # include <sys/ioctl.h>
 # include <sys/wait.h>
+#include <sys/stat.h>
 # include <termios.h>
 # include <sys/stat.h>
 # include <errno.h>
