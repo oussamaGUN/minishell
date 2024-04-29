@@ -59,10 +59,13 @@ int	exec_cmd(t_token *lst, t_env *env)
 	builtins(lst, env);
 
 	if (lst->path)
+	{
 		execve(lst->path, lst->arr, env_to_arr(env));
-	dup2(STDERR_FILENO, STDOUT_FILENO);
-	printf("mini: %s: command not found\n",lst->path);
-	exit(127);
+		dup2(STDERR_FILENO, STDOUT_FILENO);
+		printf("mini: %s: command not found\n",lst->path);
+		exit(127);
+	}
+	exit(126);
 }
 
 void	exit_status_value(pid_t pid, int32_t *status)

@@ -247,6 +247,8 @@ int	exiting(t_token *lst)
 	printf("exit\n");
 	if (lst->arr[1])
 	{
+		if (lst->arr[1][0] == '-' || lst->arr[1][0] == '+')
+			i++;
 		while (lst->arr[1][i])
 			if (!ft_isdigit(lst->arr[1][i++]))
 			{
