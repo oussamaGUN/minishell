@@ -215,11 +215,11 @@ void	builtins(t_token *lst, t_env *env)
 {
 	if (!lst->arr[0])
 		exit(1);
-	if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
+	if (!ft_strcmp(lst->arr[0], "pwd"))
 		exit(pwd(env));
-	if (!ft_strcmp(lst->arr[0], "echo") || !ft_strcmp(lst->arr[0], "ECHO"))
+	if (!ft_strcmp(lst->arr[0], "echo"))
 		exit(echo(lst));
-	if (!ft_strcmp(lst->arr[0], "cd") || !ft_strcmp(lst->arr[0], "CD"))
+	if (!ft_strcmp(lst->arr[0], "cd"))
 		exit(cd(lst->arr, env));
 	if (!ft_strcmp(lst->arr[0], "env"))
 		exit(print_env(env));
@@ -269,11 +269,11 @@ int	single_builtins(t_token *lst, t_env *env)
 		return (reset_io(lst), 127);
 	if (!lst->arr[0])
 		return (reset_io(lst), 1);
-	if (!ft_strcmp(lst->arr[0], "pwd") || !ft_strcmp(lst->arr[0], "PWD"))
+	if (!ft_strcmp(lst->arr[0], "pwd"))
 		return (pwd(env), reset_io(lst));
-	if (!ft_strcmp(lst->arr[0], "echo") || !ft_strcmp(lst->arr[0], "ECHO"))
+	if (!ft_strcmp(lst->arr[0], "echo"))
 		return (echo(lst), reset_io(lst));
-	if (!ft_strcmp(lst->arr[0], "cd") || !ft_strcmp(lst->arr[0], "CD"))
+	if (!ft_strcmp(lst->arr[0], "cd"))
 		return (cd(lst->arr, env), reset_io(lst));
 	if (!ft_strcmp(lst->arr[0], "env"))
 		return (print_env(env), reset_io(lst));
