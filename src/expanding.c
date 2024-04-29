@@ -70,7 +70,11 @@ void	ft_mulitquotes(t_multx *exp_vars, char *s, t_env *env)
 void	conditions(t_multx *exp_vars, t_token *itter, t_env *env)
 {
 	if (itter->type == DELIMITER)
+	{
+		if (ft_strchr(itter->content, '\'') || ft_strchr(itter->content, '\"'))
+			itter->here_doc_check = 0;
 		ft_delemiter(exp_vars, itter->content, &(env->mem));
+	}
 	else
 	{
 		exp_vars->res = ft_malloc(1, &(env->mem), NULL);
