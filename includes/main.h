@@ -36,6 +36,7 @@ typedef struct s_token
 	int exit_status;
 	int status;
 	char *path;
+	int here_doc_check;
 	struct s_token *next;
 	struct s_token *prev;
 }	t_token;

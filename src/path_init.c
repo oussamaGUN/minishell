@@ -32,7 +32,7 @@ char *get_path_dir(char *cmd)
 	if (access(cmd, F_OK) == -1)
 	{
 		ft_putendl_fd("No such file or directory", STDERR_FILENO);
-		return (exit_status = 127, cmd);
+		return (exit_status = 127, NULL);
 	}
 	stat(cmd, &info);
 	if (S_ISDIR(info.st_mode))
