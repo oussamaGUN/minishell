@@ -3,6 +3,7 @@
 void	ft_expand_double_in_multiple(t_multx *exp_vars, char *s, t_env *env)
 {
 	exp_vars->i++;
+	exp_vars->quotes = true;
 	while (s[exp_vars->i] != '\"' && s[exp_vars->i])
 	{
 		exp_vars->j = 0;
@@ -69,6 +70,8 @@ void	ft_mulitquotes(t_multx *exp_vars, char *s, t_env *env)
 
 void	conditions(t_multx *exp_vars, t_token *itter, t_env *env)
 {
+	exp_vars->i = 0;
+	exp_vars->k = 0;
 	if (itter->type == DELIMITER)
 	{
 		if (ft_strchr(itter->content, '\'') || ft_strchr(itter->content, '\"'))
@@ -95,20 +98,25 @@ t_token	*expanding(t_token *token, t_env *env)
 {
 	t_multx	*exp_vars;
 	t_token	*itter;
+	bool	quotes;
 
+	quotes = true;
 	exp_vars = (t_multx *)ft_malloc(sizeof(t_multx), &(env->mem), NULL);
 	if (!exp_vars)
 		return (NULL);
 	itter = token;
 	while (itter)
 	{
+		exp_vars->quotes = false;
 		exp_vars->inside_dquotes = ft_malloc(ft_strlen(itter->content) ,
 				&(env->mem), NULL);
 		if (!exp_vars)
 			return (NULL);
-		exp_vars->i = 0;
-		exp_vars->k = 0;
 		conditions(exp_vars, itter, env);
+		if (!ft_strlen(exp_vars->res) && !(exp_vars->quotes))
+			itter->execute = false;
+		else
+			itter->execute = true;
 		itter->content = ft_malloc(0, &(env->mem), ft_strdup(exp_vars->res));
 		itter = itter->next;
 	}

@@ -19,15 +19,13 @@ void	ft_expanding_the_inside(t_multx *exp_vars, char *s, t_env *env)
 				ft_strjoin(exp_vars->res, exp_vars->exp));
 		exp_vars->k = ft_strlen(exp_vars->res);
 	}
-	else
-		exp_vars->res = ft_malloc(0, &(env->mem),
-				ft_strjoin(exp_vars->res, ""));
 	exp_vars->i--;
 }
 
 void	ft_double_quotes_expand(t_multx *exp_vars, char *s, t_env *env)
 {
 	exp_vars->i++;
+	exp_vars->quotes = true;
 	while (s[exp_vars->i] != '\"' && s[exp_vars->i])
 	{
 		exp_vars->j = 0;
@@ -56,6 +54,7 @@ void	ft_double_quotes_expand(t_multx *exp_vars, char *s, t_env *env)
 
 void	ft_single_quotes(t_multx *exp_vars, char *s, t_env *env)
 {
+	exp_vars->quotes = true;
 	exp_vars->i++;
 	while (s[exp_vars->i] != '\'' && s[exp_vars->i])
 	{
@@ -89,14 +88,12 @@ void	ft_expand_normalin_multi(t_multx *exp_vars, char *s, t_env *env)
 				ft_strjoin(exp_vars->res, exp_vars->exp));
 		exp_vars->k = ft_strlen(exp_vars->res);
 	}
-	else
-		exp_vars->res = ft_malloc(0, &(env->mem),
-				ft_strjoin(exp_vars->res, ""));
 	exp_vars->i--;
 }
 
 void	ft_expand_single_in_multiple(t_multx *exp_vars, char *s, t_env *env)
 {
+	exp_vars->quotes = true;
 	exp_vars->i++;
 	while (s[exp_vars->i] != '\'' && s[exp_vars->i])
 	{

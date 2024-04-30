@@ -13,6 +13,7 @@ t_token	*init(t_token *node, t_multx *vars, t_token *token, t_free **mem)
 	node->input_file = -1;
 	node->exit_status = 0;
 	node->status = 0;
+	node->execute = token->execute;
 	return (node);
 }
 t_token	*norm2(t_token *token, t_env *env, t_token *node, t_multx *vars)

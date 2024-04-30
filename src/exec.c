@@ -58,6 +58,8 @@ int	exec_cmd(t_token *lst, t_env *env)
 		exit(1);
 	builtins(lst, env);
 
+	if (!(lst->execute))
+		exit(0);
 	if (lst->path)
 	{
 		execve(lst->path, lst->arr, env_to_arr(env));
@@ -68,7 +70,7 @@ int	exec_cmd(t_token *lst, t_env *env)
 	exit(126);
 }
 
-void	exit_status_value(pid_t pid, int32_t *status)
+void	exit_status_value(pid_t pid, int *status)
 {
 	waitpid(pid, status, 0);
 	if (WIFEXITED(*status))
@@ -90,12 +92,12 @@ int exec(t_token *lst, t_env *env)
 	t_token	*cmdlist = lst;
 	t_token	*tmp = lst;
 	env = ft_update_pwd_env(env);
+	exit_status = (-2);
 	if (!(cmdlist->next))
 		exit_status = single_builtins(lst, env);
 	if (!cmdlist->arr[0])
 		return (0);
-	if ((!(exit_status) && !(cmdlist->next))
-		|| !ft_strcmp(cmdlist->arr[0], "exit"))
+	if (exit_status != (-2) || !ft_strcmp(cmdlist->arr[0], "exit"))
 		return (0);
 	while (cmdlist)
 	{
