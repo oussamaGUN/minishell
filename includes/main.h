@@ -37,6 +37,7 @@ typedef struct s_token
 	int status;
 	char *path;
 	int here_doc_check;
+	bool	execute;
 	struct s_token *next;
 	struct s_token *prev;
 }	t_token;
@@ -85,6 +86,7 @@ typedef struct s_multx
     int k;
     int j;
 	int count;
+	int quotes;
 }t_multx;
 
 typedef enum e_type {
@@ -162,6 +164,9 @@ void	signal_for_heredoc(void);
 void	sig_quit(int signum);
 void	ignore_exit_signal();
 int		ft_len(char const *s, char c);
+int		pwd(void);
+int		cd(char **arr, t_env *env);
+int		print_env(t_env *env);
 
 // execution
 char	*ft_getpath(char *cmd, t_env *env);
