@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 20:04:09 by melfersi          #+#    #+#             */
-/*   Updated: 2024/04/30 13:22:37 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/01 09:44:31 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,40 @@ int	set(t_env	*env, char *key, char *value)
 	return (0);
 }
 
-int	print_sorted_export(t_env *env)
+void	sort_env(t_env *env)
 {
+	char	*key;
+	char	*value;
+	t_env	*tmp;
+
 	while (env)
 	{
-		printf("declare -x %s", env->key);
+		tmp = env->next;
+		while (tmp)
+		{
+			if (ft_strcmp(env->key, tmp->key) > 0)
+			{
+				key = env->key;
+				value = env->value;
+				env->key = tmp->key;
+				env->value = tmp->value;
+				tmp->key = key;
+				tmp->value = value;
+			}
+			tmp = tmp->next;
+		}
+		env = env->next;
+	}
+}
+int	print_sorted_export(t_env *env)
+{
+	sort_env(env);
+	while (env)
+	{
 		if (env->value)
-			printf("=\"%s\"", env->value);
-		printf("\n");
+			printf("declare -x %s=\"%s\"\n", env->key, env->value);
+		else
+			printf("declare -x %s\n", env->key);
 		env = env->next;
 	}
 	return (0);
