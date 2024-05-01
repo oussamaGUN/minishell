@@ -89,14 +89,11 @@ int exec(t_token *lst, t_env *env)
 	t_token	*cmdlist = lst;
 	t_token	*tmp = lst;
 	env = ft_update_pwd_env(env);
-	exit_status = (-2);
 	if (!(cmdlist->next))
-		exit_status = single_builtins(lst, env);
-	if (cmdlist->arr[0])
-		if (!ft_strcmp(cmdlist->arr[0], "exit"))
-			return (0);
-	if (exit_status != (-2))
-		return (0);
+		cmdlist->exit_status = single_builtins(lst, env);
+	if (cmdlist->exit_status != (-2) && !cmdlist->next)
+		return (exit_status = cmdlist->exit_status, 0);
+	cmdlist->exit_status = 0;
 	while (cmdlist)
 	{
 		if (cmdlist->next)
