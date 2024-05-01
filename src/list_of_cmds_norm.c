@@ -18,7 +18,7 @@ t_token	*init(t_token *node, t_multx *vars, t_token *token, t_free **mem)
 }
 t_token	*norm2(t_token *token, t_env *env, t_token *node, t_multx *vars)
 {
-	if (token->type == CMD)
+	if (token->type == CMD && token->execute)
 		node->arr[vars->i++] = ft_malloc(0, &(env->mem),
 				ft_strdup(token->content));
 	else if (!ft_openning_files(token, node))
