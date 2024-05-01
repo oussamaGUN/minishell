@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 20:04:09 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/01 09:44:31 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/01 18:10:28 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	check_dash_n(char *s)
 {
+	if (!s)
+		return (0);
 	if (*s != '-')
 		return (0);
 	s++;
@@ -28,8 +30,14 @@ int	echo(t_token *lst)
 		printf("\n");
 	else if (check_dash_n(*(lst->arr)++))
 	{
+		while(check_dash_n(*(lst->arr)))
+			lst->arr++;
 		while (*(lst->arr))
+		{
 			ft_putstr_fd(*(lst->arr)++, 1);
+			if (*(lst->arr))
+				ft_putchar_fd(' ', 1);	
+		}
 	}
 	else
 	{
