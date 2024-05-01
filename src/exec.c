@@ -57,9 +57,6 @@ int	exec_cmd(t_token *lst, t_env *env)
 	if (set_io(lst))
 		exit(1);
 	builtins(lst, env);
-
-	if (!(lst->execute))
-		exit(0);
 	if (lst->path)
 	{
 		execve(lst->path, lst->arr, env_to_arr(env));
@@ -95,9 +92,10 @@ int exec(t_token *lst, t_env *env)
 	exit_status = (-2);
 	if (!(cmdlist->next))
 		exit_status = single_builtins(lst, env);
-	if (!cmdlist->arr[0])
-		return (0);
-	if (exit_status != (-2) || !ft_strcmp(cmdlist->arr[0], "exit"))
+	if (cmdlist->arr[0])
+		if (!ft_strcmp(cmdlist->arr[0], "exit"))
+			return (0);
+	if (exit_status != (-2))
 		return (0);
 	while (cmdlist)
 	{
