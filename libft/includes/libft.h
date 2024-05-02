@@ -20,7 +20,7 @@ typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-}t_list;
+}	t_list;
 
 typedef unsigned char	t_byte;
 
@@ -66,7 +66,7 @@ char	*ft_strnstr(const char *big,	const char *little, size_t len);
 
 int		ft_atoi(const char *nptr);
 
-int	ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 
 void	*ft_calloc(size_t nmemb, size_t size);
 
