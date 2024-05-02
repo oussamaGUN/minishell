@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_norm_two.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:47:10 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 07:12:18 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/02 11:11:02 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,18 @@ void	ft_exit_value(t_multx *exp_vars, t_env *env)
 	exp_vars->k = ft_strlen(exp_vars->res);
 }
 
-void	ft_delemiter(t_multx *exp_vars, char *s, t_free **mem)
+void	ft_delemiter(t_multx *exp_vars, t_token *itter, t_free **mem)
 {
-	exp_vars->res = ft_malloc((ft_strlen(s) + 1) * 1, mem, NULL);
+	if (ft_strchr(itter->content, '\'') || ft_strchr(itter->content, '\"'))
+		itter->here_doc_check = 0;
+	exp_vars->res = ft_malloc((ft_strlen(itter->content) + 1) * 1, mem, NULL);
 	if (!exp_vars->res)
 		return ;
-	while (s[exp_vars->i])
+	while (itter->content[exp_vars->i])
 	{
-		if (s[exp_vars->i] != '\'' && s[exp_vars->i] != '\"')
-			exp_vars->res[exp_vars->j++] = s[exp_vars->i];
+		if (itter->content[exp_vars->i] != '\''
+			&& itter->content[exp_vars->i] != '\"')
+			exp_vars->res[exp_vars->j++] = itter->content[exp_vars->i];
 		exp_vars->i++;
 	}
 	exp_vars->res[exp_vars->j] = '\0';

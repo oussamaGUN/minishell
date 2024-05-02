@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:46:34 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 06:52:59 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/02 11:08:38 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,7 @@ void	conditions(t_multx *exp_vars, t_token *itter, t_env *env)
 	exp_vars->i = 0;
 	exp_vars->k = 0;
 	if (itter->type == DELIMITER)
-	{
-		if (ft_strchr(itter->content, '\'') || ft_strchr(itter->content, '\"'))
-			itter->here_doc_check = 0;
-		ft_delemiter(exp_vars, itter->content, &(env->mem));
-	}
+		ft_delemiter(exp_vars, itter, &(env->mem));
 	else
 	{
 		exp_vars->res = ft_malloc(1, &(env->mem), NULL);
