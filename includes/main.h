@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 08:24:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 08:46:34 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/02 11:09:57 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void	ft_single_quotes(t_multx *exp_vars, char *s, t_env *env);
 void	ft_expand_normalin_multi(t_multx *exp_vars, char *s, t_env *env);
 void	ft_expand_single_in_multiple(t_multx *exp_vars, char *s, t_env *env);
 void	ft_exit_value(t_multx *exp_vars, t_env *env);
-void	ft_delemiter(t_multx *exp_vars, char *s, t_free **mem);
+void	ft_delemiter(t_multx *exp_vars, t_token *itter, t_free **mem);
 char	*expand(char *s, t_env *envp);
 t_token	*init(t_token *node, t_multx *vars, t_token *token, t_free **mem);
 t_token	*norm2(t_token *token, t_env *env, t_token *node, t_multx *vars);
