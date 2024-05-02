@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/02 06:55:58 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/02 07:10:48 by melfersi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 
 char	*here_doc_expand(char *s, t_env *env)
@@ -102,7 +114,7 @@ t_token	*here_doc_implement(t_token *token, t_token *node, t_env *env)
 	else if (id == 0)
 		child_process_for_heredoc(token, env, file);
 	close(token->fd[1]);
-	wait(&exit_status);
+	wait(&g_exit_status);
 	node->input_file = token->fd[0];
 	if (node->input_file == -1)
 	{

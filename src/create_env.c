@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_env.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/01 20:07:07 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/01 20:07:58 by melfersi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 
 void	env_clear(t_env **env)
@@ -32,7 +44,8 @@ void	list_for_env(t_env **lst, t_env *new)
 		*lst = new;
 	}
 }
-void ft_free_env(char **arr)
+
+void	ft_free_env(char **arr)
 {
 	int	i;
 
@@ -41,7 +54,8 @@ void ft_free_env(char **arr)
 		free(arr[i++]);
 	free(arr);
 }
-t_env	*envir(char	**envp)
+
+t_env	*envir(char **envp)
 {
 	int		i;
 	char	**arr;

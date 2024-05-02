@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc_norm.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/02 06:56:02 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/02 06:56:15 by melfersi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 
 void	here_doc_expand_norm(t_multx *vars, char *s, t_env *env)
@@ -30,7 +42,6 @@ void	here_doc_expand_norm(t_multx *vars, char *s, t_env *env)
 
 void	here_doc_expand_norm_two(t_multx *vars, char *s, t_env *env)
 {
-
 	if (s[vars->i] == '$' && ft_isdigit(s[vars->i + 1]))
 		vars->i++;
 	else

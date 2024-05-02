@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expanding.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/02 06:46:34 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/02 06:52:59 by melfersi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 
 void	ft_expand_double_in_multiple(t_multx *exp_vars, char *s, t_env *env)
@@ -85,7 +97,10 @@ void	conditions(t_multx *exp_vars, t_token *itter, t_env *env)
 		while (itter->content[exp_vars->i])
 		{
 			if (itter->content[exp_vars->i] == '\"')
+			{
+				exp_vars->quotes = true;
 				ft_double_quotes_expand(exp_vars, itter->content, env);
+			}
 			else if (itter->content[exp_vars->i] == '\'')
 				ft_single_quotes(exp_vars, itter->content, env);
 			else
@@ -98,9 +113,7 @@ t_token	*expanding(t_token *token, t_env *env)
 {
 	t_multx	*exp_vars;
 	t_token	*itter;
-	bool	quotes;
 
-	quotes = true;
 	exp_vars = (t_multx *)ft_malloc(sizeof(t_multx), &(env->mem), NULL);
 	if (!exp_vars)
 		return (NULL);
@@ -108,7 +121,7 @@ t_token	*expanding(t_token *token, t_env *env)
 	while (itter)
 	{
 		exp_vars->quotes = false;
-		exp_vars->inside_dquotes = ft_malloc(ft_strlen(itter->content) ,
+		exp_vars->inside_dquotes = ft_malloc(ft_strlen(itter->content),
 				&(env->mem), NULL);
 		if (!exp_vars)
 			return (NULL);

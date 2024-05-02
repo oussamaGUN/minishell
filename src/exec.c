@@ -1,5 +1,16 @@
-#include "main.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/01 19:52:56 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/02 07:11:45 by melfersi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "main.h"
 
 int	set_io(t_token *lst)
 {
@@ -19,35 +30,6 @@ int	set_io(t_token *lst)
 	return (0);
 }
 
-char	**env_to_arr(t_env *env)
-{
-	t_env	*tmp;
-	char	**arr;
-	int		i;
-
-	tmp = env;
-	i = 0;
-	while (tmp)
-	{
-		tmp = tmp->next;
-		i++;
-	}
-	arr = ft_malloc(sizeof(char *) * (i + 1), &(env->mem), NULL);
-	if (!arr)
-		return (NULL);
-	i = 0;
-	tmp = env;
-	while (tmp)
-	{
-		arr[i] = ft_malloc(0, &(env->mem), ft_strjoin(tmp->key, "="));
-		arr[i] = ft_malloc(0, &(env->mem), ft_strjoin(arr[i], tmp->value));
-		i++;
-		tmp = tmp->next;
-	}
-	arr[i] = NULL;
-	return (arr);
-}
-
 int	exec_cmd(t_token *lst, t_env *env)
 {
 	if (lst->exit_status)
@@ -61,7 +43,7 @@ int	exec_cmd(t_token *lst, t_env *env)
 	{
 		execve(lst->path, lst->arr, env_to_arr(env));
 		dup2(STDERR_FILENO, STDOUT_FILENO);
-		printf("mini: %s: command not found\n",lst->path);
+		printf("mini: %s: command not found\n", lst->path);
 		exit(127);
 	}
 	exit(126);
@@ -71,29 +53,19 @@ void	exit_status_value(pid_t pid, int *status)
 {
 	waitpid(pid, status, 0);
 	if (WIFEXITED(*status))
-		exit_status = WEXITSTATUS(*status);
+		g_exit_status = WEXITSTATUS(*status);
 	if (WIFSIGNALED(*status))
 	{
 		*status = WTERMSIG(*status);
 		if (*status == 2)
-			exit_status = 130;
+			g_exit_status = 130;
 		if (*status == 3)
-			exit_status = 131;
+			g_exit_status = 131;
 	}
 }
 
-
-int exec(t_token *lst, t_env *env)
+int	cmd_loop(t_token *cmdlist, t_env *env)
 {
-	signals_for_child();
-	t_token	*cmdlist = lst;
-	t_token	*tmp = lst;
-	env = ft_update_pwd_env(env);
-	if (!(cmdlist->next))
-		cmdlist->exit_status = single_builtins(lst, env);
-	if (cmdlist->exit_status != (-2) && !cmdlist->next)
-		return (exit_status = cmdlist->exit_status, 0);
-	cmdlist->exit_status = 0;
 	while (cmdlist)
 	{
 		if (cmdlist->next)
@@ -108,6 +80,25 @@ int exec(t_token *lst, t_env *env)
 			close(cmdlist->fd[STDOUT_FILENO]);
 		cmdlist = cmdlist->next;
 	}
+	return (0);
+}
+
+int	exec(t_token *lst, t_env *env)
+{
+	t_token	*cmdlist;
+	t_token	*tmp;
+
+	signals_for_child();
+	cmdlist = lst;
+	tmp = lst;
+	env = ft_update_pwd_env(env);
+	if (!(cmdlist->next))
+		cmdlist->exit_status = single_builtins(lst, env);
+	if (cmdlist->exit_status != (-2) && !cmdlist->next)
+		return (g_exit_status = cmdlist->exit_status, 0);
+	cmdlist->exit_status = 0;
+	if (cmd_loop(cmdlist, env))
+		return (1);
 	while (tmp)
 	{
 		exit_status_value(tmp->pid, &tmp->exit_status);

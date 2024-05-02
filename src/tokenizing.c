@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizing.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/02 07:05:19 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/02 07:05:31 by melfersi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 
 t_token	*add_token(void *content, t_free **alloc)
@@ -85,7 +97,7 @@ int	tokenizer(char *cmd, t_token **token, t_env **env)
 	if (!vars)
 		return (0);
 	sp = ft_ownsplit(cmd, ' ', vars);
-	free(cmd);// refactor ??
+	free(cmd);
 	if (!sp)
 		return (0);
 	vars->flag = 0;

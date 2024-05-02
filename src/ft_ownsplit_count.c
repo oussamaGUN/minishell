@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ownsplit_count.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/02 06:54:40 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/02 06:54:49 by melfersi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 
 int	ft_count_res(int c1, int c2)
@@ -49,7 +61,6 @@ int	ft_count_quotes(char const *s, t_tokenizer *vars)
 		if (s[vars->i])
 			vars->i++;
 	}
-
 	if (!ft_count_res(vars->count1, vars->count2))
 		return (0);
 	return (1);

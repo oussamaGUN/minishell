@@ -1,4 +1,15 @@
 /* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expanding_norm.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/02 06:47:25 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/02 06:52:51 by melfersi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 
 void	ft_expanding_the_inside(t_multx *exp_vars, char *s, t_env *env)
@@ -25,7 +36,6 @@ void	ft_expanding_the_inside(t_multx *exp_vars, char *s, t_env *env)
 void	ft_double_quotes_expand(t_multx *exp_vars, char *s, t_env *env)
 {
 	exp_vars->i++;
-	exp_vars->quotes = true;
 	while (s[exp_vars->i] != '\"' && s[exp_vars->i])
 	{
 		exp_vars->j = 0;

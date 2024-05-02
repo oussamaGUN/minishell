@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path_init.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/02 07:00:04 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/02 07:10:22 by melfersi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 
-char *normal_path(char *cmd, t_env *env)
+char	*normal_path(char *cmd, t_env *env)
 {
 	int		j;
 	char	**splited;
@@ -25,31 +37,32 @@ char *normal_path(char *cmd, t_env *env)
 	return (NULL);
 }
 
-char *get_path_dir(char *cmd)
+char	*get_path_dir(char *cmd)
 {
-	struct stat info;
+	struct stat	info;
 
 	if (access(cmd, F_OK) == -1)
 	{
 		ft_putendl_fd("No such file or directory", STDERR_FILENO);
-		return (exit_status = 127, NULL);
+		return (g_exit_status = 127, NULL);
 	}
 	stat(cmd, &info);
 	if (S_ISDIR(info.st_mode))
 	{
 		ft_putendl_fd("Is a directory", STDERR_FILENO);
-		return (exit_status = 126, NULL);
+		return (g_exit_status = 126, NULL);
 	}
 	if (access(cmd, R_OK | X_OK) == -1)
 	{
 		ft_putendl_fd("Permission denied", STDERR_FILENO);
-		return (exit_status = 126, cmd);
+		return (g_exit_status = 126, cmd);
 	}
 	return (cmd);
 }
+
 char	*ft_getpath(char *cmd, t_env *env)
 {
-	char *str;
+	char	*str;
 
 	if (cmd[0] == '/' || cmd[0] == '.')
 	{
@@ -60,10 +73,9 @@ char	*ft_getpath(char *cmd, t_env *env)
 	{
 		str = normal_path(cmd, env);
 		if (str)
-			return str;
+			return (str);
 		else
-			return cmd;
+			return (cmd);
 	}
 	return (cmd);
 }
-

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/02 06:57:52 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/02 06:59:02 by melfersi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 
-int	exit_status;
+int	g_exit_status;
 
 void	ft_path(t_token *cmd_list, t_env *env)
 {
@@ -16,9 +28,9 @@ void	ft_path(t_token *cmd_list, t_env *env)
 	return ;
 }
 
-char **create_new_env(void)
+char	**create_new_env(void)
 {
-	char **envp;
+	char	**envp;
 
 	envp = NULL;
 	envp = malloc(sizeof(char *) * 3);

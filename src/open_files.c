@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   open_files.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/02 06:59:16 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/02 07:11:45 by melfersi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 
 t_token	*file_out(t_token *token, t_token *node)
@@ -12,7 +24,8 @@ t_token	*file_out(t_token *token, t_token *node)
 	}
 	return (token);
 }
-t_token *file_append(t_token *token, t_token *node)
+
+t_token	*file_append(t_token *token, t_token *node)
 {
 	node->output_file = open(token->content,
 			O_APPEND | O_CREAT | O_WRONLY, 0644);
@@ -37,7 +50,7 @@ t_token	*ft_openning_files(t_token *token, t_token *node)
 		if (access(token->content, F_OK | R_OK) == -1)
 		{
 			node->exit_status = 1;
-			exit_status = 1;
+			g_exit_status = 1;
 		}
 		node->input_file = open(token->content, O_RDONLY);
 		if (node->input_file == -1)

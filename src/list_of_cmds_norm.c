@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_of_cmds_norm.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/02 06:56:52 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/02 07:11:45 by melfersi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 
 t_token	*init(t_token *node, t_multx *vars, t_token *token, t_free **mem)
@@ -6,7 +18,8 @@ t_token	*init(t_token *node, t_multx *vars, t_token *token, t_free **mem)
 		return (NULL);
 	vars->count = ft_words(token);
 	vars->i = 0;
-	node->arr = (char **)ft_malloc(sizeof(char *) * (vars->count + 1), mem, NULL);
+	node->arr = (char **)ft_malloc(sizeof(char *) * (vars->count + 1),
+			mem, NULL);
 	if (!node->arr)
 		return (NULL);
 	node->output_file = -1;
@@ -16,6 +29,7 @@ t_token	*init(t_token *node, t_multx *vars, t_token *token, t_free **mem)
 	node->execute = token->execute;
 	return (node);
 }
+
 t_token	*norm2(t_token *token, t_env *env, t_token *node, t_multx *vars)
 {
 	if (token->type == CMD && token->execute)
