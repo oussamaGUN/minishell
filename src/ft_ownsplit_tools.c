@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ownsplit_tools.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:55:32 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 06:55:33 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/02 11:47:02 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ int	ft_word(char *s, char c, t_tokenizer *vars)
 {
 	vars->count1 = 0;
 	vars->i = 0;
-	while (s[vars->i] == c && s[vars->i])
+	while ((s[vars->i] == c || s[vars->i] == '\t') && s[vars->i])
 		vars->i++;
 	while (s[vars->i])
 	{
 		vars->count1++;
-		while (s[vars->i] != c && s[vars->i])
+		while (s[vars->i] != c && s[vars->i] != '\t' && s[vars->i])
 			first_ft_word(s, vars);
-		while (s[vars->i] == c && s[vars->i])
+		while ((s[vars->i] == c || s[vars->i] == '\t') && s[vars->i])
 		{
-			if (s[vars->i + 1] != c)
+			if (s[vars->i + 1] != c && s[vars->i + 1] != '\t')
 				break ;
 			vars->i++;
 		}
@@ -58,7 +58,7 @@ int	ft_len(char const *s, char c)
 	size_t	i;
 
 	i = 0;
-	while (s[i] && s[i] != c)
+	while (s[i] && s[i] != c && s[i] != '\t')
 	{
 		if (s[i] == '\"' || s[i] == '\'')
 		{

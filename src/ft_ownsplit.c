@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ownsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:54:20 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 06:54:21 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/02 11:47:44 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	**ft_trim(char *s, char c, t_tokenizer *trim)
 	while (trim->k < trim->words_count)
 	{
 		trim->j = 0;
-		while (*s == c && *s)
+		while ((*s == c || *s == '\t') && *s)
 			s++;
 		if (*s == '\0')
 			break ;
@@ -67,13 +67,13 @@ char	**ft_trim(char *s, char c, t_tokenizer *trim)
 		trim->arr[trim->k] = malloc(sizeof(char) * (trim->word_len + 1));
 		if (!trim->arr[trim->k])
 			return (NULL);
-		while (*s != c && *s)
+		while (*s != c && *s != '\t' && *s)
 		{
 			if (*s == '\"')
 				s = first_trim(trim, s);
 			else if (*s == '\'')
 				s = second_trim(trim, s);
-			else if (*s != c && *s && *s != '\"' && *s != '\'')
+			else if (*s != c && *s != '\t' && *s && *s != '\"' && *s != '\'')
 				s = third_trim(trim, s);
 		}
 		trim->arr[trim->k++][trim->j] = '\0';
