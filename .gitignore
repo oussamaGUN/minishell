@@ -1,6 +1,0 @@
-.vscode
-*.o
-a.out
-minishell
-obj
-.DS_Store
