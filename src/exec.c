@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 19:52:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 07:11:45 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/02 15:54:44 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int	set_io(t_token *lst)
 
 int	exec_cmd(t_token *lst, t_env *env)
 {
-	if (lst->exit_status)
-		exit (1);
 	if (!lst->arr[0])
 		exit(0);
+	if (lst->exit_status)
+		exit (0);
 	if (set_io(lst))
 		exit(1);
 	builtins(lst, env);

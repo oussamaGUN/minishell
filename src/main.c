@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:57:52 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 06:59:02 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/02 16:37:51 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	main(int ac, char *av[], char *envp[])
 	env->mem = NULL;
 	while (!cmd_exe(NULL, env))
 		garbage_collector(&(env->mem));
+	garbage_collector(&(env->mem));
 	env_clear(&env);
 	rl_clear_history();
 	return (EXIT_SUCCESS);

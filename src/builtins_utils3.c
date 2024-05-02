@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 19:16:46 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 07:12:48 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/02 16:16:26 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	reset_io(t_token *lst)
 	return (0);
 }
 
-int	exiting(t_token *lst)
+int	exiting(t_token *lst, t_env *env)
 {
 	int	i;
 
@@ -37,6 +37,7 @@ int	exiting(t_token *lst)
 			{
 				printf("mini: exit: %s: numeric argument required\n",
 					lst->arr[1]);
+				env_clear(&env);
 				exit(255);
 			}
 		}
@@ -44,6 +45,7 @@ int	exiting(t_token *lst)
 			return (printf("mini: exit: too many arguments\n"), 1);
 		g_exit_status = ft_atoi(lst->arr[1]);
 	}
+	env_clear(&env);
 	exit(g_exit_status % 256);
 }
 
@@ -68,6 +70,6 @@ int	single_builtins(t_token *lst, t_env *env)
 	if (!ft_strcmp(lst->arr[0], "unset"))
 		return (reset_io(lst), unset(lst, env));
 	if (!ft_strcmp(lst->arr[0], "exit"))
-		return (exiting(lst));
+		return (exiting(lst, env));
 	return (reset_io(lst), (-2));
 }

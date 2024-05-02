@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 07:05:19 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 07:05:31 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/02 12:31:42 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	tokenizer(char *cmd, t_token **token, t_env **env)
 	i = -1;
 	vars = (t_tokenizer *)ft_malloc(sizeof(t_tokenizer), &((*env)->mem), NULL);
 	if (!vars)
-		return (0);
+		return (free(cmd), 0);
 	sp = ft_ownsplit(cmd, ' ', vars);
 	free(cmd);
 	if (!sp)

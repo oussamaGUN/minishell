@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 19:05:04 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 07:12:34 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/02 12:24:45 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,5 @@ void	builtins(t_token *lst, t_env *env)
 	if (!ft_strcmp(lst->arr[0], "unset"))
 		exit(unset(lst, env));
 	if (!ft_strcmp(lst->arr[0], "exit"))
-		exit(exiting(lst));
+		exit(exiting(lst, env));
 }
