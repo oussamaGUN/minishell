@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 19:16:46 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 16:16:26 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:56:45 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	single_builtins(t_token *lst, t_env *env)
 	lst->fd[0] = dup(STDIN_FILENO);
 	lst->fd[1] = dup(STDOUT_FILENO);
 	if (set_io(lst))
-		return (reset_io(lst), 127);
+		return (reset_io(lst), 1);
 	if (!lst->arr[0])
 		return (reset_io(lst), 1);
 	if (!ft_strcmp(lst->arr[0], "pwd"))
