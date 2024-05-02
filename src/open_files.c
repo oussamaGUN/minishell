@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:59:16 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 07:11:45 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:49:55 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ t_token	*ft_openning_files(t_token *token, t_token *node)
 		node->input_file = open(token->content, O_RDONLY);
 		if (node->input_file == -1)
 		{
-			printf("bash: %s: No such file or directory\n", token->content);
+			node->input_file = -2;
+			printf("mini : %s: No such file or directory\n", token->content);
 			return (token);
 		}
 	}
