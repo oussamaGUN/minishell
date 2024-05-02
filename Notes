@@ -48,3 +48,13 @@ matnsach tbdel lenv dyal execve o dir dyalna rah mohima bzaaf
 
 >>>> bash in linux when unset path on parent process the bash create it's own PATH !!?
 
+
+
+
+
+
+
+exit status of this $dflsajf should be 0 not 1
+export cases like this export a=ls=pwd
+unset cases like unset = it should print the invalid identifier like export 
+
