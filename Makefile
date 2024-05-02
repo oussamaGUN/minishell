@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/05/02 09:21:26 by melfersi          #+#    #+#              #
+#    Updated: 2024/05/02 09:21:31 by melfersi         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 #______command and their flags______#
 RM = rm -rf
 CFLAGS = -Wall -Wextra -Werror
@@ -24,11 +36,15 @@ BLUE = \033[0;34m
 CYAN = \033[0;36m
 BOLD = \033[1m
 NC = \033[0m
+
 #______mandatory and bonus files______#
 FILES = main.c tokenizing.c ft_ownsplit.c check_errors.c signals.c syntax_error.c\
-		expanding.c here_doc.c here_doc_norm.c list_of_cmds.c list_of_cmds_norm.c create_env.c garbage_collector.c builtins.c exec.c syntax_error_norm.c\
-		expanding_norm.c expanding_norm_two.c open_files.c ft_ownsplit.c ft_ownsplit_norm.c ft_ownsplit_count.c\
-		ft_ownsplit_tools.c path_init.c builtins_utils1.c builtins_utils2.c builtins_utils3.c exec_utils.c signals_processes.c
+		expanding.c here_doc.c here_doc_norm.c list_of_cmds.c list_of_cmds_norm.c\
+		create_env.c garbage_collector.c builtins.c exec.c syntax_error_norm.c\
+		expanding_norm.c expanding_norm_two.c open_files.c ft_ownsplit.c\
+		ft_ownsplit_norm.c ft_ownsplit_count.c ft_ownsplit_tools.c path_init.c\
+		builtins_utils1.c builtins_utils2.c builtins_utils3.c exec_utils.c\
+		signals_processes.c
 #______patterns and substitutions______#
 SOURCES = $(FILES:%.c=$(SRC_DIR)/%.c)
 OBJECTS = $(SOURCES:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
