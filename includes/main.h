@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 08:24:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 11:09:57 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/05/02 14:56:44 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,7 @@ typedef enum e_type
 
 t_token	*add_token(void *content, t_free **alloc);
 void	ft_lstadd(t_token **lst, t_token *new);
-int		lstsize(t_token *lst);
 
-void	del(void *s);
-
-void	exit_status_value(pid_t pid, int32_t *status);
 int		set(t_env	*env, char *key, char *value);
 int		set_io(t_token *lst);
 int		tokenizer(char *str, t_token **token, t_env **env);
@@ -175,12 +171,10 @@ int		print_env(t_env *env);
 // execution
 char	*ft_getpath(char *cmd, t_env *env);
 int		exec(t_token *lst, t_env *env);
-int		execution(t_token *lst, t_env *env);
 void	builtins(t_token *lst, t_env *env);
 int		single_builtins(t_token *lst, t_env *env);
-char	*ft_env(t_env *env, char *s);
 void	sort_env(t_env *env);
-int		exiting(t_token *lst);
+int		exiting(t_token *lst, t_env *env);
 bool	check_valid_identifier(char *s);
 int		echo(t_token *lst);
 int		export(char **arr, t_env *env);
