@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:07:07 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 16:41:21 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/03 21:16:30 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ t_env	*envir(char **envp)
 			return (ft_free_env(arr), NULL);
 		node->next = NULL;
 		node->key = ft_strdup(arr[0]);
-		if (ft_strcmp(node->key, "SHLVL") == 0)
+		if (ft_strcmp(node->key, "SHLVL") == 0 && arr[1])
 			node->value = ft_itoa(ft_atoi(arr[1]) + 1);
-		else
+		else if (arr[1])
 			node->value = ft_strdup(arr[1]);
 		ft_free_env(arr);
 		list_for_env(&env, node);
