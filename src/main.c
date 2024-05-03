@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:57:52 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 16:37:51 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/03 21:38:13 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,22 @@ void	ft_path(t_token *cmd_list, t_env *env)
 	return ;
 }
 
-char	**create_new_env(void)
+t_env	*create_new_env(void)
 {
-	char	**envp;
+	t_env	*env;
 
-	envp = NULL;
-	envp = malloc(sizeof(char *) * 3);
-	if (!envp)
-		return (NULL);
-	envp[0] = ft_strdup(ft_strjoin("PWD=", getcwd(NULL, 0)));
-	envp[1] = ft_strdup("PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
-	envp[2] = ft_strdup("SHLVL=0");
-	envp[3] = NULL;
-	return (envp);
+	env = malloc(sizeof(t_env));
+	env->key = ft_strdup("PWD");
+	env->value = getcwd(NULL, 0);
+	env->next = malloc(sizeof(t_env));
+	env->next->key = ft_strdup("PATH");
+	env->next->value = ft_strdup(
+			"/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
+	env->next->next = malloc(sizeof(t_env));
+	env->next->next->key = ft_strdup("SHLVL");
+	env->next->next->value = ft_strdup("0");
+	env->next->next->next = NULL;
+	return (env);
 }
 
 int	cmd_exe(t_token *token, t_env *env)
@@ -75,15 +78,15 @@ int	main(int ac, char *av[], char *envp[])
 	if (ac || av)
 		av = NULL;
 	if (!(*envp))
-		envp = create_new_env();
-	env = envir(envp);
+		env = create_new_env();
+	else
+		env = envir(envp);
 	env->envp = envp;
 	if (!env)
 		return (printf("exit\n"), EXIT_FAILURE);
 	env->mem = NULL;
 	while (!cmd_exe(NULL, env))
-		garbage_collector(&(env->mem));
-	garbage_collector(&(env->mem));
+		garbage_collector(&env->mem);
 	env_clear(&env);
 	rl_clear_history();
 	return (EXIT_SUCCESS);
