@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 07:05:19 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 12:31:42 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/03 08:36:18 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_token	*add_token(void *content, t_free **alloc)
 	if (!content)
 		buff->content = NULL;
 	else
-		buff->content = (void *)content;
+		buff->content = content;
 	buff->next = NULL;
 	buff->prev = NULL;
 	return (buff);
@@ -96,7 +96,7 @@ int	tokenizer(char *cmd, t_token **token, t_env **env)
 	vars = (t_tokenizer *)ft_malloc(sizeof(t_tokenizer), &((*env)->mem), NULL);
 	if (!vars)
 		return (free(cmd), 0);
-	sp = ft_ownsplit(cmd, ' ', vars);
+	sp = ft_ownsplit(cmd, ' ', vars, &((*env)->mem));
 	free(cmd);
 	if (!sp)
 		return (0);
