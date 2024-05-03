@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 19:56:59 by melfersi          #+#    #+#             */
-/*   Updated: 2024/04/30 11:50:31 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:28:52 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,10 @@ t_env	*ft_update_pwd_env(t_env *env)
 	while (p_env)
 	{
 		if (!ft_strcmp(p_env->key, "PWD"))
-			p_env->value = cwd;
+			return (free(p_env->value), p_env->value = cwd, env);
 		p_env = p_env->next;
 	}
+	set(env, ft_strdup("PWD"), cwd);
 	return (env);
 }
 
