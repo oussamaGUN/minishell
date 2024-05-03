@@ -6,13 +6,13 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:05:46 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/01 20:06:06 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/03 08:22:05 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	*ft_malloc(size_t	size, t_free **alloc, void *mem)
+void	*ft_malloc(size_t size, t_free **alloc, void *mem)
 {
 	t_free	*new;
 
@@ -38,13 +38,15 @@ void	add_front_mem(t_free **alloc, t_free *new)
 void	garbage_collector(t_free **alloc)
 {
 	t_free	*holder;
+	t_free	*tmp;
 
 	holder = *alloc;
 	while (holder)
 	{
+		tmp = holder;
 		free(holder->mem);
 		holder = holder->next;
+		free(tmp);
 	}
-	free(*alloc);
 	*alloc = NULL;
 }
