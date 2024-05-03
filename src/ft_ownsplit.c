@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ownsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:54:20 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 11:47:44 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/05/03 21:40:25 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*third_trim(t_tokenizer *trim, char *s)
 	return (s);
 }
 
-char	**ft_trim(char *s, char c, t_tokenizer *trim)
+char	**ft_trim(char *s, char c, t_tokenizer *trim, t_free **mem)
 {
 	trim->k = 0;
 	while (trim->k < trim->words_count)
@@ -64,7 +64,8 @@ char	**ft_trim(char *s, char c, t_tokenizer *trim)
 		if (*s == '\0')
 			break ;
 		trim->word_len = ft_len(s, c);
-		trim->arr[trim->k] = malloc(sizeof(char) * (trim->word_len + 1));
+		trim->arr[trim->k] = ft_malloc(sizeof(char) * (trim->word_len + 1),
+				mem, NULL);
 		if (!trim->arr[trim->k])
 			return (NULL);
 		while (*s != c && *s != '\t' && *s)
@@ -81,25 +82,26 @@ char	**ft_trim(char *s, char c, t_tokenizer *trim)
 	return (trim->arr);
 }
 
-char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars)
+char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars, t_free **mem)
 {
 	t_tokenizer		*trim;
 
-	trim = malloc(sizeof(t_tokenizer));
+	trim = ft_malloc(sizeof(t_tokenizer), mem, NULL);
 	if (!trim)
 		return (NULL);
 	if (!ft_count_quotes(s, vars))
 		return (NULL);
 	s = minisplit(s, vars);
 	if (!s)
-		return (free(trim), NULL);
+		return (NULL);
 	trim->words_count = ft_word((char *)s, c, vars);
-	trim->arr = (char **) malloc(sizeof(char *) * (trim->words_count + 1));
+	trim->arr = (char **) ft_malloc(sizeof(char *) * (trim->words_count + 1),
+			mem, NULL);
 	if (!trim->arr)
-		return (free(trim), free((char *)s), NULL);
-	trim->arr = ft_trim((char *)s, c, trim);
+		return (free((char *)s), NULL);
+	trim->arr = ft_trim((char *)s, c, trim, mem);
 	if (!trim->arr)
-		return (free(trim), free((char *)s), NULL);
+		return (free((char *)s), NULL);
 	trim->arr[trim->words_count] = NULL;
 	free((char *)s);
 	return (trim->arr);
