@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 08:24:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 14:56:44 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/03 21:04:13 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	ft_lstadd(t_token **lst, t_token *new);
 int		set(t_env	*env, char *key, char *value);
 int		set_io(t_token *lst);
 int		tokenizer(char *str, t_token **token, t_env **env);
-char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars);
+char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars, t_free **mem);
 t_token	*ft_check_errors(t_token *token);
 int		syntax_error(t_token *token);
 t_token	*ft_list(t_token *token, t_env *env);
@@ -191,5 +191,5 @@ void	env_clear(t_env **env);
 void	*ft_malloc(size_t	size, t_free **alloc, void *mem);
 void	garbage_collector(t_free **alloc);
 void	add_front_mem(t_free **alloc, t_free *new);
-
+void	ft_free_env(char **arr);
 #endif
