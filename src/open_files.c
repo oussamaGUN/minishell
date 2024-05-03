@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:59:16 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 18:49:55 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/03 20:54:17 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,9 @@ t_token	*file_append(t_token *token, t_token *node)
 	return (token);
 }
 
-t_token	*ft_openning_files(t_token *token, t_token *node)
+t_token	*file_input(t_token *token, t_token *node)
 {
-	if (token->type == FILE_OUT && node->exit_status != (1))
-	{
-		if (!file_out(token, node))
-			return (NULL);
-	}
-	else if (token->type == FILE_IN)
+	if (token->type == FILE_IN)
 	{
 		if (access(token->content, F_OK | R_OK) == -1)
 		{
@@ -59,6 +54,21 @@ t_token	*ft_openning_files(t_token *token, t_token *node)
 			printf("mini : %s: No such file or directory\n", token->content);
 			return (token);
 		}
+	}
+	return (token);
+}
+
+t_token	*ft_openning_files(t_token *token, t_token *node)
+{
+	if (token->type == FILE_OUT && node->exit_status != (1))
+	{
+		if (!file_out(token, node))
+			return (NULL);
+	}
+	else if (token->type == FILE_IN)
+	{
+		if (!file_input(token, node))
+			return (NULL);
 	}
 	else if (token->type == FILE_APP && node->exit_status != (1))
 	{
