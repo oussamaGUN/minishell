@@ -56,5 +56,9 @@ matnsach tbdel lenv dyal execve o dir dyalna rah mohima bzaaf
 
 exit status of this $dflsajf should be 0 not 1
 export cases like this export a=ls=pwd
-unset cases like unset = it should print the invalid identifier like export 
+unset cases like unset = it should print the invalid identifier like export
 
+cat | cat | cat | ls
+
+
+return (1)
