@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 07:00:04 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 07:10:22 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/03 22:49:35 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ char	*normal_path(char *cmd, t_env *env)
 	int		j;
 	char	**splited;
 	char	*path;
+	t_free	**mem;
 
+	mem = &(env->mem);
 	if (!ft_strlen(cmd))
 		return (NULL);
 	while (env)
@@ -26,12 +28,14 @@ char	*normal_path(char *cmd, t_env *env)
 		j = 0;
 		while (splited[j])
 		{
-			path = ft_strjoin(ft_strjoin(splited[j], "/"), cmd);
+			path = ft_strjoin(ft_malloc(0,
+						mem, ft_strjoin(splited[j++], "/")), cmd);
 			if (access(path, X_OK) == 0)
-				return (path);
+				return (ft_free_env(splited),
+					ft_malloc(0, mem, path));
 			free(path);
-			j++;
 		}
+		ft_free_env(splited);
 		env = env->next;
 	}
 	return (NULL);
