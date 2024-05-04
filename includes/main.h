@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 08:24:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/03 21:04:13 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/04 11:56:10 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@
 #  include <readline/readline.h>
 #  include <readline/history.h>
 # endif
+
+# define CYAN "\033[0;36m"
+# define GREEN "\033[0;32m"
+# define RED "\033[0;31m"
+# define RESET "\033[0m"
 
 extern int	g_exit_status;
 
