@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:57:52 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/03 21:38:13 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/04 12:26:52 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,34 @@ t_env	*create_new_env(void)
 	return (env);
 }
 
+char	*create_promet(t_env *env)
+{
+	char	*promet;
+	char	*buf;
+	char	*tmp;
+
+	buf = ft_malloc(0, &(env->mem), getcwd(NULL, 0));
+	promet = ft_malloc(0, &(env->mem), ft_strjoin(CYAN, buf));
+	if (g_exit_status)
+		tmp = ft_malloc(0, &(env->mem), ft_strjoin(RED, "(✖)"));
+	else
+		tmp = ft_malloc(0, &(env->mem), ft_strjoin(GREEN, "(✔)"));
+	buf = ft_malloc(0, &(env->mem), ft_strjoin(promet, tmp));
+	tmp = ft_malloc(0, &(env->mem), ft_strjoin(buf, "$> "));
+	promet = ft_malloc(0, &(env->mem), ft_strjoin(tmp, RESET));
+	return (promet);
+}
+
 int	cmd_exe(t_token *token, t_env *env)
 {
 	t_token	*new_token;
 	t_token	*cmd_list;
 	char	*cmd;
+	char	*promet;
 
 	signals_for_parent();
-	cmd = readline("$ ");
+	promet = create_promet(env);
+	cmd = readline(promet);
 	if (!cmd)
 		return (printf("exit\n"), 1);
 	add_history(cmd);
