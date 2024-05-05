@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 19:56:59 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/03 12:28:52 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/05 13:20:33 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,18 @@ int	cd(char **arr, t_env *env)
 	if (!arr[1])
 	{
 		if (chdir(get_value(env, "HOME")) == (-1))
-			return (perror("mini"), 1);
+			return (free(cwd), perror("mini"), 1);
 		set(env, ft_strdup("OLDPWD"), cwd);
 		return (0);
 	}
 	if (!ft_strcmp(arr[1], "-"))
 		if (chdir(get_value(env, "OLDPWD")) == (-1))
-			return (perror("mini"), 1);
+			return (free(cwd), perror("mini"), 1);
 	if (!ft_strcmp(arr[1], "~"))
 		if (chdir(get_value(env, "HOME")) == (-1))
-			return (perror("mini"), 1);
-	if (ft_strncmp(arr[1], "~", 1) && ft_strncmp(arr[1], "-", 1))
-		if (chdir(arr[1]) == (-1))
-			return (perror("mini"), 1);
+			return (free(cwd), perror("mini"), 1);
+	if (chdir(arr[1]) == (-1) &&  arr[1][0] != '~' && arr[1][0] != '-')
+			return (free(cwd), perror("mini"), 1);
 	set(env, ft_strdup("OLDPWD"), cwd);
 	return (0);
 }
@@ -66,13 +65,20 @@ t_env	*ft_update_pwd_env(t_env *env)
 	t_env	*p_env;
 
 	cwd = getcwd(NULL, 0);
+
 	if (!cwd)
-		return (env);
+		cwd = ft_strdup(env->pwd);
+	else
+		env->pwd = ft_malloc(0, &(env->mem), ft_strdup(cwd));
 	p_env = env;
 	while (p_env)
 	{
 		if (!ft_strcmp(p_env->key, "PWD"))
-			return (free(p_env->value), p_env->value = cwd, env);
+		{
+			if (p_env->value != cwd)
+				free(p_env->value);
+			return (p_env->value = cwd, env);
+		}
 		p_env = p_env->next;
 	}
 	set(env, ft_strdup("PWD"), cwd);
