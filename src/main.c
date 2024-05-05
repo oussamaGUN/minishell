@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:57:52 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/05 13:20:53 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/05 18:47:58 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ char	*create_promet(t_env *env)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		chdir(cwd = ft_strdup(env->pwd));
-	else
-		env->pwd = ft_malloc(0, &(env->mem), ft_strdup(cwd));
 	buf = ft_malloc(0, &(env->mem), cwd);
 	promet = ft_malloc(0, &(env->mem), ft_strjoin(CYAN, buf));
 	if (g_exit_status)
@@ -112,6 +110,7 @@ int	main(int ac, char *av[], char *envp[])
 	if (!env)
 		return (printf("exit\n"), EXIT_FAILURE);
 	env->mem = NULL;
+	env->pwd = NULL;
 	while (!cmd_exe(NULL, env))
 		garbage_collector(&env->mem);
 	env_clear(&env);
