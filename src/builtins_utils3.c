@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 19:16:46 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 18:56:45 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/05 18:49:21 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	single_builtins(t_token *lst, t_env *env)
 	if (!lst->arr[0])
 		return (reset_io(lst), 1);
 	if (!ft_strcmp(lst->arr[0], "pwd"))
-		return (reset_io(lst), pwd());
+		return (reset_io(lst), pwd(env));
 	if (!ft_strcmp(lst->arr[0], "echo"))
 		return (reset_io(lst), echo(lst));
 	if (!ft_strcmp(lst->arr[0], "cd"))

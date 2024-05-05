@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 19:05:04 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 12:24:45 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/05 18:14:23 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	builtins(t_token *lst, t_env *env)
 	if (!lst->arr[0])
 		exit(1);
 	if (!ft_strcmp(lst->arr[0], "pwd"))
-		exit(pwd());
+		exit(pwd(env));
 	if (!ft_strcmp(lst->arr[0], "echo"))
 		exit(echo(lst));
 	if (!ft_strcmp(lst->arr[0], "cd"))
