@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 08:24:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/04 11:56:10 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/05 09:16:30 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	char			**envp;
+	char			*pwd;
+	char			*oldpwd;
 	struct s_free	*mem;
 	struct s_env	*next;
 }	t_env;
@@ -172,6 +174,7 @@ int		ft_len(char const *s, char c);
 int		pwd(void);
 int		cd(char **arr, t_env *env);
 int		print_env(t_env *env);
+char	*get_value(t_env *env, char *key);
 
 // execution
 char	*ft_getpath(char *cmd, t_env *env);
