@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 08:24:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/05 09:16:30 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/05 18:13:42 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ void	signal_for_heredoc(void);
 void	sig_quit(int signum);
 void	ignore_exit_signal(void);
 int		ft_len(char const *s, char c);
-int		pwd(void);
+int		pwd(t_env *env);
 int		cd(char **arr, t_env *env);
 int		print_env(t_env *env);
 char	*get_value(t_env *env, char *key);
