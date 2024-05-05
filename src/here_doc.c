@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:55:58 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/03 16:11:08 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/04 16:45:23 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,10 @@ t_token	*child_process_for_heredoc(t_token *token, t_env *env, int file)
 		if (!new)
 			return (NULL);
 		ft_putendl_fd(new, file);
+		free(new);
+		free(s);
 	}
 	close(token->fd[1]);
-	free(new);
 	exit(0);
 }
 
