@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:57:52 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/04 12:26:52 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/05 13:20:53 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,14 @@ char	*create_promet(t_env *env)
 	char	*promet;
 	char	*buf;
 	char	*tmp;
+	char	*cwd;
 
-	buf = ft_malloc(0, &(env->mem), getcwd(NULL, 0));
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		chdir(cwd = ft_strdup(env->pwd));
+	else
+		env->pwd = ft_malloc(0, &(env->mem), ft_strdup(cwd));
+	buf = ft_malloc(0, &(env->mem), cwd);
 	promet = ft_malloc(0, &(env->mem), ft_strjoin(CYAN, buf));
 	if (g_exit_status)
 		tmp = ft_malloc(0, &(env->mem), ft_strjoin(RED, "(✖)"));
@@ -76,7 +82,8 @@ int	cmd_exe(t_token *token, t_env *env)
 	cmd = readline(promet);
 	if (!cmd)
 		return (printf("exit\n"), 1);
-	add_history(cmd);
+	if (ft_strlen(cmd))
+		add_history(cmd);
 	if (!tokenizer(cmd, &token, &env))
 		return (0);
 	if (!ft_check_errors(token))
