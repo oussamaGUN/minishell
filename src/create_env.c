@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:07:07 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/03 21:16:30 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/05 18:03:00 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	ft_free_env(char **arr)
 	int	i;
 
 	i = 0;
+	if (!arr)
+		return ;
 	while (arr[i])
 		free(arr[i++]);
 	free(arr);
