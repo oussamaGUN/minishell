@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 19:52:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/06 16:03:13 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/06 18:10:09 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,18 @@
 
 int	set_io(t_token *lst)
 {
+	if (lst->input_file == (-2) || lst->output_file == (-2))
+		return (-2);
 	if (lst->input_file != (-1))
-	{
 		dup2(lst->input_file, STDIN_FILENO);
-		close(lst->input_file);
-	}
+	else if (lst->prev)
+		dup2(lst->prev->fd[STDIN_FILENO], STDIN_FILENO);
 	if (lst->output_file != (-1))
-	{
 		dup2(lst->output_file, STDOUT_FILENO);
-		close(lst->output_file);
-	}
-	if (lst->next)
+	else if (lst->next)
 	{
-		if (lst->output_file == (-1))
-			dup2(lst->fd[STDOUT_FILENO], STDOUT_FILENO);
-		close(lst->fd[STDOUT_FILENO]);
+		dup2(lst->fd[STDOUT_FILENO], STDOUT_FILENO);
 		close(lst->fd[STDIN_FILENO]);
-	}
-	if (lst->prev)
-	{
-		if (lst->input_file == (-1))
-			dup2(lst->prev->fd[STDIN_FILENO], STDIN_FILENO);
-		close(lst->prev->fd[STDIN_FILENO]);
-		close(lst->prev->fd[STDOUT_FILENO]);
 	}
 	return (0);
 }
