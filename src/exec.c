@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 19:52:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 18:52:27 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:03:13 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,37 @@
 
 int	set_io(t_token *lst)
 {
-	if (lst->input_file == (-2) || lst->output_file == (-2))
-		return (-2);
 	if (lst->input_file != (-1))
-		dup2(lst->input_file, STDIN_FILENO);
-	else if (lst->prev)
-		dup2(lst->prev->fd[STDIN_FILENO], STDIN_FILENO);
-	if (lst->output_file != (-1))
-		dup2(lst->output_file, STDOUT_FILENO);
-	else if (lst->next)
 	{
-		dup2(lst->fd[STDOUT_FILENO], STDOUT_FILENO);
+		dup2(lst->input_file, STDIN_FILENO);
+		close(lst->input_file);
+	}
+	if (lst->output_file != (-1))
+	{
+		dup2(lst->output_file, STDOUT_FILENO);
+		close(lst->output_file);
+	}
+	if (lst->next)
+	{
+		if (lst->output_file == (-1))
+			dup2(lst->fd[STDOUT_FILENO], STDOUT_FILENO);
+		close(lst->fd[STDOUT_FILENO]);
 		close(lst->fd[STDIN_FILENO]);
+	}
+	if (lst->prev)
+	{
+		if (lst->input_file == (-1))
+			dup2(lst->prev->fd[STDIN_FILENO], STDIN_FILENO);
+		close(lst->prev->fd[STDIN_FILENO]);
+		close(lst->prev->fd[STDOUT_FILENO]);
 	}
 	return (0);
 }
 
 int	exec_cmd(t_token *lst, t_env *env)
 {
+	if (lst->input_file == (-2) || lst->output_file == (-2))
+		exit(1);
 	if (set_io(lst))
 		exit(1);
 	if (!lst->arr[0] || lst->exit_status)
@@ -64,6 +77,9 @@ void	exit_status_value(pid_t pid, int *status)
 
 int	cmd_loop(t_token *cmdlist, t_env *env)
 {
+	t_token	*tmp;
+
+	tmp = cmdlist;
 	while (cmdlist)
 	{
 		if (cmdlist->next)
@@ -79,6 +95,19 @@ int	cmd_loop(t_token *cmdlist, t_env *env)
 		cmdlist = cmdlist->next;
 	}
 	return (0);
+}
+
+void	close_fds(t_token *lst)
+{
+	while (lst)
+	{
+		if (lst->next)
+		{
+			close(lst->fd[STDIN_FILENO]);
+			close(lst->fd[STDOUT_FILENO]);
+		}
+		lst = lst->next;
+	}
 }
 
 int	exec(t_token *lst, t_env *env)
@@ -97,6 +126,7 @@ int	exec(t_token *lst, t_env *env)
 	cmdlist->exit_status = 0;
 	if (cmd_loop(cmdlist, env))
 		return (1);
+	close_fds(cmdlist);
 	while (tmp)
 	{
 		exit_status_value(tmp->pid, &tmp->exit_status);
