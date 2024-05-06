@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:07:07 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/05 18:03:00 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/06 09:27:21 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	env_clear(t_env **env)
 
 	garbage_collector(&((*env)->mem));
 	rl_clear_history();
+	if ((*env)->pwd)
+		free((*env)->pwd);
 	while (*env)
 	{
 		tmp = *env;
