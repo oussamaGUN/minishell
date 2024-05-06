@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 19:56:59 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/05 18:22:00 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:57:41 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,8 @@ t_env	*ft_update_pwd_env(t_env *env)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		cwd = ft_strdup(env->pwd);
-	else
-		if (env->pwd)
-			free(env->pwd);
+	if (env->pwd)
+		free(env->pwd);
 	env->pwd = ft_strdup(cwd);
 	p_env = env;
 	while (p_env)
