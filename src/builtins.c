@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 19:56:59 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/06 14:57:41 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:45:08 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,11 @@ int	cd(char **arr, t_env *env)
 t_env	*ft_update_pwd_env(t_env *env)
 {
 	char	*cwd;
+	char	tmp[4096];
 	t_env	*p_env;
 
-	cwd = getcwd(NULL, 0);
+	cwd = getcwd(tmp, 4096);
+	cwd = strdup(tmp);
 	if (!cwd)
 		cwd = ft_strdup(env->pwd);
 	if (env->pwd)

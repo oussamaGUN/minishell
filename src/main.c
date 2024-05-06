@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:57:52 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/05 18:47:58 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:48:35 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,11 @@ char	*create_promet(t_env *env)
 	char	*promet;
 	char	*buf;
 	char	*tmp;
-	char	*cwd;
+	char	cwd[4096];
 
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-		chdir(cwd = ft_strdup(env->pwd));
-	buf = ft_malloc(0, &(env->mem), cwd);
+	getcwd(cwd, 4096);
+	chdir(cwd);
+	buf = ft_malloc(0, &(env->mem), ft_strdup(cwd));
 	promet = ft_malloc(0, &(env->mem), ft_strjoin(CYAN, buf));
 	if (g_exit_status)
 		tmp = ft_malloc(0, &(env->mem), ft_strjoin(RED, "(✖)"));
