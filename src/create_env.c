@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:07:07 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/06 09:27:21 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:02:31 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,22 @@ void	ft_free_env(char **arr)
 	free(arr);
 }
 
+char	*shlvl(char *s)
+{
+	int	n;
+
+	n = ft_atoi(s);
+	if (n < 0)
+		return (ft_strdup("0"));
+	else if (n > 999)
+	{
+		printf("minishell: warning: shell level (%d) too high, resetting to 1\n", n);
+		return (ft_strdup("1"));
+	}
+	else
+		return (ft_itoa(n + 1));
+}
+
 t_env	*envir(char **envp)
 {
 	int		i;
@@ -81,7 +97,7 @@ t_env	*envir(char **envp)
 		node->next = NULL;
 		node->key = ft_strdup(arr[0]);
 		if (ft_strcmp(node->key, "SHLVL") == 0 && arr[1])
-			node->value = ft_itoa(ft_atoi(arr[1]) + 1);
+			node->value = shlvl(arr[1]);
 		else if (arr[1])
 			node->value = ft_strdup(arr[1]);
 		ft_free_env(arr);
