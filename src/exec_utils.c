@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:00:50 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/01 20:01:35 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/07 11:18:04 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,17 @@ char	**env_to_arr(t_env *env)
 	}
 	arr[i] = NULL;
 	return (arr);
+}
+
+void	close_fds(t_token *lst)
+{
+	while (lst)
+	{
+		if (lst->next)
+		{
+			close(lst->fd[STDIN_FILENO]);
+			close(lst->fd[STDOUT_FILENO]);
+		}
+		lst = lst->next;
+	}
 }

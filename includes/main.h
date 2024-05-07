@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 08:24:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/05 18:13:42 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/07 11:18:20 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ int		echo(t_token *lst);
 int		export(char **arr, t_env *env);
 int		unset(t_token *lst, t_env *env);
 char	**env_to_arr(t_env *env);
+void	close_fds(t_token *lst);
 
 //env
 t_env	*envir(char **envp);
