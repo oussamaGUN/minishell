@@ -1,0 +1,3 @@
+handle the double free of unset 
+handle the unest valid identifier
+handle the the print of the empty key in env
