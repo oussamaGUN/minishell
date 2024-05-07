@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:57:52 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/07 17:06:15 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:37:58 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_env *ft_update_underscore(t_env *env, t_token *cmd_list)
 		{
 			if (tmp->value)
 				free(tmp->value);
-			tmp->value = ft_strdup(ft_getpath(
+			tmp->value = ft_strdup(ft_getpathfor_underscore(
 					cmd_list->arr[arr_len(cmd_list->arr) - 1], env));
 			break ;
 		}

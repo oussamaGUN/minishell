@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 08:24:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/07 11:18:20 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:39:30 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,7 @@ t_env	*envir(char **envp);
 void	list_for_env(t_env **lst, t_env *new);
 t_env	*ft_update_pwd_env(t_env *env);
 void	env_clear(t_env **env);
+char	*ft_getpathfor_underscore(char *cmd, t_env *env);
 
 // garbage collector
 void	*ft_malloc(size_t	size, t_free **alloc, void *mem);
