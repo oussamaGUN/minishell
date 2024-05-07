@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:47:10 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 11:11:02 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:03:02 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*expand(char *s, t_env *envp)
 	lst = envp;
 	while (lst)
 	{
-		if (ft_strncmp(lst->key, s, ft_strlen(s)) == 0)
+		if (ft_strcmp(lst->key, s) == 0)
 			return (lst->value);
 		lst = lst->next;
 	}
