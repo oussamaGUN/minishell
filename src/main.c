@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:57:52 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/06 16:48:35 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:06:15 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,41 @@
 
 int	g_exit_status;
 
+int arr_len(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
+}
+
+t_env *ft_update_underscore(t_env *env, t_token *cmd_list)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->key, "_"))
+		{
+			if (tmp->value)
+				free(tmp->value);
+			tmp->value = ft_strdup(ft_getpath(
+					cmd_list->arr[arr_len(cmd_list->arr) - 1], env));
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	return (env);
+}
+
 void	ft_path(t_token *cmd_list, t_env *env)
 {
 	t_token	*itter;
 
+	env = ft_update_underscore(env, cmd_list);
 	itter = cmd_list;
 	while (itter)
 	{
@@ -42,7 +73,10 @@ t_env	*create_new_env(void)
 	env->next->next = malloc(sizeof(t_env));
 	env->next->next->key = ft_strdup("SHLVL");
 	env->next->next->value = ft_strdup("0");
-	env->next->next->next = NULL;
+	env->next->next->next = malloc(sizeof(t_env));
+	env->next->next->next->key = ft_strdup("_");
+	env->next->next->next->value = ft_strdup("./minishell");
+	env->next->next->next->next = NULL;
 	return (env);
 }
 
