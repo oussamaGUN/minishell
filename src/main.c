@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:57:52 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/07 19:37:58 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/05/08 10:11:12 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,7 @@ int	main(int ac, char *av[], char *envp[])
 	env->mem = NULL;
 	env->pwd = NULL;
 	while (!cmd_exe(NULL, env))
-		garbage_collector(&env->mem);
+		garbage_collector(&env->mem);		
 	env_clear(&env);
-	rl_clear_history();
 	return (EXIT_SUCCESS);
 }
