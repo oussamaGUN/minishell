@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 19:05:04 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/05 18:14:23 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/08 09:14:03 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	unset(t_token *lst, t_env *env)
 		tmp = env;
 		while (tmp)
 		{
-			if (!ft_strcmp(tmp->key, *(lst->arr)))
+			if (!ft_strcmp(tmp->key, *(lst->arr)) && ft_strcmp(tmp->key, "_"))
 			{
 				if (tmp == env)
 					env = env->next;
