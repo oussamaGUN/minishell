@@ -1,5 +1,3 @@
-handle the double free of unset 
+segfault if u try to unset the first env key
 handle the unest valid identifier
 handle the the print of the empty key in env
-we have some a lot of probleme if we delete env with env -i ./minishell too many seg and leaks
-segfault if u try to unset the first env key
