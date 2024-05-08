@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 19:52:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/07 11:17:45 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/08 09:41:14 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	exec(t_token *lst, t_env *env)
 	signals_for_child();
 	cmdlist = lst;
 	tmp = lst;
-	env = ft_update_pwd_env(env);
 	if (!(cmdlist->next))
 		cmdlist->exit_status = single_builtins(lst, env);
 	if (cmdlist->exit_status != (-2) && !cmdlist->next)

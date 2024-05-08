@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 19:56:59 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/06 16:45:08 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/08 09:41:24 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	cd(char **arr, t_env *env)
 	if (chdir(arr[1]) == (-1) && arr[1][0] != '~' && arr[1][0] != '-')
 		return (free(cwd), perror("mini"), 1);
 	set(env, ft_strdup("OLDPWD"), cwd);
+	env = ft_update_pwd_env(env);
 	return (0);
 }
 
