@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:57:52 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/09 21:09:55 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/05/09 21:46:22 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,15 @@ void	ft_path(t_token *cmd_list, t_env *env)
 	return ;
 }
 
+void	set_visible(t_env *env)
+{
+	while (env)
+	{
+		env->visible = true;
+		env = env->next;
+	}
+}
+
 t_env	*create_new_env(void)
 {
 	t_env	*env;
@@ -80,6 +89,7 @@ t_env	*create_new_env(void)
 	env->next->next->next->key = ft_strdup("_");
 	env->next->next->next->value = ft_strdup("./minishell");
 	env->next->next->next->next = NULL;
+	set_visible(env);
 	return (env);
 }
 
@@ -112,6 +122,7 @@ int	cmd_exe(t_token *token, t_env *env)
 	char	*promet;
 
 	signals_for_parent();
+	echoctl(OFF);
 	promet = create_promet(env);
 	cmd = readline(promet);
 	if (!cmd)
@@ -142,13 +153,14 @@ int	main(int ac, char *av[], char *envp[])
 		env = create_new_env();
 	else
 		env = envir(envp);
-	env->envp = envp;
+	env->addr = &env;
 	if (!env)
 		return (printf("exit\n"), EXIT_FAILURE);
 	env->mem = NULL;
 	env->pwd = NULL;
 	while (!cmd_exe(NULL, env))
 		garbage_collector(&env->mem);
+	echoctl(ON);
 	env_clear(&env);
 	return (EXIT_SUCCESS);
 }

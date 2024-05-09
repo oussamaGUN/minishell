@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:07:07 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/07 19:02:31 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/05/09 21:19:29 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ t_env	*envir(char **envp)
 			node->value = shlvl(arr[1]);
 		else if (arr[1])
 			node->value = ft_strdup(arr[1]);
+		node->visible = true;
 		ft_free_env(arr);
 		list_for_env(&env, node);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 19:52:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/08 09:41:14 by ousabbar         ###   ########.fr       */
+/*   Created: 2024/05/09 17:03:51 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/09 21:45:36 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	set_io(t_token *lst)
 
 int	exec_cmd(t_token *lst, t_env *env)
 {
+	echoctl(ON);
 	if (lst->input_file == (-2) || lst->output_file == (-2))
 		exit(1);
 	if (set_io(lst))

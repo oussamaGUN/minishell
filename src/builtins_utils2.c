@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 19:05:04 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/08 09:14:03 by ousabbar         ###   ########.fr       */
+/*   Created: 2024/05/09 17:01:37 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/09 21:17:42 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	print_sorted_export(t_env *env)
 	sort_env(env);
 	while (env)
 	{
-		if (env->value)
+		if (env->visible)
 			printf("declare -x %s=\"%s\"\n", env->key, env->value);
 		else
 			printf("declare -x %s\n", env->key);
@@ -26,25 +26,30 @@ int	print_sorted_export(t_env *env)
 	return (0);
 }
 
-bool	export_spliting(char **arr, char **key, char **value)
+bool	export_spliting(char *arr, char **key, char **value)
 {
-	char	**sp;
+	char	*tmp;
 
-	sp = ft_split(*arr, '=');
-	if (!sp[0])
+	tmp = ft_strchr(arr, '=');
+	if (!ft_strlen(arr))
 	{
-		printf("mini: export: `%s': not a valid identifier\n",
-			*arr);
+		printf("mini: export: `%s': not a valid identifier\n", arr);
 		g_exit_status = 1;
-		free(sp);
+		free(arr);
 		return (false);
 	}
-	*key = sp[0];
-	if (!sp[1])
-		*value = ft_strdup("");
+	if (tmp)
+	{
+		*tmp = '\0';
+		*key = ft_strdup(arr);
+		*value = ft_strdup(tmp + 1);
+	}
 	else
-		*value = sp[1];
-	free(sp);
+	{
+		*key = ft_strdup(arr);
+		*value = ft_strdup("");
+	}
+	free(arr);
 	return (true);
 }
 
@@ -57,7 +62,7 @@ int	export(char **arr, t_env *env)
 		return (print_sorted_export(env));
 	while (*(++(arr)))
 	{
-		if (!export_spliting(arr, &key, &value))
+		if (!export_spliting(ft_strdup(*arr), &key, &value))
 			continue ;
 		if (!check_valid_identifier(key) || **(arr) == '=')
 		{
@@ -70,7 +75,7 @@ int	export(char **arr, t_env *env)
 			g_exit_status = 1;
 			continue ;
 		}
-		set(env, key, value);
+		set(env, key, value, ft_strchr(*arr, '='));
 	}
 	return (g_exit_status);
 }
@@ -82,13 +87,26 @@ int	unset(t_token *lst, t_env *env)
 
 	while (*(++(lst->arr)))
 	{
+		if (!check_valid_identifier(*(lst->arr)))
+		{
+			printf("mini: unset: `%s': not a valid identifier\n",
+				*(lst->arr));
+			g_exit_status = 1;
+			continue ;
+		}
 		tmp = env;
 		while (tmp)
 		{
 			if (!ft_strcmp(tmp->key, *(lst->arr)) && ft_strcmp(tmp->key, "_"))
 			{
 				if (tmp == env)
+				{
+					env->next->addr = env->addr;
+					env->next->mem = env->mem;
+					env->next->pwd = env->pwd;
 					env = env->next;
+					*(env->addr) = env;
+				}
 				else
 					prev->next = tmp->next;
 				free(tmp->key);

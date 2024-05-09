@@ -6,11 +6,23 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 07:03:38 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 07:10:22 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/09 21:41:18 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+void	echoctl(bool status)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	if (status)
+		term.c_lflag |= ECHOCTL;
+	else
+		term.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
 
 void	sig_handler(int signum)
 {

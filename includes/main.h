@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/02 08:24:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/07 19:39:30 by ousabbar         ###   ########.fr       */
+/*   Created: 2024/05/09 17:04:38 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/09 21:23:35 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ typedef struct s_env
 {
 	char			*key;
 	char			*value;
-	char			**envp;
+	bool			visible;
 	char			*pwd;
-	char			*oldpwd;
 	struct s_free	*mem;
 	struct s_env	*next;
+	struct s_env	**addr;
 }	t_env;
 
 typedef struct s_tokenizer
@@ -127,10 +127,16 @@ typedef enum e_type
 	NO_ACCESS,
 }	t_type;
 
+enum e_switch
+{
+	OFF,
+	ON,
+};
+
 t_token	*add_token(void *content, t_free **alloc);
 void	ft_lstadd(t_token **lst, t_token *new);
 
-int		set(t_env	*env, char *key, char *value);
+int		set(t_env	*env, char *key, char *value, bool visible);
 int		set_io(t_token *lst);
 int		tokenizer(char *str, t_token **token, t_env **env);
 char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars, t_free **mem);
@@ -189,6 +195,7 @@ int		export(char **arr, t_env *env);
 int		unset(t_token *lst, t_env *env);
 char	**env_to_arr(t_env *env);
 void	close_fds(t_token *lst);
+void	echoctl(bool status);
 
 //env
 t_env	*envir(char **envp);

@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 20:04:09 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/03 21:15:34 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/09 21:16:48 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ bool	check_valid_identifier(char *s)
 	return (true);
 }
 
-int	set(t_env	*env, char *key, char *value)
+int	set(t_env	*env, char *key, char *value, bool visible)
 {
 	t_env	*tmp;
 	t_env	*new;
@@ -80,6 +80,7 @@ int	set(t_env	*env, char *key, char *value)
 			if (tmp->value)
 				free(tmp->value);
 			tmp->value = value;
+			tmp->visible = visible;
 			return (free(key), 0);
 		}
 		tmp = tmp->next;
@@ -89,6 +90,7 @@ int	set(t_env	*env, char *key, char *value)
 		return (1);
 	new->key = key;
 	new->value = value;
+	new->visible = visible;
 	new->next = env->next;
 	env->next = new;
 	return (0);
@@ -98,6 +100,7 @@ void	sort_env(t_env *env)
 {
 	char	*key;
 	char	*value;
+	bool	visible;
 	t_env	*tmp;
 
 	while (env)
@@ -109,10 +112,13 @@ void	sort_env(t_env *env)
 			{
 				key = env->key;
 				value = env->value;
+				visible = env->visible;
 				env->key = tmp->key;
 				env->value = tmp->value;
+				env->visible = tmp->visible;
 				tmp->key = key;
 				tmp->value = value;
+				tmp->visible = visible;
 			}
 			tmp = tmp->next;
 		}
