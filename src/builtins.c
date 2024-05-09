@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 17:04:14 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/09 21:19:25 by melfersi         ###   ########.fr       */
+/*   Created: 2024/05/09 22:53:16 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/09 22:53:18 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	cd(char **arr, t_env *env)
 	if (chdir(arr[1]) == (-1) && arr[1][0] != '~' && arr[1][0] != '-')
 		return (free(cwd), perror("mini"), 1);
 	set(env, ft_strdup("OLDPWD"), cwd, true);
+	env = ft_update_pwd_env(env);
 	return (0);
 }
 
