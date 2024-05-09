@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:57:52 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/09 21:09:55 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/05/09 21:29:56 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_env *ft_update_underscore(t_env *env, t_token *cmd_list)
 		{
 			if (tmp->value)
 				free(tmp->value);
-			if (arr_len(cmd_list->arr) > 0)
+			if (arr_len(cmd_list->arr) > 0 && !cmd_list->next)
 				tmp->value = ft_strdup(ft_getpathfor_underscore(
 						cmd_list->arr[arr_len(cmd_list->arr) - 1], env));
 			else
@@ -70,16 +70,12 @@ t_env	*create_new_env(void)
 	env->key = ft_strdup("PWD");
 	env->value = getcwd(NULL, 0);
 	env->next = malloc(sizeof(t_env));
-	env->next->key = ft_strdup("PATH");
-	env->next->value = ft_strdup(
-			"/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
+	env->next->key = ft_strdup("SHLVL");
+	env->next->value = ft_strdup("0");
 	env->next->next = malloc(sizeof(t_env));
-	env->next->next->key = ft_strdup("SHLVL");
-	env->next->next->value = ft_strdup("0");
-	env->next->next->next = malloc(sizeof(t_env));
-	env->next->next->next->key = ft_strdup("_");
-	env->next->next->next->value = ft_strdup("./minishell");
-	env->next->next->next->next = NULL;
+	env->next->next->key = ft_strdup("_");
+	env->next->next->value = ft_strdup("./minishell");
+	env->next->next->next = NULL;
 	return (env);
 }
 
