@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:55:58 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/07 08:09:49 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/09 21:10:44 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_token	*child_process_for_heredoc(t_token *token, t_env *env, int file)
 		ft_putendl_fd(new, file);
 	}
 	close(token->fd[1]);
-	garbage_collector(&(env->mem));
+	free(new);
 	exit(0);
 }
 

@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 17:04:38 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/09 18:26:28 by melfersi         ###   ########.fr       */
+/*   Created: 2024/05/09 22:47:02 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/09 22:47:05 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MAIN_H
 # define MAIN_H
@@ -202,6 +203,7 @@ t_env	*envir(char **envp);
 void	list_for_env(t_env **lst, t_env *new);
 t_env	*ft_update_pwd_env(t_env *env);
 void	env_clear(t_env **env);
+char	*ft_getpathfor_underscore(char *cmd, t_env *env);
 
 // garbage collector
 void	*ft_malloc(size_t	size, t_free **alloc, void *mem);

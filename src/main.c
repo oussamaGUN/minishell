@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 17:05:24 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/09 22:43:18 by melfersi         ###   ########.fr       */
+/*   Created: 2024/05/02 06:57:52 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/09 22:50:31 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@ t_env *ft_update_underscore(t_env *env, t_token *cmd_list)
 		{
 			if (tmp->value)
 				free(tmp->value);
-			tmp->value = ft_strdup(ft_getpathfor_underscore(
-					cmd_list->arr[arr_len(cmd_list->arr) - 1], env));
+			if (arr_len(cmd_list->arr) > 0 && !cmd_list->next)
+				tmp->value = ft_strdup(ft_getpathfor_underscore(
+						cmd_list->arr[arr_len(cmd_list->arr) - 1], env));
+			else
+				tmp->value = ft_strdup("");
 			break ;
 		}
 		tmp = tmp->next;
@@ -76,17 +79,13 @@ t_env	*create_new_env(void)
 	env->key = ft_strdup("PWD");
 	env->value = getcwd(NULL, 0);
 	env->next = malloc(sizeof(t_env));
-	env->next->key = ft_strdup("PATH");
-	env->next->value = ft_strdup(
-			"/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
+	env->next->key = ft_strdup("SHLVL");
+	env->next->value = ft_strdup("0");
 	env->next->next = malloc(sizeof(t_env));
-	env->next->next->key = ft_strdup("SHLVL");
-	env->next->next->value = ft_strdup("0");
-	env->next->next->next = malloc(sizeof(t_env));
-	env->next->next->next->key = ft_strdup("_");
-	env->next->next->next->value = ft_strdup("./minishell");
-	env->next->next->next->next = NULL;
-	set_visible(env);
+	env->next->next->key = ft_strdup("_");
+	env->next->next->value = ft_strdup("./minishell");
+	env->next->next->next = NULL;
+	env->visible = true;
 	return (env);
 }
 
