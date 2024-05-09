@@ -6,7 +6,7 @@
 /*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:46:34 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 11:08:38 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:44:37 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,13 @@ void	ft_expand_double_in_multiple(t_multx *exp_vars, char *s, t_env *env)
 
 void	ft_cpying_normal(t_multx *exp_vars, char *s, t_env *env)
 {
-	if (s[exp_vars->i] == '$' && ft_isdigit(s[exp_vars->i + 1]))
-		exp_vars->i++;
-	else if (s[exp_vars->i] == '$' && (s[exp_vars->i + 1] == '\"'
+	if (s[exp_vars->i] == '$' && (s[exp_vars->i + 1] == '\"'
 			|| s[exp_vars->i + 1] == '\'') && s[exp_vars->i + 2])
+	{
+		if (s[exp_vars->i + 1] != '\'')
+			exp_vars->i++;
+	}
+	else if (s[exp_vars->i] == '$' && ft_isdigit(s[exp_vars->i + 1]))
 		exp_vars->i++;
 	else
 		exp_vars->res = ft_malloc(0, &(env->mem),

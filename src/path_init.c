@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 07:00:04 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/05 18:27:43 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:39:14 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,17 @@ char	*ft_getpath(char *cmd, t_env *env)
 		else
 			return (cmd);
 	}
+	return (cmd);
+}
+
+char	*ft_getpathfor_underscore(char *cmd, t_env *env)
+{
+	char	*str;
+
+	str = normal_path(cmd, env);
+	if (str)
+		return (str);
+	else
+		return (cmd);
 	return (cmd);
 }

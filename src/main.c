@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/02 06:57:52 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/07 17:06:15 by ousabbar         ###   ########.fr       */
+/*   Created: 2024/05/09 17:05:24 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/09 22:43:18 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_env *ft_update_underscore(t_env *env, t_token *cmd_list)
 		{
 			if (tmp->value)
 				free(tmp->value);
-			tmp->value = ft_strdup(ft_getpath(
+			tmp->value = ft_strdup(ft_getpathfor_underscore(
 					cmd_list->arr[arr_len(cmd_list->arr) - 1], env));
 			break ;
 		}
@@ -59,6 +59,15 @@ void	ft_path(t_token *cmd_list, t_env *env)
 	return ;
 }
 
+void	set_visible(t_env *env)
+{
+	while (env)
+	{
+		env->visible = true;
+		env = env->next;
+	}
+}
+
 t_env	*create_new_env(void)
 {
 	t_env	*env;
@@ -77,6 +86,7 @@ t_env	*create_new_env(void)
 	env->next->next->next->key = ft_strdup("_");
 	env->next->next->next->value = ft_strdup("./minishell");
 	env->next->next->next->next = NULL;
+	set_visible(env);
 	return (env);
 }
 
@@ -87,6 +97,7 @@ char	*create_promet(t_env *env)
 	char	*tmp;
 	char	cwd[4096];
 
+	echoctl(OFF);
 	getcwd(cwd, 4096);
 	chdir(cwd);
 	buf = ft_malloc(0, &(env->mem), ft_strdup(cwd));
@@ -139,7 +150,7 @@ int	main(int ac, char *av[], char *envp[])
 		env = create_new_env();
 	else
 		env = envir(envp);
-	env->envp = envp;
+	env->addr = &env;
 	if (!env)
 		return (printf("exit\n"), EXIT_FAILURE);
 	env->mem = NULL;
@@ -147,6 +158,5 @@ int	main(int ac, char *av[], char *envp[])
 	while (!cmd_exe(NULL, env))
 		garbage_collector(&env->mem);
 	env_clear(&env);
-	rl_clear_history();
 	return (EXIT_SUCCESS);
 }

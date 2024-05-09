@@ -1,15 +1,4 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/05/02 09:21:26 by melfersi          #+#    #+#              #
-#    Updated: 2024/05/07 15:25:38 by melfersi         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
+# Project: minishell
 #______command and their flags______#
 RM = rm -rf
 CFLAGS = -Wall -Wextra -Werror
@@ -56,7 +45,7 @@ LIB = libft
 #______________Rules______________#
 
 $(NAME): $(OBJECTS) $(LIB)/libft.a
-	@$(CC) $(CFLAGS) $^ $(INCLUDES) $(LIB_INCLUDES) $(INC) -o $@
+	@$(CC) $(CFLAGS) $^ $(INCLUDES) $(LIB_INCLUDES) $(INC) -o $@ -fsanitize=address
 	@echo "${GREEN}${BOLD}minishell is ready ✅${NC}"
 
 # impicit rule for mandatory

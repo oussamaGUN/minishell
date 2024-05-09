@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 19:52:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/07 11:17:45 by melfersi         ###   ########.fr       */
+/*   Created: 2024/05/09 17:03:51 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/09 22:42:44 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	exec_cmd(t_token *lst, t_env *env)
 	builtins(lst, env);
 	if (lst->path)
 	{
+		echoctl(ON);
 		execve(lst->path, lst->arr, env_to_arr(env));
 		dup2(STDERR_FILENO, STDOUT_FILENO);
 		printf("mini: %s: command not found\n", lst->path);
@@ -94,7 +95,6 @@ int	exec(t_token *lst, t_env *env)
 	signals_for_child();
 	cmdlist = lst;
 	tmp = lst;
-	env = ft_update_pwd_env(env);
 	if (!(cmdlist->next))
 		cmdlist->exit_status = single_builtins(lst, env);
 	if (cmdlist->exit_status != (-2) && !cmdlist->next)
