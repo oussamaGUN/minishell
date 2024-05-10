@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 11:02:34 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 23:15:46 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 23:22:12 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	no_cwd(t_env *env, char **cwd, bool print_err)
 		ft_putstr_fd(" cannot access parent directories:", 2);
 		ft_putendl_fd(" No such file or directory", 2);
 	}
-	*cwd =  ft_strjoin(env->pwd, "/..");
+	*cwd = ft_strjoin(env->pwd, "/..");
 }
 
 int	cd(char **arr, t_env *env)
