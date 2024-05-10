@@ -6,11 +6,11 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:46:34 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/09 21:20:03 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 void	ft_expand_double_in_multiple(t_multx *exp_vars, char *s, t_env *env)
 {

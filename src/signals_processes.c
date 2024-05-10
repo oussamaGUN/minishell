@@ -6,11 +6,11 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:53:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/09 22:54:00 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 void	echoctl(bool status)
 {

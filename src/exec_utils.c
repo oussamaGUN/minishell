@@ -6,11 +6,11 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:00:50 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/07 11:18:04 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 char	**env_to_arr(t_env *env)
 {

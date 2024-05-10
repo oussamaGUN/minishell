@@ -6,11 +6,11 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:56:02 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 06:56:15 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 void	here_doc_expand_norm(t_multx *vars, char *s, t_env *env)
 {

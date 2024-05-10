@@ -6,46 +6,13 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:53:37 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/09 22:53:52 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:22:30 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 int	g_exit_status;
-
-int arr_len(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-		i++;
-	return (i);
-}
-
-t_env *ft_update_underscore(t_env *env, t_token *cmd_list)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->key, "_"))
-		{
-			if (tmp->value)
-				free(tmp->value);
-			if (arr_len(cmd_list->arr) > 0 && !cmd_list->next)
-				tmp->value = ft_strdup(ft_getpathfor_underscore(
-						cmd_list->arr[arr_len(cmd_list->arr) - 1], env));
-			else
-				tmp->value = ft_strdup("");
-			break ;
-		}
-		tmp = tmp->next;
-	}
-	return (env);
-}
 
 void	ft_path(t_token *cmd_list, t_env *env)
 {
@@ -62,15 +29,6 @@ void	ft_path(t_token *cmd_list, t_env *env)
 	return ;
 }
 
-void	set_visible(t_env *env)
-{
-	while (env)
-	{
-		env->visible = true;
-		env = env->next;
-	}
-}
-
 t_env	*create_new_env(void)
 {
 	t_env	*env;
@@ -80,13 +38,18 @@ t_env	*create_new_env(void)
 	env->value = getcwd(NULL, 0);
 	env->next = malloc(sizeof(t_env));
 	env->next->key = ft_strdup("SHLVL");
-	env->next->value = ft_strdup("0");
+	env->next->value = ft_strdup("1");
 	env->next->next = malloc(sizeof(t_env));
 	env->next->next->key = ft_strdup("_");
 	env->next->next->value = ft_strdup("./minishell");
-	env->next->next->next = NULL;
+	env->next->next->next = malloc(sizeof(t_env));
+	env->next->next->next->key = ft_strdup("PATH");
+	env->next->next->next->value = ft_strdup(
+			"/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
+	env->next->next->next->next = NULL;
 	env->visible = true;
 	env->next->visible = true;
+	env->next->next->visible = true;
 	return (env);
 }
 
@@ -150,7 +113,7 @@ int	main(int ac, char *av[], char *envp[])
 	if (!(*envp))
 		env = create_new_env();
 	else
-		env = envir(envp);
+		env = envir(envp, -1);
 	env->addr = &env;
 	if (!env)
 		return (printf("exit\n"), EXIT_FAILURE);

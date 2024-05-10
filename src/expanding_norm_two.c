@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_norm_two.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:47:10 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/07 16:03:02 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 char	*expand(char *s, t_env *envp)
 {

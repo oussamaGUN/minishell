@@ -6,11 +6,11 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:06:36 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 07:10:22 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 t_token	*ft_check_errors(t_token *token)
 {

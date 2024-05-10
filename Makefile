@@ -32,8 +32,8 @@ FILES = main.c tokenizing.c ft_ownsplit.c check_errors.c signals.c syntax_error.
 		create_env.c garbage_collector.c builtins.c exec.c syntax_error_norm.c\
 		expanding_norm.c expanding_norm_two.c open_files.c ft_ownsplit.c\
 		ft_ownsplit_norm.c ft_ownsplit_count.c ft_ownsplit_tools.c path_init.c\
-		builtins_utils1.c builtins_utils2.c builtins_utils3.c exec_utils.c\
-		signals_processes.c
+		exec_utils.c builtin_unset.c builtin_export.c builtin_echo.c builtin_exit.c\
+		builtin_pwd.c builtin_cd.c builtin_env.c set_reset_io.c signals_processes.c
 #______patterns and substitutions______#
 SOURCES = $(FILES:%.c=$(SRC_DIR)/%.c)
 OBJECTS = $(SOURCES:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)

@@ -1,17 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_utils2.c                                  :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 22:52:46 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/09 22:52:49 by melfersi         ###   ########.fr       */
+/*   Created: 2024/05/10 10:52:38 by melfersi          #+#    #+#             */
+/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 
-#include "main.h"
+void	sort_env(t_env *env)
+{
+	char	*holder;
+	bool	visible;
+	t_env	*tmp;
+
+	while (env)
+	{
+		tmp = env->next;
+		while (tmp)
+		{
+			if (ft_strcmp(env->key, tmp->key) > 0)
+			{
+				holder = env->key;
+				env->key = tmp->key;
+				tmp->key = holder;
+				holder = env->value;
+				env->value = tmp->value;
+				tmp->value = holder;
+				visible = env->visible;
+				env->visible = tmp->visible;
+				tmp->visible = visible;
+			}
+			tmp = tmp->next;
+		}
+		env = env->next;
+	}
+}
 
 int	print_sorted_export(t_env *env)
 {
@@ -54,6 +82,35 @@ bool	export_spliting(char *arr, char **key, char **value)
 	return (true);
 }
 
+int	set(t_env	*env, char *key, char *value, bool visible)
+{
+	t_env	*tmp;
+	t_env	*new;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->key, key))
+		{
+			if (tmp->value)
+				free(tmp->value);
+			tmp->value = value;
+			tmp->visible = visible;
+			return (free(key), 0);
+		}
+		tmp = tmp->next;
+	}
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return (1);
+	new->key = key;
+	new->value = value;
+	new->visible = visible;
+	new->next = env->next;
+	env->next = new;
+	return (0);
+}
+
 int	export(char **arr, t_env *env)
 {
 	char	*key;
@@ -79,65 +136,4 @@ int	export(char **arr, t_env *env)
 		set(env, key, value, ft_strchr(*arr, '='));
 	}
 	return (g_exit_status);
-}
-
-int	unset(t_token *lst, t_env *env)
-{
-	t_env	*tmp;
-	t_env	*prev;
-
-	while (*(++(lst->arr)))
-	{
-		if (!check_valid_identifier(*(lst->arr)))
-		{
-			printf("mini: unset: `%s': not a valid identifier\n",
-				*(lst->arr));
-			g_exit_status = 1;
-			continue ;
-		}
-		tmp = env;
-		while (tmp)
-		{
-			if (!ft_strcmp(tmp->key, *(lst->arr)) && ft_strcmp(tmp->key, "_"))
-			{
-				if (tmp == env)
-				{
-					env->next->addr = env->addr;
-					env->next->mem = env->mem;
-					env->next->pwd = env->pwd;
-					env = env->next;
-					*(env->addr) = env;
-				}
-				else
-					prev->next = tmp->next;
-				free(tmp->key);
-				free(tmp->value);
-				free(tmp);
-				break ;
-			}
-			prev = tmp;
-			tmp = tmp->next;
-		}
-	}
-	return (0);
-}
-
-void	builtins(t_token *lst, t_env *env)
-{
-	if (!lst->arr[0])
-		exit(1);
-	if (!ft_strcmp(lst->arr[0], "pwd"))
-		exit(pwd(env));
-	if (!ft_strcmp(lst->arr[0], "echo"))
-		exit(echo(lst));
-	if (!ft_strcmp(lst->arr[0], "cd"))
-		exit(cd(lst->arr, env));
-	if (!ft_strcmp(lst->arr[0], "env"))
-		exit(print_env(env));
-	if (!ft_strcmp(lst->arr[0], "export"))
-		exit(export(lst->arr, env));
-	if (!ft_strcmp(lst->arr[0], "unset"))
-		exit(unset(lst, env));
-	if (!ft_strcmp(lst->arr[0], "exit"))
-		exit(exiting(lst, env));
 }

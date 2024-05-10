@@ -6,102 +6,66 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:53:16 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/09 22:53:18 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
-char	*get_value(t_env *env, char *key)
+int	single_builtins(t_token *lst, t_env *env)
 {
-	while (env)
-	{
-		if (ft_strncmp(env->key, key, ft_strlen(key)) == 0)
-			return (env->value);
-		env = env->next;
-	}
-	return (NULL);
+	lst->fd[0] = dup(STDIN_FILENO);
+	lst->fd[1] = dup(STDOUT_FILENO);
+	if (set_io(lst))
+		return (reset_io(lst), 1);
+	if (!lst->arr[0])
+		return (reset_io(lst), 0);
+	if (!ft_strcmp(lst->arr[0], "pwd"))
+		return (reset_io(lst), pwd(env));
+	if (!ft_strcmp(lst->arr[0], "echo"))
+		return (reset_io(lst), echo(lst));
+	if (!ft_strcmp(lst->arr[0], "cd"))
+		return (reset_io(lst), cd(lst->arr, env));
+	if (!ft_strcmp(lst->arr[0], "env"))
+		return (reset_io(lst), print_env(env));
+	if (!ft_strcmp(lst->arr[0], "export"))
+		return (reset_io(lst), export(lst->arr, env));
+	if (!ft_strcmp(lst->arr[0], "unset"))
+		return (reset_io(lst), unset(lst, env));
+	if (!ft_strcmp(lst->arr[0], "exit"))
+		return (exiting(lst, env));
+	return (reset_io(lst), (-2));
 }
 
-int	pwd(t_env *env)
+void	builtins(t_token *lst, t_env *env)
 {
-	char	*cwd;
-
-	if (env->pwd)
-		printf("%s\n", env->pwd);
-	else if (get_value(env, "PWD"))
-		printf("%s\n", get_value(env, "PWD"));
-	else
-	{
-		cwd = getcwd(NULL, 0);
-		if (!cwd)
-			return (perror("mini"), 1);
-		printf("%s\n", cwd);
-		free(cwd);
-	}
-	return (0);
+	if (!lst->arr[0])
+		exit(1);
+	if (!ft_strcmp(lst->arr[0], "pwd"))
+		exit(pwd(env));
+	if (!ft_strcmp(lst->arr[0], "echo"))
+		exit(echo(lst));
+	if (!ft_strcmp(lst->arr[0], "cd"))
+		exit(cd(lst->arr, env));
+	if (!ft_strcmp(lst->arr[0], "env"))
+		exit(print_env(env));
+	if (!ft_strcmp(lst->arr[0], "export"))
+		exit(export(lst->arr, env));
+	if (!ft_strcmp(lst->arr[0], "unset"))
+		exit(unset(lst, env));
+	if (!ft_strcmp(lst->arr[0], "exit"))
+		exit(exiting(lst, env));
 }
 
-int	cd(char **arr, t_env *env)
+bool	check_valid_identifier(char *s)
 {
-	char	*cwd;
-
-	cwd = getcwd(NULL, 0);
-	if (!arr[1])
+	if (!ft_isalpha(*s) && *s != '_')
+		return (false);
+	while (*s)
 	{
-		if (chdir(get_value(env, "HOME")) == (-1))
-			return (free(cwd), perror("mini"), 1);
-		set(env, ft_strdup("OLDPWD"), cwd, true);
-		return (0);
+		if (!ft_isalnum(*s))
+			return (false);
+		s++;
 	}
-	if (!ft_strcmp(arr[1], "-"))
-		if (chdir(get_value(env, "OLDPWD")) == (-1))
-			return (free(cwd), perror("mini"), 1);
-	if (!ft_strcmp(arr[1], "~"))
-		if (chdir(get_value(env, "HOME")) == (-1))
-			return (free(cwd), perror("mini"), 1);
-	if (chdir(arr[1]) == (-1) && arr[1][0] != '~' && arr[1][0] != '-')
-		return (free(cwd), perror("mini"), 1);
-	set(env, ft_strdup("OLDPWD"), cwd, true);
-	env = ft_update_pwd_env(env);
-	return (0);
-}
-
-t_env	*ft_update_pwd_env(t_env *env)
-{
-	char	*cwd;
-	char	tmp[4096];
-	t_env	*p_env;
-
-	cwd = getcwd(tmp, 4096);
-	cwd = strdup(tmp);
-	if (!cwd)
-		cwd = ft_strdup(env->pwd);
-	if (env->pwd)
-		free(env->pwd);
-	env->pwd = ft_strdup(cwd);
-	p_env = env;
-	while (p_env)
-	{
-		if (!ft_strcmp(p_env->key, "PWD"))
-		{
-			if (p_env->value != cwd)
-				free(p_env->value);
-			return (p_env->value = cwd, env);
-		}
-		p_env = p_env->next;
-	}
-	set(env, ft_strdup("PWD"), cwd, true);
-	return (env);
-}
-
-int	print_env(t_env *env)
-{
-	while (env)
-	{
-		if (env->visible)
-			printf("%s=%s\n", env->key, env->value);
-		env = env->next;
-	}
-	return (0);
+	return (true);
 }

@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:52:29 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/09 22:52:32 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:23:38 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#ifndef MAIN_H
-# define MAIN_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include "libft.h"
 # include <dirent.h>
@@ -139,6 +138,7 @@ void	ft_lstadd(t_token **lst, t_token *new);
 
 int		set(t_env	*env, char *key, char *value, bool visible);
 int		set_io(t_token *lst);
+int		reset_io(t_token *lst);
 int		tokenizer(char *str, t_token **token, t_env **env);
 char	**ft_ownsplit(char const *s, char c, t_tokenizer *vars, t_free **mem);
 t_token	*ft_check_errors(t_token *token);
@@ -182,6 +182,7 @@ int		pwd(t_env *env);
 int		cd(char **arr, t_env *env);
 int		print_env(t_env *env);
 char	*get_value(t_env *env, char *key);
+t_env	*ft_update_underscore(t_env *env, t_token *cmd_list);
 
 // execution
 char	*ft_getpath(char *cmd, t_env *env);
@@ -199,7 +200,7 @@ void	close_fds(t_token *lst);
 void	echoctl(bool status);
 
 //env
-t_env	*envir(char **envp);
+t_env	*envir(char **envp, int i);
 void	list_for_env(t_env **lst, t_env *new);
 t_env	*ft_update_pwd_env(t_env *env);
 void	env_clear(t_env **env);

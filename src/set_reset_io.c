@@ -1,52 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   garbage_collector.c                                :+:      :+:    :+:   */
+/*   set_reset_io.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 20:05:46 by melfersi          #+#    #+#             */
+/*   Created: 2024/05/10 11:06:06 by melfersi          #+#    #+#             */
 /*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	*ft_malloc(size_t size, t_free **alloc, void *mem)
+int	set_io(t_token *lst)
 {
-	t_free	*new;
-
-	new = (t_free *)malloc(sizeof(t_free));
-	if (!new)
-		return (NULL);
-	if (!mem)
-		new->mem = malloc(size);
-	else
-		new->mem = mem;
-	if (!(new->mem))
-		return (free(new), NULL);
-	add_front_mem(alloc, new);
-	return (new->mem);
-}
-
-void	add_front_mem(t_free **alloc, t_free *new)
-{
-	new->next = *alloc;
-	*alloc = new;
-}
-
-void	garbage_collector(t_free **alloc)
-{
-	t_free	*holder;
-	t_free	*tmp;
-
-	holder = *alloc;
-	while (holder)
+	if (lst->input_file == (-2) || lst->output_file == (-2))
+		return (-2);
+	if (lst->input_file != (-1))
+		dup2(lst->input_file, STDIN_FILENO);
+	else if (lst->prev)
+		dup2(lst->prev->fd[STDIN_FILENO], STDIN_FILENO);
+	if (lst->output_file != (-1))
+		dup2(lst->output_file, STDOUT_FILENO);
+	else if (lst->next)
 	{
-		tmp = holder;
-		free(holder->mem);
-		holder = holder->next;
-		free(tmp);
+		dup2(lst->fd[STDOUT_FILENO], STDOUT_FILENO);
+		close(lst->fd[STDIN_FILENO]);
 	}
-	*alloc = NULL;
+	return (0);
+}
+
+int	reset_io(t_token *lst)
+{
+	dup2(lst->fd[0], STDIN_FILENO);
+	dup2(lst->fd[1], STDOUT_FILENO);
+	close(lst->fd[0]);
+	close(lst->fd[1]);
+	return (0);
 }

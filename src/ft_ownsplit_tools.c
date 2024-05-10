@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ownsplit_tools.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:55:32 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/02 11:47:02 by ousabbar         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 void	first_ft_word(char *s, t_tokenizer *vars)
 {

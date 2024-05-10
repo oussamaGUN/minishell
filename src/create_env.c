@@ -6,12 +6,11 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:53:21 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/09 22:53:24 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:19:20 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "main.h"
+#include "minishell.h"
 
 void	env_clear(t_env **env)
 {
@@ -79,14 +78,12 @@ char	*shlvl(char *s)
 		return (ft_itoa(n + 1));
 }
 
-t_env	*envir(char **envp)
+t_env	*envir(char **envp, int i)
 {
-	int		i;
 	char	**arr;
 	t_env	*env;
 	t_env	*node;
 
-	i = -1;
 	env = NULL;
 	while (envp[++i])
 	{

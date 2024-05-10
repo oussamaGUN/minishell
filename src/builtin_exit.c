@@ -1,52 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   garbage_collector.c                                :+:      :+:    :+:   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 20:05:46 by melfersi          #+#    #+#             */
+/*   Created: 2024/05/10 10:57:38 by melfersi          #+#    #+#             */
 /*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	*ft_malloc(size_t size, t_free **alloc, void *mem)
+int	exiting(t_token *lst, t_env *env)
 {
-	t_free	*new;
+	int	i;
 
-	new = (t_free *)malloc(sizeof(t_free));
-	if (!new)
-		return (NULL);
-	if (!mem)
-		new->mem = malloc(size);
-	else
-		new->mem = mem;
-	if (!(new->mem))
-		return (free(new), NULL);
-	add_front_mem(alloc, new);
-	return (new->mem);
-}
-
-void	add_front_mem(t_free **alloc, t_free *new)
-{
-	new->next = *alloc;
-	*alloc = new;
-}
-
-void	garbage_collector(t_free **alloc)
-{
-	t_free	*holder;
-	t_free	*tmp;
-
-	holder = *alloc;
-	while (holder)
+	i = 0;
+	printf("exit\n");
+	if (lst->arr[1])
 	{
-		tmp = holder;
-		free(holder->mem);
-		holder = holder->next;
-		free(tmp);
+		if (lst->arr[1][0] == '-' || lst->arr[1][0] == '+')
+			i++;
+		while (lst->arr[1][i])
+		{
+			if (!ft_isdigit(lst->arr[1][i++]))
+			{
+				printf("mini: exit: %s: numeric argument required\n",
+					lst->arr[1]);
+				env_clear(&env);
+				exit(255);
+			}
+		}
+		if (lst->arr[2])
+			return (printf("mini: exit: too many arguments\n"), 1);
+		g_exit_status = ft_atoi(lst->arr[1]);
 	}
-	*alloc = NULL;
+	env_clear(&env);
+	exit(g_exit_status % 256);
 }

@@ -6,29 +6,11 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:53:29 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/09 22:53:32 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:20:29 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
-
-int	set_io(t_token *lst)
-{
-	if (lst->input_file == (-2) || lst->output_file == (-2))
-		return (-2);
-	if (lst->input_file != (-1))
-		dup2(lst->input_file, STDIN_FILENO);
-	else if (lst->prev)
-		dup2(lst->prev->fd[STDIN_FILENO], STDIN_FILENO);
-	if (lst->output_file != (-1))
-		dup2(lst->output_file, STDOUT_FILENO);
-	else if (lst->next)
-	{
-		dup2(lst->fd[STDOUT_FILENO], STDOUT_FILENO);
-		close(lst->fd[STDIN_FILENO]);
-	}
-	return (0);
-}
+#include "minishell.h"
 
 int	exec_cmd(t_token *lst, t_env *env)
 {
