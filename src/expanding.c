@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:46:34 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 22:44:13 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,7 @@ void	ft_expand_double_in_multiple(t_multx *exp_vars, char *s, t_env *env)
 			&& s[exp_vars->i + 1] && !ft_isdigit(s[exp_vars->i + 1]))
 			ft_expanding_the_inside(exp_vars, s, env);
 		else
-		{
-			if (s[exp_vars->i] == '$' && ft_isdigit(s[exp_vars->i + 1]))
-				exp_vars->i++;
-			else
-				exp_vars->res = ft_malloc(0, &(env->mem),
-						ft_strjoin(exp_vars->res, &s[exp_vars->i]));
-		}
+			ft_cpy_normal_in_double(exp_vars, s, env);
 		if (exp_vars->res[exp_vars->k])
 			exp_vars->k++;
 		if (s[exp_vars->i])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_norm_two.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:47:10 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 22:45:15 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,16 @@ void	ft_delemiter(t_multx *exp_vars, t_token *itter, t_free **mem)
 		exp_vars->i++;
 	}
 	exp_vars->res[exp_vars->j] = '\0';
+}
+
+void	ft_cpy_normal_in_double(t_multx *exp_vars, char *s, t_env *env)
+{
+	if (s[exp_vars->i] == '$' && ft_isdigit(s[exp_vars->i + 1]))
+		exp_vars->i++;
+	else if (s[exp_vars->i] == '$' && s[exp_vars->i + 1] == '\"'
+		&& s[exp_vars->i + 2] == '\"')
+		exp_vars->i += 2;
+	else
+		exp_vars->res = ft_malloc(0, &(env->mem),
+				ft_strjoin(exp_vars->res, &s[exp_vars->i]));
 }

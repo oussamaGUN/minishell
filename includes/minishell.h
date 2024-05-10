@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:52:29 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 23:06:22 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 23:19:03 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ void	ft_expand_single_in_multiple(t_multx *exp_vars, char *s, t_env *env);
 void	ft_exit_value(t_multx *exp_vars, t_env *env);
 void	ft_delemiter(t_multx *exp_vars, t_token *itter, t_free **mem);
 char	*expand(char *s, t_env *envp);
+void	ft_cpy_normal_in_double(t_multx *exp_vars, char *s, t_env *env);
 t_token	*init(t_token *node, t_multx *vars, t_token *token, t_free **mem);
 t_token	*norm2(t_token *token, t_env *env, t_token *node, t_multx *vars);
 t_token	*ft_openning_files(t_token *token, t_token *node);
