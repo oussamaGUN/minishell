@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:53:37 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 11:22:30 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:02:46 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ int	main(int ac, char *av[], char *envp[])
 {
 	t_env	*env;
 
-	if (ac || av)
-		av = NULL;
+	if (ac != 1)
+		return (av = NULL, EXIT_FAILURE);
 	if (!(*envp))
 		env = create_new_env();
 	else

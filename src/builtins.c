@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:53:16 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:13:08 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,24 @@ int	single_builtins(t_token *lst, t_env *env)
 	lst->fd[0] = dup(STDIN_FILENO);
 	lst->fd[1] = dup(STDOUT_FILENO);
 	if (set_io(lst))
-		return (reset_io(lst), 1);
+		return (1);
 	if (!lst->arr[0])
-		return (reset_io(lst), 0);
+		return (0);
 	if (!ft_strcmp(lst->arr[0], "pwd"))
-		return (reset_io(lst), pwd(env));
+		return (pwd(env));
 	if (!ft_strcmp(lst->arr[0], "echo"))
-		return (reset_io(lst), echo(lst));
+		return (echo(lst));
 	if (!ft_strcmp(lst->arr[0], "cd"))
-		return (reset_io(lst), cd(lst->arr, env));
+		return (cd(lst->arr, env));
 	if (!ft_strcmp(lst->arr[0], "env"))
-		return (reset_io(lst), print_env(env));
+		return (print_env(env));
 	if (!ft_strcmp(lst->arr[0], "export"))
-		return (reset_io(lst), export(lst->arr, env));
+		return (export(lst->arr, env));
 	if (!ft_strcmp(lst->arr[0], "unset"))
-		return (reset_io(lst), unset(lst, env));
+		return (unset(lst, env));
 	if (!ft_strcmp(lst->arr[0], "exit"))
 		return (exiting(lst, env));
-	return (reset_io(lst), (-2));
+	return ((-2));
 }
 
 void	builtins(t_token *lst, t_env *env)

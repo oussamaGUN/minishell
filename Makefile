@@ -62,6 +62,8 @@ re: fclean all
 
 all: $(NAME)
 
+bonus:
+	@echo "${RED}${BOLD}No Bonus turned on 👌${NC}"
 #______cleaning______#
 clean:
 	@echo "${RED}${BOLD}cleaning ...🧹${NC}"
