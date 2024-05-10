@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:59:16 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 14:37:47 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_token	*file_input(t_token *token, t_token *node)
 		if (node->input_file == -1)
 		{
 			node->input_file = -2;
-			printf("mini : %s: No such file or directory\n", token->content);
+			printf("mini: %s: No such file or directory\n", token->content);
 			return (token);
 		}
 	}

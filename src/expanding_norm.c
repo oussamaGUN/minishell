@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_norm.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:47:25 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:06:52 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,6 @@ void	ft_expand_single_in_multiple(t_multx *exp_vars, char *s, t_env *env)
 			exp_vars->k++;
 		if (s[exp_vars->i])
 			exp_vars->i++;
+		exp_vars->res[exp_vars->k] = '\0';
 	}
-	exp_vars->res[exp_vars->k] = '\0';
 }

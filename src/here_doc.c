@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:55:58 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 14:40:37 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ t_token	*child_process_for_heredoc(t_token *token, t_env *env, int file)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal_for_heredoc();
+		if (g_exit_status == 1)
+			exit(1);
 		s = readline("> ");
 		if (!s)
 			break ;
@@ -112,8 +114,9 @@ t_token	*here_doc_implement(t_token *token, t_token *node, t_env *env)
 		return (NULL);
 	else if (id == 0)
 		child_process_for_heredoc(token, env, file);
+	waitpid(id, &node->status, 0);
+	g_exit_status = WEXITSTATUS(node->status);
 	close(token->fd[1]);
-	wait(&g_exit_status);
 	node->input_file = token->fd[0];
 	if (node->input_file == -1)
 	{

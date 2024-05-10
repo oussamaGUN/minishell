@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ownsplit_tools.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 06:55:32 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:56:36 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ft_len(char const *s, char c)
 		if (s[i] == '\"' || s[i] == '\'')
 		{
 			i++;
-			while ((s[i] != '\"' || *s == '\'') && s[i])
+			while (s[i] != '\"' && s[i] != '\'' && s[i])
 				i++;
 		}
 		i++;
