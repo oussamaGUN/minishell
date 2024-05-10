@@ -45,7 +45,7 @@ LIB = libft
 #______________Rules______________#
 
 $(NAME): $(OBJECTS) $(LIB)/libft.a
-	@$(CC) $(CFLAGS) $^ $(INCLUDES) $(LIB_INCLUDES) $(INC) -o $@ -fsanitize=address
+	@$(CC) $(CFLAGS) $^ $(INCLUDES) $(LIB_INCLUDES) $(INC) -o $@ #-fsanitize=address
 	@echo "${GREEN}${BOLD}minishell is ready ✅${NC}"
 
 # impicit rule for mandatory
