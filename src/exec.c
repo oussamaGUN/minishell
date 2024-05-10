@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:53:29 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 18:13:37 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 21:44:19 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,8 @@ int	exec(t_token *lst, t_env *env)
 	tmp = lst;
 	if (!(cmdlist->next))
 		cmdlist->exit_status = single_builtins(lst, env);
-	reset_io(lst);
 	if (cmdlist->exit_status != (-2) && !cmdlist->next)
-		return (g_exit_status = cmdlist->exit_status, 0);
+		return (reset_io(lst), g_exit_status = cmdlist->exit_status, 0);
 	cmdlist->exit_status = 0;
 	if (cmd_loop(cmdlist, env))
 		return (1);

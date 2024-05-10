@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:53:16 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 18:13:08 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 21:46:02 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	single_builtins(t_token *lst, t_env *env)
 	if (set_io(lst))
 		return (1);
 	if (!lst->arr[0])
-		return (0);
+		return (reset_io(lst), 0);
 	if (!ft_strcmp(lst->arr[0], "pwd"))
 		return (pwd(env));
 	if (!ft_strcmp(lst->arr[0], "echo"))
@@ -34,7 +34,7 @@ int	single_builtins(t_token *lst, t_env *env)
 		return (unset(lst, env));
 	if (!ft_strcmp(lst->arr[0], "exit"))
 		return (exiting(lst, env));
-	return ((-2));
+	return (reset_io(lst), (-2));
 }
 
 void	builtins(t_token *lst, t_env *env)
