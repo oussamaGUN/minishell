@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 10:52:38 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:34:09 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ int	export(char **arr, t_env *env)
 			g_exit_status = 1;
 			continue ;
 		}
+		g_exit_status = 0;
 		set(env, key, value, ft_strchr(*arr, '='));
 	}
 	return (g_exit_status);

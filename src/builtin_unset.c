@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ousabbar <ousabbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 10:47:56 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 11:16:17 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:32:39 by ousabbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	unset(t_token *lst, t_env *env)
 			g_exit_status = 1;
 			continue ;
 		}
+		g_exit_status = 0;
 		unset_loop(env, arr, NULL, NULL);
 	}
-	return (0);
+	return (g_exit_status);
 }
