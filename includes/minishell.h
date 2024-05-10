@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:52:29 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 11:23:38 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 23:06:22 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ int		cd(char **arr, t_env *env);
 int		print_env(t_env *env);
 char	*get_value(t_env *env, char *key);
 t_env	*ft_update_underscore(t_env *env, t_token *cmd_list);
+void	no_cwd(t_env *env, char **cwd, bool print_err);
 
 // execution
 char	*ft_getpath(char *cmd, t_env *env);

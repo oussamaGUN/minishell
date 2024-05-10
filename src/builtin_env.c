@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 11:03:50 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 11:22:36 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/10 23:05:56 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,11 @@ int	print_env(t_env *env)
 t_env	*ft_update_pwd_env(t_env *env)
 {
 	char	*cwd;
-	char	tmp[4096];
 	t_env	*p_env;
 
-	cwd = getcwd(tmp, 4096);
-	cwd = strdup(tmp);
+	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		cwd = ft_strdup(env->pwd);
-	if (env->pwd)
-		free(env->pwd);
+		no_cwd(env, &cwd, false);
 	env->pwd = ft_strdup(cwd);
 	p_env = env;
 	while (p_env)
