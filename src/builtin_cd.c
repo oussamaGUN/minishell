@@ -6,7 +6,7 @@
 /*   By: melfersi <melfersi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 11:02:34 by melfersi          #+#    #+#             */
-/*   Updated: 2024/05/10 23:22:12 by melfersi         ###   ########.fr       */
+/*   Updated: 2024/05/11 11:23:55 by melfersi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,5 @@ int	cd(char **arr, t_env *env)
 		return (free(cwd), perror("mini"), 1);
 	set(env, ft_strdup("OLDPWD"), env->pwd, true);
 	env = ft_update_pwd_env(env);
-	return (0);
+	return (free(cwd), 0);
 }
