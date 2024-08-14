@@ -37,8 +37,8 @@ For more detailed information on how to use Minishell and its features, please r
 
 ## Contributing
 
-Contributions are welcome! If you would like to contribute to Minishell, please follow the guidelines outlined in the [CONTRIBUTING.md](https://github.com/BL4KCY/minishell/blob/main/CONTRIBUTING.md) file.
+Contributions are welcome! If you would like to contribute to Minishell, please follow the guidelines outlined in the [CONTRIBUTING.md](https://github.com/BL4KCY/minishell/blob/master/CONTRIBUTING.md) file.
 
 ## License
 
-Minishell is licensed under the [MIT License](https://github.com/BL4KCY/minishell/blob/main/LICENSE).
+Minishell is licensed under the [MIT License](https://github.com/BL4KCY/minishell/blob/master/LICENSE).
