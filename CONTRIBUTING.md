@@ -31,6 +31,6 @@ If you encounter any issues or have suggestions for improvements, please open an
 
 ## Contact
 
-If you have any questions or need further assistance, feel free to reach out to us at [mostafafarssiui@gmail.com]
+If you have any questions or need further assistance, feel free to reach out to us at [email](mostafafarssiui@gmail.com)
 
 We appreciate your contributions and look forward to working with you!
